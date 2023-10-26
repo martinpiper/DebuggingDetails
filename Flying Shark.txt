@@ -101,3 +101,21 @@ $a06 jmp $b94 = Kernal init and PAL/NTSC check, as discovered above
 
 Drive load routines memory range: $a00 - $ccc ? Perhaps $cff by inspection?
 
+
+
+Options for a protection free version:
+* Obviously compress the game into a single prg
+	> Remember to clear out unused memory
+
+* Extract the track/sector files and write to numbered files, then write to DOS format disk with numbered files (in hex)
+	Check the fast load code escapes the control bit, that it's not in the file data itself
+
+* Very simple, kernal load of file data via $a00
+	Since the data seems to have lo/hi address at the start
+	
+* Use fast load
+	Will need boot menu to upload drive code
+
+* Compress file data using U mode
+	Decompress using kernal byte fetch streaming
+		* Use fast load byte stream with decompress
