@@ -1,0 +1,128 @@
+c:\work\c64\bin\TapeTool.exe r "E:\Ultimate tape archive\Ultimate_Tape_Archive_V3.0\Ultimate_Tape_Archive_V3.0\Wizball_(1987_Ocean_Software_Ltd)_[2128]\Wizball.tap" bc60000
+
+break 2a7
+
+Note "hello hacker" message at ~$900
+
+break 800
+break 103
+break 115
+
+Entry 6389
+
+
+c:\work\c64\bin\TapeTool.exe r "E:\Ultimate tape archive\Ultimate_Tape_Archive_V3.0\Ultimate_Tape_Archive_V3.0\Wizball_(1989_Hit_Squad)_[1676]\Wizball.tap" bc60000
+
+Has sys 2061 start
+break +2061
+bank ram
+s "c:\temp\wizball_hit_sys2061.prg" 0 0801 ffff
+c:\work\c64\bin\LZMPi.exe -c64b "C:\temp\wizball_hit_sys2061.prg" "C:\temp\wizball_hit_sys2061_lzmpi.prg" 2061
+
+2d2 has some suspicious looking timer related setup code.
+
+1f9 uses rti return to... 6389 same as Ocean release
+
+
+*** This is important!!!
+bank ram
+
+At 6389 save 400-ffff for all versions
+s "c:\temp\wizball_hit_6389.prg" 0 400 ffff
+	"E:\Ultimate tape archive\Ultimate_Tape_Archive_V3.0\Ultimate_Tape_Archive_V3.0\Wizball_(1989_Hit_Squad)_[1676]\Wizball.tap"
+s "c:\temp\wizball_ocean_6389.prg" 0 400 ffff
+	"E:\Ultimate tape archive\Ultimate_Tape_Archive_V3.0\Ultimate_Tape_Archive_V3.0\Wizball_(1987_Ocean_Software_Ltd)_[2128]\Wizball.tap"
+s "c:\temp\wizball_sir_6389.prg" 0 400 ffff
+	https://csdb.dk/release/?id=141616
+s "c:\temp\wizball_crew_6389.prg" 0 400 ffff
+	https://csdb.dk/release/?id=41708
+
+
+Can compress. e.g.
+c:\work\c64\bin\LZMPi.exe -c64b "C:\temp\wizball_ocean_6389.prg" "C:\temp\wizball_ocean_6389_lzmpi.prg" $6389
+
+hit and ocean have small differences, just some in the screen and the very top of memory, which might be due to decompression by the hit release compared to ocean that doesn't load the last $100 bytes of memory.
+	Ocean tape $400 screen does show short "list" command and the start of a directory listing...
+	The same can be seen by loading the directory from the D64 from archive, clear screen, then L<shift I><return>
+
+
+sir release has large differences in the code/data in the middle of memory compared to ocean/hit.
+	ocean 6ac6 (6ad9) shows some some missing bytes in the sir release...
+	binary compare shows some code changes, resulting in offset differences but mostly the same opcodes.
+sir and crew release are basically identical
+
+
+D64 archive version from:
+https://archive.org/details/d64_Wizball_1987_Ocean
+Also saving at 6389 and comparing to Ocean
+	Huge chunks of code at 8746
+	Also text about "horizon" missing at b70b (this seems to be unused duplicate in the ocean release!)
+	NTSC version due to border status panel
+	
+
+Roughly three code revisions
+1. ocean/hit
+2. sir/crew
+3. D64 archive
+
+
+Old fashioned way...
+
+
+
+c:\work\c64\bin\LZMPi.exe -c64b "C:\temp\wizball_ocean_6389_min.prg" "C:\temp\wizball_ocean_6389_min_lzmpi.prg" $6389
+Input length = $f900 output length = $9297
+c:\work\c64\bin\LZMPi.exe -o1 -o2 -c64b "C:\temp\wizball_ocean_6389_min.prg" "C:\temp\wizball_ocean_6389_min_lzmpi.prg" $6389
+Input length = $f900 output length = $91de
+c:\work\c64\bin\LZMPi.exe -c64b "C:\temp\wizball_d64_archive_6389.prg" "C:\temp\wizball_d64_archive_6389_lzmpi.prg" $6389
+
+
+
+*************
+Disk versions
+
+Thanks to Bill Johnson
+
+Downloads\Wizball (1)\Wizball_PAL_s0.g64
+Standard auto-start method, just loads the next file, no protection check
+Interesting drive code at $4000
+Uses U1 command to read a block...
+
+Eventually runs code in stack $100
+Drive code in 1541 at $600
+break 6389
+m ae af = 00 fd
+
+
+
+c:\work\c64\bin\LZMPi.exe -c64b "C:\temp\wizball_ocean_disk_pal_6389.prg" "C:\temp\wizball_ocean_disk_pal_6389_lzmpi.prg" $6389
+c:\work\c64\bin\LZMPi.exe -c64b "C:\temp\wizball_ocean_disk_ntsc_6389.prg" "C:\temp\wizball_ocean_disk_ntsc_6389_lzmpi.prg" $6389
+
+
+sir release is identical to ocean PAL disk, except the very end of memory, which is blank in sir, and default "blank".
+archive disk release is identical to the ocean NTSC disk release.
+
+
+PAL tape to PAL disk changes are some code offsets
+Tape: 415e	20 38 75
+sdiff 6ac6 shows some removals at 6ad9 including opcodes ad = lda abs	d0 = bne
+6ac8 = 20 = jsr
+d 6ec6
+
+tape has at 6ed7 lda $b872 bne $6ec3
+disk does not have the code
+m b800 shows inter-level bonus screen text, perhaps level or colour complete...
+
+bk 6ed7 triggers on game quit, but not losing a life.
+w store b872
+9e29 lda $ef01
+sta $b872
+ms ef00 shows the pot graphic, probably the last pot8
+
+Default is that b872 is 0
+w load b872
+then put breakpoints on all the opposite conditions (!= 0)
+
+collecting all red colours on level one, triggers the breakpoint with b872 = aa
+> ef01 aa triggers level colour complete
+	but the bonus stage doesn't end

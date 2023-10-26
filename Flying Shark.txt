@@ -1,0 +1,101 @@
+Flying Shark
+
+During load
+===========
+
+Useful for trapping each stage of the protection and load, since it oftn uses job code $e0 in $00 to execute the code after the the head: bk 8:300
+
+8:0397 reads track $26 = 38
+
+Uses IRQ processing at FE67
+
+8:329 8:330 = Signature check: https://preservation64.de/index.php?title=GMA87
+	$a9 $69
+	Of raw data data from the head
+
+
+Why isn't c1541 reading that track/sector data?
+g64conv instead? https://github.com/markusC64/g64conv/releases
+"C:\Users\marti\Downloads\g64conv-v4.3-win32\g64conv.exe"
+"C:\Users\marti\Downloads\g64conv-v4.3-win32\g64conv.exe" "E:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\f\flying_shark[firebird_1987](pal)(!).g64" c:\temp\fs0.txt 0
+"C:\Users\marti\Downloads\g64conv-v4.3-win32\g64conv.exe" "E:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\f\flying_shark[firebird_1987](pal)(!).g64" c:\temp\fs1.txt 1
+"C:\Users\marti\Downloads\g64conv-v4.3-win32\g64conv.exe" "E:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\f\flying_shark[firebird_1987](pal)(!).g64" c:\temp\fs5.txt 5
+
+Only occurs once in the whole disk: 69 57 57 a9 a9
+
+
+c:c1f7 reads and returns $61, which is sent by the 1541 8:36e
+c:c073 stores this $61 onto the stack
+c:c3c3 eventually pulls it from the stack
+Which eventually does a decramble with that value at c:c3cc
+
+
+
+
+Note the wide map near top of RAM, copied into the double buffered screen in second bank
+
+
+Try drive fail at 300 later on...
+
+
+180d entry point
+
+
+In game
+=======
+
+$1000 game start before level data load
+
+$b19 is get byte from disk, seems to use control byte escaping with $01
+$c99 is get load address lo/hi
+
+
+$b41 and $b5e seem to be PAL/NTSC timed two-bit protocol routines
+
+$171f seems to be the NMI routine for the score panel
+
+$b94 seems to be a kernal init and PAL/NTSC check and drive code tweak based on $2a6
+	> $2a6 reads could be used to identify other drive code tweaks
+
+
+$bb3 might be "load data", seems to use track/secotr setup into $b01/$b05 by $a35
+$c52 seems be the end of the load data
+
+$bb6 init with 0 for $43?
+
+	$cb2 memory init of tbale at $900 , seems to expand the two-bit protocol lookup?
+	$c76 primes drive for receiving a command
+	$c8e Sends "M-"
+
+$bc0 sends "W" for "M-W" and drive code from $a47++
+$bf1 sends "M-E" for fast load
+
+$c28 loaded data store (indirected)
+
+
+Break bb3 and then backtrace (bt) shows 3c77 jsr $0a00, which is a lovely suspicious round address, with A explicitly set to 0
+Earlier it looks like 3c65 ldy $110e y=0 is also doing some pointer loads which look like level setup?
+break 3c65 and then > 110e 1/2/3/4 definitely causes the different levels to load.
+
+$110e = level to load
+
+$a00 can get called multiple times for each level load, in hex:
+When $110e = 0 then A = 0, 1, 2, 3
+When $110e = 1 then A = 4, 5, 6, 7, 8
+When $110e = 2 then A = 9, a, b, c
+When $110e = 3 then A = d, e, f, 10
+When $110e = 4 then A = 11, 12, 13, 14, 15
+
+$a35 (from jmp at $a00) seems to load track/sector from the pairs (2 byte) table at $a09
+>C:0a09  17 02 0c 00  0c 01 18 00  18 03 19 00  19 07 09 00
+>C:0a19  09 01 09 06  08 01 08 09  1c 06 1c 08  07 09 1d 02
+>C:0a29  06 01 06 02  05 00 05 03  20 00 20 04
+
+
+There are also two other jmp entry points at $a03 and $a06 ... But they don't seem to be referenced anywhere by jmp or jsr.
+$a03 jmp $c53 = Send drive UJ?
+$a06 jmp $b94 = Kernal init and PAL/NTSC check, as discovered above
+
+
+Drive load routines memory range: $a00 - $ccc ? Perhaps $cff by inspection?
+

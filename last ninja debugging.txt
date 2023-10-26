@@ -1,0 +1,117 @@
+c:\work\c64\ExternalTools\C1541\c1541.exe "E:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\l\last_ninja_s1[system3_1987](pal)(!).g64"
+
+extract
+Files identical
+
+
+C:\Downloads\WinVICE-3.1-x86-r34062\WinVICE-3.1-x86-r34062\x64sc.exe -remotemonitor -moncommands c:\temp\t.lbl
+
+w store ae af
+
+ae/af = $00ae so points back to itself
+
+bk f51c
+For disk memory store
+
+So actually it starts writing file data, starting with $08, to $003f
+
+Keep stepping for f51c to see what ae/af writes are...
+
+Later ae written, yes again, with 71 (from file offset 72)
+So b2 is actually written to 0072
+
+Stepping more iterations, ae is eventually written with ba from file offset af
+
+
+
+Slightly overkill since we know it loads down low... or does it when the file write gets back to ae/af?
+bk 2 4000
+
+00f9 seems to trigger once the load gets to 033b
+which unhides the stop current vector  from 00ed to 02ed
+
+bk f9
+bk 2 e0
+bk 103 4000
+
+
+hits 2ed jmp 02b2 , looking for 4cb2 from file offset 2e2
+
+
+
+2b2 is interesting, first time 2cf = lda but it gets updated by 2e1 to a sta
+
+jmp f6fb is suspicious
+
+en break points at this point
+
+hits ee13 recv data
+
+chis 20 shows 2ea calling into recv data via CLRCHN
+
+which gets serial data
+which goes through stop test vector to 2ed which goes to 2b2
+
+note the new 2cf sta
+
+bk f51c again
+
+so 2cf descrambles data while it loads to 33d++
+
+Add some exclusion breaks
+bk 2 2b1
+bk 2f0 4000
+
+
+
+hits 203
+because rts at f5ae from load routine
+stack filled with 02 02 02 02
+Stack slide
+
+ae/af shows last loaded data is 05eb
+
+f51c is the weak point here, since the kernal allows the data to be intercepted by a debug kernal.
+
+
+At 203 en breakpoints again
+
+
+Note descramble at 233
+bk 23b
+
+Note time taken, it fills memory with repeating pattern
+
+After exec, seems to fill high memory with data, to check for carts?
+
+3b2 pushes address, obvious code is obvious
+
+
+3e2 looks like self erase code
+3f5 rts ... goes to 33c
+
+which looks like a lot of drive programming code
+
+note 3ad = M-E
+
+dev 8:
+bk 200 600
+dev c:
+
+
+bk 365
+
+does a delay...
+bk 374
+
+
+drive break hits at 205 during delay
+reads track $12 sector $12 block
+reads a second block with self modifying code
+
+runs drive code at 703
+
+$043e seems to be a "send data" routine
+actual data store at $0512
+
+Finally $389 seems to start the game code

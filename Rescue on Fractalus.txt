@@ -1,0 +1,23 @@
+
+2f0e calls drawLine
+
+
+2242 ?
+2224 ?
+
+	to lookup the x column to bitmap cell (x8)
+
+
+
+1bd4 calls .clearScreen0
+
+al 1ef3 .xCoordTab
+
+al 1e10 .clearScreen0
+al 2171 .drawGround
+al 2b67 .drawLine
+
+al 303e .fillSky
+al 2fa4 .fillSkyGroundBlock
+al 2fdf .fillSkyGroundBlock2
+
