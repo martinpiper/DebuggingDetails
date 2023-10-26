@@ -91,6 +91,8 @@ $a35 (from jmp at $a00) seems to load track/sector from the pairs (2 byte) table
 >C:0a19  09 01 09 06  08 01 08 09  1c 06 1c 08  07 09 1d 02
 >C:0a29  06 01 06 02  05 00 05 03  20 00 20 04
 
+To make this easier, going to need an extra "extract file chain using track and sector start" in c1541
+
 
 There are also two other jmp entry points at $a03 and $a06 ... But they don't seem to be referenced anywhere by jmp or jsr.
 $a03 jmp $c53 = Send drive UJ?
