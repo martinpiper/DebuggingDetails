@@ -48,9 +48,14 @@ $1000 game start before level data load
 
 Need to:
 * Find the minimal code that loads level data
+	$a00
 * What is loaded and how the drive finds the data to send to the C64
+	Files from track/sector table $a09
 * If there is any decompression, or if the data can be compressed
+	Ranges from $400 $4000 $8000 $c000
+	Can be compressed
 * The memory that is used by the current load routines
+	So $900 (table) - $cff looks to be used by the drive code
 
 
 $b19 is get byte from disk, seems to use control byte escaping with $01
@@ -70,7 +75,7 @@ $c52 seems be the end of the load data
 
 $bb6 init with 0 for $43?
 
-	$cb2 memory init of tbale at $900 , seems to expand the two-bit protocol lookup?
+	$cb2 memory init of table at $900 , seems to expand the two-bit protocol lookup?
 	$c76 primes drive for receiving a command
 	$c8e Sends "M-"
 
@@ -97,6 +102,31 @@ $a35 (from jmp at $a00) seems to load track/sector from the pairs (2 byte) table
 >C:0a09  17 02 0c 00  0c 01 18 00  18 03 19 00  19 07 09 00
 >C:0a19  09 01 09 06  08 01 08 09  1c 06 1c 08  07 09 1d 02
 >C:0a29  06 01 06 02  05 00 05 03  20 00 20 04
+
+chainwrite c:\temp\fs\00.prg $17 $02
+chainwrite c:\temp\fs\01.prg $0c $00
+chainwrite c:\temp\fs\02.prg $0c $01
+chainwrite c:\temp\fs\03.prg $18 $00
+chainwrite c:\temp\fs\04.prg $18 $03
+chainwrite c:\temp\fs\05.prg $19 $00
+chainwrite c:\temp\fs\06.prg $19 $07
+chainwrite c:\temp\fs\07.prg $09 $00
+chainwrite c:\temp\fs\08.prg $09 $01
+chainwrite c:\temp\fs\09.prg $09 $06
+chainwrite c:\temp\fs\0a.prg $08 $01
+chainwrite c:\temp\fs\0b.prg $08 $09
+chainwrite c:\temp\fs\0c.prg $1c $06
+chainwrite c:\temp\fs\0d.prg $1c $08
+chainwrite c:\temp\fs\0e.prg $07 $09
+chainwrite c:\temp\fs\0f.prg $1d $02
+chainwrite c:\temp\fs\10.prg $06 $01
+chainwrite c:\temp\fs\11.prg $06 $02
+chainwrite c:\temp\fs\12.prg $05 $00
+chainwrite c:\temp\fs\13.prg $05 $03
+chainwrite c:\temp\fs\14.prg $20 $00
+chainwrite c:\temp\fs\15.prg $20 $04
+
+Seem to be files that load to $400 $4000 $8000 and some to $c000
 
 To make this easier, going to need an extra "extract file chain using track and sector start" in c1541
 
@@ -126,3 +156,8 @@ Options for a protection free version:
 * Compress file data using U mode
 	Decompress using kernal byte fetch streaming
 		* Use fast load byte stream with decompress
+
+
+
+
+https://github.com/martinpiper/DebuggingDetails
