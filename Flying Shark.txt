@@ -46,6 +46,13 @@ In game
 
 $1000 game start before level data load
 
+Need to:
+* Find the minimal code that loads level data
+* What is loaded and how the drive finds the data to send to the C64
+* If there is any decompression, or if the data can be compressed
+* The memory that is used by the current load routines
+
+
 $b19 is get byte from disk, seems to use control byte escaping with $01
 $c99 is get load address lo/hi
 
