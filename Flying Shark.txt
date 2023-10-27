@@ -52,7 +52,7 @@ Need to:
 * What is loaded and how the drive finds the data to send to the C64
 	Files from track/sector table $a09
 * If there is any decompression, or if the data can be compressed
-	Ranges from $400 $4000 $8000 $c000
+	Seem to be files that load to $400 $4000 $8000 and some to $c000
 	Can be compressed
 * The memory that is used by the current load routines
 	So $900 (table) - $cff looks to be used by the drive code
@@ -161,3 +161,51 @@ Options for a protection free version:
 
 
 https://github.com/martinpiper/DebuggingDetails
+
+
+
+cd /d C:\Work\DebuggingDetails
+
+Then run: FlyingShark.bat
+
+
+** Could do with clearing the loading screen at $4000 during the main game load **
+
+With original disk attached
+bank ram
+f 800 ffff 0
+load "*",8,1
+
+break when loader screen is displayed
+note io d000 results for the bitmap screen
+
+f 4000 63ff 00
+
+bk 1000
+
+Continue loading...
+
+s "c:\temp\fs\gamestart 1000.prg" 0 200 ffff
+
+
+
+
+** Finding infinite lives
+ms 7fc0
+w store 7fcd
+2867 indirected store into lives sprite
+chis 30
+shows 2862 lda from $f928,x to update the sprite
+$2863 is stored by stx @ 2858
+X comes from 2842 lda $100,y and Y=8
+
+w store 108
+shows
+C:1bc1  CE 08 01    DEC $0108
+C:1bc4  CE 11 10    DEC $1011
+
+1011 = lives
+> 1011 ff
+or
+> 1bc9 ea ea ea ea ea
+To remove the lives check entirely
