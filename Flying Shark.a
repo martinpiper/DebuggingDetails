@@ -4,6 +4,7 @@
 ; ..\c64\acme.exe --lib ..\C64\ --msvc -v9 "Flying Shark.a"
 
 !source "stdlib/stdlib.a"
+!source "stdlib/LongBranches.a"
 !to "FlyingSharkLoader.prg", cbm
 !sal
 !sl "FlyingSharkLoader.map"
@@ -13,6 +14,9 @@
 !ct pet
 
 kStartOffset = $200 - 2
+
+RNXPCompressionDecompress_WriteBytesmAddr	= ZPStartBasicLo
+
 
 * = $300
 !bin "c:\temp\fs\gamestart 1000.prg" , ($a00-$300) , * - kStartOffset
@@ -58,9 +62,10 @@ DoLoad
 	+ClearScreenAtWithA_X COLOURRAM
 	+DisplayColourTextAt_AX .loadingStart , .loadingEnd , SCREENRAM + (VIC2ScreenCharsWidth * (VIC2ScreenCharsHeight-1)), VIC2Colour_White
 
+	; Logical number, device number, secondary address...
 	lda #1
 	ldx ZPCurrentFileDeviceNumber
-	ldy #1
+	ldy #0
 	jsr SETLFS
 
 	lda #2
@@ -68,9 +73,30 @@ DoLoad
 	ldy #>.fileNameStart
 	jsr SETNAM
 
-	lda #0
-	jmp LOAD
+	jsr OPEN
+	
+	ldx #1
+	jsr CHKIN
+	
+	jsr CHRIN
+	sta RNXPCompressionDecompress_WriteBytesmAddr
+	jsr CHRIN
+	sta RNXPCompressionDecompress_WriteBytesmAddr+1
+	
+	jsr RNXPCompressionDecompressU
+	
+	; And restore normal ZPProcessorPort
+	lda #ProcessorPortDefault
+	sta ZPProcessorPort
+	cli
 
+	lda #1
+	jsr CLOSE
+	
+	jsr CLRCHN
+	
+	rts
+	
 .loadingStart
 	!scr "Loading file "
 .fileNameStart !by 0 , 0
@@ -79,5 +105,42 @@ DoLoad
 .numToHexTab
 	!tx "0123456789abcdef"
 
+
+SafeCHRIN
+	php
+	stx .sxX+1
+	sty .sxY+1
+	lda #ProcessorPortDefault
+	sta ZPProcessorPort
+	jsr CHRIN
+	sta .smA+1
+	; Need to enable kernal with IO while loading compressed data
+	sei
+	lda #ProcessorPortKERNALWithIO
+	sta ZPProcessorPort
+	
+.sxX ldx #0
+.sxY ldy #0
+.smA lda #0
+	plp
+	rts
+	
+
+!macro RNXPCompressionIncBorder_A {}
+RNXPCompressionDecompress_GetBytesmAddrAsMacro = 1
+!macro MRNXPCompressionDecompress_GetBytesmAddrAsMacro {
+	jsr SafeCHRIN
+}
+
+
+; These do not have to be in zeropage, but for speed they should be
+; Although we are pulling bytes from the drive over serial, so speed is less of an issue... :)
+RNXPCompressionDecompress_TempWord1			!word 0
+RNXPCompressionDecompress_TempOffset		!word -1
+
+!source "Decompression\DecompressionUReferenceLongOffset.a"
+
+
 * = $d00
 !bin "c:\temp\fs\gamestart 1000.prg" , ($10000-*) , * - kStartOffset
+

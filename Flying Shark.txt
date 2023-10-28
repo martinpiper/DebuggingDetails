@@ -126,6 +126,34 @@ chainwrite c:\temp\fs\13.prg $05 $03
 chainwrite c:\temp\fs\14.prg $20 $00
 chainwrite c:\temp\fs\15.prg $20 $04
 
+
+c:\work\c64\bin\LZMPi.exe -no -yo -cu c:\temp\fs\00.prg c:\temp\fs\00.cmp 2
+c:\work\c64\bin\LZMPi.exe -no -yo -cu c:\temp\fs\01.prg c:\temp\fs\01.cmp 2
+c:\work\c64\bin\LZMPi.exe -no -yo -cu c:\temp\fs\02.prg c:\temp\fs\02.cmp 2
+c:\work\c64\bin\LZMPi.exe -no -yo -cu c:\temp\fs\03.prg c:\temp\fs\03.cmp 2
+c:\work\c64\bin\LZMPi.exe -no -yo -cu c:\temp\fs\04.prg c:\temp\fs\04.cmp 2
+c:\work\c64\bin\LZMPi.exe -no -yo -cu c:\temp\fs\05.prg c:\temp\fs\05.cmp 2
+c:\work\c64\bin\LZMPi.exe -no -yo -cu c:\temp\fs\06.prg c:\temp\fs\06.cmp 2
+c:\work\c64\bin\LZMPi.exe -no -yo -cu c:\temp\fs\07.prg c:\temp\fs\07.cmp 2
+c:\work\c64\bin\LZMPi.exe -no -yo -cu c:\temp\fs\08.prg c:\temp\fs\08.cmp 2
+c:\work\c64\bin\LZMPi.exe -no -yo -cu c:\temp\fs\09.prg c:\temp\fs\09.cmp 2
+c:\work\c64\bin\LZMPi.exe -no -yo -cu c:\temp\fs\0a.prg c:\temp\fs\0a.cmp 2
+c:\work\c64\bin\LZMPi.exe -no -yo -cu c:\temp\fs\0b.prg c:\temp\fs\0b.cmp 2
+c:\work\c64\bin\LZMPi.exe -no -yo -cu c:\temp\fs\0c.prg c:\temp\fs\0c.cmp 2
+c:\work\c64\bin\LZMPi.exe -no -yo -cu c:\temp\fs\0d.prg c:\temp\fs\0d.cmp 2
+c:\work\c64\bin\LZMPi.exe -no -yo -cu c:\temp\fs\0e.prg c:\temp\fs\0e.cmp 2
+c:\work\c64\bin\LZMPi.exe -no -yo -cu c:\temp\fs\0f.prg c:\temp\fs\0f.cmp 2
+c:\work\c64\bin\LZMPi.exe -no -yo -cu c:\temp\fs\10.prg c:\temp\fs\10.cmp 2
+c:\work\c64\bin\LZMPi.exe -no -yo -cu c:\temp\fs\11.prg c:\temp\fs\11.cmp 2
+c:\work\c64\bin\LZMPi.exe -no -yo -cu c:\temp\fs\12.prg c:\temp\fs\12.cmp 2
+c:\work\c64\bin\LZMPi.exe -no -yo -cu c:\temp\fs\13.prg c:\temp\fs\13.cmp 2
+c:\work\c64\bin\LZMPi.exe -no -yo -cu c:\temp\fs\14.prg c:\temp\fs\14.cmp 2
+c:\work\c64\bin\LZMPi.exe -no -yo -cu c:\temp\fs\15.prg c:\temp\fs\15.cmp 2
+
+
+90,773 bytes to 39,831 bytes is it worth it? Probably yes.
+
+
 Seem to be files that load to $400 $4000 $8000 and some to $c000
 
 To make this easier, going to need an extra "extract file chain using track and sector start" in c1541
@@ -150,13 +178,12 @@ Options for a protection free version:
 * Very simple, kernal load of file data via $a00
 	Since the data seems to have lo/hi address at the start
 	
+* Compress file data using U mode
+	* Decompress using kernal byte fetch streaming
+	* Use fast load byte stream with decompress
+
 * Use fast load
 	Will need boot menu to upload drive code
-
-* Compress file data using U mode
-	Decompress using kernal byte fetch streaming
-		* Use fast load byte stream with decompress
-
 
 
 
