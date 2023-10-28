@@ -18,6 +18,8 @@ kStartOffset = $200 - 2
 RNXPCompressionDecompress_WriteBytesmAddr	= ZPStartBasicLo
 
 
+;EnableKernalLoad = 1
+
 * = $300
 !bin "c:\temp\fs\gamestart 1000.prg" , ($a00-$300) , * - kStartOffset
 
@@ -62,6 +64,7 @@ DoLoad
 	+ClearScreenAtWithA_X COLOURRAM
 	+DisplayColourTextAt_AX .loadingStart , .loadingEnd , SCREENRAM + (VIC2ScreenCharsWidth * (VIC2ScreenCharsHeight-1)), VIC2Colour_White
 
+!ifdef EnableKernalLoad {
 	; Logical number, device number, secondary address...
 	lda #1
 	ldx ZPCurrentFileDeviceNumber
@@ -96,6 +99,67 @@ DoLoad
 	jsr CLRCHN
 	
 	rts
+} else {
+!if 1 {
+	; Safer to reset the drive all the time to avoid any nasty partial serial pulses caused by game code...
+;.smReset	lda #0
+;	bne .noReset
+;	inc .smReset+1
+	
+	jsr IOINIT
+
+	lda ZPCurrentFileDeviceNumber
+	jsr LISTEN
+	lda #$6f	; $f (command channel) OR $60
+	jsr SECOND
+	jsr READST
+
+	ldx #0
+.meoutl:
+	lda .commandME,x
+	jsr CIOUT
+;	jsr READST
+;	and #%10000011	; Ignore EOI
+;	bne .initError
+	inx
+	cpx #.commandMELength
+	bne .meoutl
+
+	jsr UNLSN
+;	jsr READST
+	JSR $EEB3
+.noReset
+}
+	
+	lda #2
+	ldx #<.fileNameStart
+	ldy #>.fileNameStart
+
+	jsr IRQDisk_Load
+	
+	jsr SafeCHRIN
+	sta RNXPCompressionDecompress_WriteBytesmAddr
+	jsr SafeCHRIN
+	sta RNXPCompressionDecompress_WriteBytesmAddr+1
+	
+	jsr RNXPCompressionDecompressU
+
+	; And restore normal ZPProcessorPort
+	lda #ProcessorPortDefault
+	sta ZPProcessorPort
+	cli
+	
+	; Read the last escape after all data, should exit
+	jsr IRQDisk_computerRecv
+	
+	rts
+
+	; Try a hack exec of the drive code in memory
+.commandME:
+	!raw "M-E"
+	!by 0,$05
+.commandMELength = * - .commandME
+}
 	
 .loadingStart
 	!scr "Loading file "
@@ -103,7 +167,7 @@ DoLoad
 .loadingEnd
 
 .numToHexTab
-	!tx "0123456789abcdef"
+	!raw "0123456789abcdef"
 
 
 SafeCHRIN
@@ -112,7 +176,11 @@ SafeCHRIN
 	sty .sxY+1
 	lda #ProcessorPortDefault
 	sta ZPProcessorPort
+!ifdef EnableKernalLoad {
 	jsr CHRIN
+} else {
+	jsr IRQDisk_computerRecv
+}
 	sta .smA+1
 	; Need to enable kernal with IO while loading compressed data
 	sei
@@ -127,6 +195,7 @@ SafeCHRIN
 	
 
 !macro RNXPCompressionIncBorder_A {}
+
 RNXPCompressionDecompress_GetBytesmAddrAsMacro = 1
 !macro MRNXPCompressionDecompress_GetBytesmAddrAsMacro {
 	jsr SafeCHRIN
@@ -140,6 +209,24 @@ RNXPCompressionDecompress_TempOffset		!word -1
 
 !source "Decompression\DecompressionUReferenceLongOffset.a"
 
+
+!ifndef EnableKernalLoad {
+!source "IRQDiskVars.a"
+IRQDisk_MachineTarget = IRQDisk_MachineTypeC64
+IRQDisk_Retries = 5
+IRQDisk_LEDFlash = 15
+
+; Minimal code
+IRQDisk_NoDriveCode = 1
+IRQDisk_NoCode_LoadAfterName = 1
+IRQDisk_NoCode_Pulse = 1
+IRQDisk_NoCode_Save = 1
+
+!zn {
+!source "IRQDiskC64.a"
+!source "IRQDisk.a"
+}
+}
 
 * = $d00
 !bin "c:\temp\fs\gamestart 1000.prg" , ($10000-*) , * - kStartOffset

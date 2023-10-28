@@ -1,4 +1,4 @@
-..\c64\acme.exe --lib ..\C64\ --msvc -v9 "Flying Shark.a"
+..\c64\acme.exe --lib ..\C64\ --lib ..\C64\IRQDisk\ --msvc -v9 "Flying Shark.a"
 c:\work\c64\bin\LZMPi.exe -c64mbu FlyingSharkLoader.prg c:\temp\fs\comp.prg $a09
 
 ..\c64\acme.exe --lib ..\C64\ --lib ..\C64\IRQDisk\ --msvc -v9 FlyingSharkBoot.a

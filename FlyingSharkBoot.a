@@ -3,6 +3,7 @@
 
 !source "../stdlib/stdlib.a"
 !to "FlyingSharkBoot.prg", cbm
+!sal
 !sl "FlyingSharkBoot.map"
 !svl "FlyingSharkBoot.lbl"
 !cpu 6510
