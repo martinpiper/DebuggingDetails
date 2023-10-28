@@ -179,8 +179,8 @@ Options for a protection free version:
 	Since the data seems to have lo/hi address at the start
 	
 * Compress file data using U mode
-	* Decompress using kernal byte fetch streaming
-	* Use fast load byte stream with decompress
+	Decompress using kernal byte fetch streaming
+	Use fast load byte stream with decompress
 
 * Use fast load
 	Will need boot menu to upload drive code

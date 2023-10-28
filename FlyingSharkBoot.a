@@ -1,0 +1,293 @@
+; Flying Shark Boot
+
+
+!source "../stdlib/stdlib.a"
+!to "FlyingSharkBoot.prg", cbm
+!sl "FlyingSharkBoot.map"
+!svl "FlyingSharkBoot.lbl"
+!cpu 6510
+!ct pet
+
+!source "IRQDiskVars.a"
+IRQDisk_MachineTarget = IRQDisk_MachineTypeC64
+IRQDisk_Retries = 5
+IRQDisk_LEDFlash = 15
+
+* = $c000
+	lda #ProcessorPortDefault
+	jsr InitialiseMachine
+	
+	+InitKERNALIO_AXY
+	+MACROVICIRQCIATimerControlDisable_A
+	+MACROAckAllIRQs_A
+	+MACRODisableCursorFlash_A
+	lda #0
+	jsr SETMSG
+	+MACRODisableUpperLowerCaseChange_A
+
+
+	+ClearScreenAt_AX COLOURRAM , VIC2Colour_Black
+	+ClearScreenAt_AX SCREENRAM , ' '
+
+	+SetDefaultScreenLowerCase_A
+
+	+DisplayColourTextMiddle_AX .message4,.message4End,SCREENRAM + (12*40) , VIC2Colour_White
+
+	; If there is no valid default drive number, for whatever reason, then assume device 8
+	lda ZPCurrentFileDeviceNumber
+	cmp #8
+	bcs .validNumber
+	lda #8
+	sta ZPCurrentFileDeviceNumber
+.validNumber
+
+	jsr IRQDisk_Init
+	bcc .noError
+	+DisplayColourTextMiddle_AX .message3,.message3End,SCREENRAM + (12*40) , VIC2Colour_White
+	inc .gotError
+	jmp .gotError2
+.noError
+
+	+DisplayColourTextMiddle_AX .message1,.message1End,SCREENRAM + (12*40) , VIC2Colour_White
+
+.gotError2
+
+	lda #ProcessorPortAllRAMWithIO
+	sta ZPProcessorPort
+
+	jsr InitIRQ
+
+	lda .gotError
+	bne *
+
+;	jmp *
+
+	lda #.nameTestEnd-.nameTest
+	ldx #<.nameTest
+	ldy #>.nameTest
+	jsr IRQDisk_Load
+
+	bcs .loadError
+
+	jmp 2061
+
+.loadError
+	+DisplayColourTextMiddle_AX .message2,.message2End,SCREENRAM + (12*40) , VIC2Colour_White
+	jmp *
+
+.message1 !scr "MartyLoad loading Flying Shark..."
+.message1End
+
+.message2 !scr "Load error! Check your disk."
+.message2End
+
+.message3 !scr "Cannot initialise the drive."
+.message3End
+
+.message4 !scr "Initialising the drive."
+.message4End
+
+.gotError !by 0
+
+	; Note, the ct raw is used here
+.nameTest !raw "GAME"
+.nameTestEnd = *
+
+!zn
+TestIRQ
+	pha
+	txa
+	pha
+	tya
+	pha
+	ldx VIC2Raster
+.l1
+	cpx VIC2Raster
+	beq .l1
+	ldy #1
+.l2
+	dey
+	bne .l2
+	nop
+	lda #VIC2Colour_White
+	; Set the screen while in the right border
+	sta VIC2ScreenColour
+	; Set the border on the far left on the next line
+	sta VIC2BorderColour
+	lda #VIC2Colour_Blue
+	ldy #11
+.l3
+	dey
+	bne .l3
+	sta VIC2BorderColour
+	sta VIC2ScreenColour
+
+	lda #<TestIRQ2
+	sta KERNALIRQServiceRoutineLo
+	lda #>TestIRQ2
+	sta KERNALIRQServiceRoutineHi
+	; Raster position
+	lda #VIC2SpriteYBorderTop + (14*8) - 4
+	sta VIC2Raster
+
+	+MACROAckRasterIRQ_A
+	pla
+	tay
+	pla
+	tax
+	pla
+	rti
+
+!zn
+TestIRQ2
+	pha
+	txa
+	pha
+	tya
+	pha
+	ldx VIC2Raster
+.l1
+	cpx VIC2Raster
+	beq .l1
+	ldy #10
+.l2
+	dey
+	bne .l2
+	lda #VIC2Colour_White
+	; Set the screen while in the right border
+	sta VIC2ScreenColour
+	; Set the border on the far left on the next line
+	sta VIC2BorderColour
+	lda #VIC2Colour_Black
+	ldy #11
+.l3
+	dey
+	bne .l3
+	sta VIC2BorderColour
+	sta VIC2ScreenColour
+
+	lda #<TestIRQ
+	sta KERNALIRQServiceRoutineLo
+	lda #>TestIRQ
+	sta KERNALIRQServiceRoutineHi
+	; Raster position
+	lda #VIC2SpriteYBorderTop + (11*8)
+	sta VIC2Raster
+
+	; Find out where the file loading progress is and display it
+	jsr IRQDisk_GetLastStoredHi
+
+	jsr DisplayLoadingCounter
+
+	+MACROAckRasterIRQ_A
+	pla
+	tay
+	pla
+	tax
+	pla
+	rti
+
+DisplayLoadingCounter
+	cmp #8
+	; If it isn't loading yet then ignore it
+	bcc .notLoadingYet
+	; Subtract BASIC start
+	sec
+	sbc #8
+	; Reverse subtract with ...
+	eor #255
+	clc
+	; ... the hi of the file length.
+	adc #$48
+	tax
+	lda ValMod10Tab,x
+	clc
+	adc #'0'
+	sta SCREENRAM + (16*40) + 21
+
+	ldy ValDiv10Tab,x
+	lda ValMod10Tab,y
+	clc
+	adc #'0'
+	sta SCREENRAM + (16*40) + 20
+
+	lda ValDiv10Tab,y
+	clc
+	adc #'0'
+	sta SCREENRAM + (16*40) + 19
+
+
+
+	lda #VIC2Colour_White
+	sta COLOURRAM + (16*40) + 19
+	sta COLOURRAM + (16*40) + 20
+	sta COLOURRAM + (16*40) + 21
+.notLoadingYet
+	rts
+
+
+InitIRQ
+	sei
+	; Grab the IRQ
+	lda #<TestIRQ
+	sta KERNALIRQServiceRoutineLo
+	lda #>TestIRQ
+	sta KERNALIRQServiceRoutineHi
+	; Raster position
+	lda #VIC2SpriteYBorderTop + (11*8)
+	sta VIC2Raster
+	; VIC IRQ control
+	lda #1
+	sta VIC2InteruptControl
+	+MACROAckRasterIRQ_A
+	cli
+	rts
+
+; This block of code includes the IRQ disk libs, note the !zn is here instead of in the libs.
+!zn {
+!source "IRQDiskC64.a"
+!source "IRQDisk.a"
+!source "stdlib1541.a"
+!source "IRQDiskDriveCode.a"
+}
+
+!source "../stdlib/Initialise.a"
+
+ValDiv10Tab
+!for .table1,256 {!by ((.table1-1) / 10) }
+ValMod10Tab
+	!by 0,1,2,3,4,5,6,7,8,9
+	!by 0,1,2,3,4,5,6,7,8,9
+	!by 0,1,2,3,4,5,6,7,8,9
+	!by 0,1,2,3,4,5,6,7,8,9
+	!by 0,1,2,3,4,5,6,7,8,9
+	!by 0,1,2,3,4,5,6,7,8,9
+	!by 0,1,2,3,4,5,6,7,8,9
+	!by 0,1,2,3,4,5,6,7,8,9
+	!by 0,1,2,3,4,5,6,7,8,9
+	!by 0,1,2,3,4,5,6,7,8,9
+	!by 0,1,2,3,4,5,6,7,8,9
+	!by 0,1,2,3,4,5,6,7,8,9
+	!by 0,1,2,3,4,5,6,7,8,9
+	!by 0,1,2,3,4,5,6,7,8,9
+	!by 0,1,2,3,4,5,6,7,8,9
+	!by 0,1,2,3,4,5,6,7,8,9
+	!by 0,1,2,3,4,5,6,7,8,9
+	!by 0,1,2,3,4,5,6,7,8,9
+	!by 0,1,2,3,4,5,6,7,8,9
+	!by 0,1,2,3,4,5,6,7,8,9
+	!by 0,1,2,3,4,5,6,7,8,9
+	!by 0,1,2,3,4,5,6,7,8,9
+	!by 0,1,2,3,4,5,6,7,8,9
+	!by 0,1,2,3,4,5,6,7,8,9
+	!by 0,1,2,3,4,5,6,7,8,9
+
+ColourTable
+	!by VIC2Colour_Black,VIC2Colour_Blue,VIC2Colour_Brown,VIC2Colour_Red
+	!by VIC2Colour_DarkGrey,VIC2Colour_Purple,VIC2Colour_Orange,VIC2Colour_Grey
+	!by VIC2Colour_LightBlue,VIC2Colour_Green,VIC2Colour_LightRed,VIC2Colour_Cyan
+	!by VIC2Colour_LightGrey,VIC2Colour_Yellow,VIC2Colour_LightGreen,VIC2Colour_White
+	!by VIC2Colour_LightGreen,VIC2Colour_Yellow,VIC2Colour_LightGrey,VIC2Colour_Cyan
+	!by VIC2Colour_LightRed,VIC2Colour_Green,VIC2Colour_LightBlue,VIC2Colour_Grey
+	!by VIC2Colour_Orange,VIC2Colour_Purple,VIC2Colour_DarkGrey,VIC2Colour_Red
+	!by VIC2Colour_Brown,VIC2Colour_Blue,VIC2Colour_Black,VIC2Colour_Black
