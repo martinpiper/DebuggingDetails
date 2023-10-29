@@ -167,7 +167,7 @@ DoLoad
 .loadingEnd
 
 .numToHexTab
-	!raw "0123456789abcdef"
+	!raw "0123456789ABCDEF"
 
 
 SafeCHRIN
