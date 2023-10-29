@@ -236,3 +236,17 @@ C:1bc4  CE 11 10    DEC $1011
 or
 > 1bc9 ea ea ea ea ea
 To remove the lives check entirely
+
+
+
+
+* If the drive reset in DoLoad is disabled then during the game start (after $1000) $3d90 there is a sta $dd02 with A=$3f
+	This causes the drive load pulse loop to exit (8:706) and causes driverSerialSignalReceived to start, even before the game load requets at $a000 starts sending data
+	bk c:1000
+	bk c:3d90
+	bk 8:706
+	In the game there is a $3d88 jsr IOINIT (ff84)
+	This causes the drive code to start receiving an incorrect command byte and it waits in waitACK4
+	This is why in the game loader replacement code this works: 	jsr IOINIT lda ZPCurrentFileDeviceNumber jsr LISTEN 
+		C64 In LISTEN $ed2e sets ATN which causes the drive code to exit
+		It "completes" the drive code receive byte and causes the ATN exit to happen, which allows the M-E to start the drive code again.
