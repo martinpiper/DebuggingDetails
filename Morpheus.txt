@@ -1,0 +1,98 @@
+Morpheus
+
+https://preservation64.de/index.php?title=Morpheus
+https://preservation64.de/index.php?title=GMA88
+https://preservation64.de/index.php?title=GMA87
+
+"C:\Users\marti\Downloads\g64conv-v4.3-win32\g64conv.exe" "E:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\m\morpheus[rainbird_1988].g64" c:\temp\fs5.txt 5
+
+
+
+
+
+Disk version
+$6da looks like the start of the descrmable with X as EOR code
+$6cf looks like PLA for EOR descramble using $c6
+
+$900 looks like the game start?
+bank ram
+bk 900
+s "c:\temp\tdisk900.prg" 0 200 ffff
+
+
+
+disk score save code $1246 using kernal
+Earier code at $1216
+al 12f9 .setupDiskMDash
+
+Sends disk code at $3202
+
+dev 8:
+break 300 800
+disk code at $500
+score table write using job codes at $04 track 2 sector 1
+
+dev 8:
+w store 0 5
+w store 6 more efficient, less ROM updates to the job codes
+break 373 seems to be the last sector in the chain code...
+
+Main file starts loading at track $11 sector $01 ?
+No, it's short, two sectors.
+
+c:\work\C1541-Tweaks\c1541\Release\c1541.exe "E:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\m\morpheus[rainbird_1988].g64"
+chainwrite c:\temp\morpheus_1.prg $11 $01
+
+chainwrite c:\temp\morpheus_2.prg $13 $00
+
+chainwrite c:\temp\morpheus_3.prg $11 $02
+^^ Main game? Scrambled
+
+chainwrite c:\temp\morpheus_4.prg $02 $01
+
+
+
+
+
+
+Tape version
+c:\work\c64\bin\TapeTool.exe r "E:\Ultimate tape archive\Ultimate_Tape_Archive_V3.0\Ultimate_Tape_Archive_V3.0\Morpheus_(1988_Rainbird)_[7327]\Morpheus.tap" bc10000
+start $2a7
+
+IRQ at $351 wins the IRQ/NMI timer setup war
+
+Quite a nice obfuscated tape loader which eventually stores bytes at $3a6
+Calculated checksum at $c1 and read from tape checksum at $c2
+Checksum check at $2d7
+Quite a lot of self modifying state code in there
+
+$3e5 tests the loading flag from $02
+
+After loading code and bitmap at $e000 start $2a7 again
+Which then stops CIA1 IRQs and jumps to self modified $e000
+
+
+$e000 displays the loading bitmap and the animation
+Interesting, it seems to reuse the loading code at $3a6
+
+Seems to start game code at $900...
+
+
+
+
+
+Game - Tape
+
+Money likely at:
+	$26 $27
+	$272
+	$c063
+
+$272 looks like BCD
+> 271 99
+	Gives 990,000 G
+
+
+
+
+Quite a lot of code changes between disk and tape.

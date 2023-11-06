@@ -1,0 +1,25 @@
+From: https://www.gamesthatwerent.com/2015/02/martin-piper-assets/
+
+====
+Temp.d64
+Line 2100 parses commands
+LO	load
+SA	save
+CH	change start address
+EN	enter (assemble)
+RU	run (the assembled code)
+JU	jump?
+ME	memory?
+DE	disassemble?
+
+
+lo
+test
+li
+en
+ru
+
+
+====
+ALPASide1.d64
+Seems to have older versions, they have fewer commands and the file format changed.
