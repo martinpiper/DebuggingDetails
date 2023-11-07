@@ -47,6 +47,9 @@ chainwrite c:\temp\morpheus_2.prg $13 $00
 
 chainwrite c:\temp\morpheus_3.prg $11 $02
 ^^ Main game? Scrambled
+WinHex->Edit->Modify Data
+	XOR C6
+Update first two bytes back to FC 08 (or select the block)
 
 chainwrite c:\temp\morpheus_4.prg $02 $01
 
