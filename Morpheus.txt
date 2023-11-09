@@ -1,17 +1,9 @@
 Morpheus
 
-https://preservation64.de/index.php?title=Morpheus
-https://preservation64.de/index.php?title=GMA88
-https://preservation64.de/index.php?title=GMA87
-
+Disk version
 "C:\Users\marti\Downloads\g64conv-v4.3-win32\g64conv.exe" "E:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\m\morpheus[rainbird_1988].g64" c:\temp\fs5.txt 5
 
-
-
-
-
-Disk version
-GMA88 protection: https://youtu.be/ArK24oEnLb4?t=3408
+GMA protection: https://youtu.be/ArK24oEnLb4?t=3408
 https://preservation64.de/index.php?title=Morpheus
 https://preservation64.de/index.php?title=GMA88
 https://preservation64.de/index.php?title=GMA87
