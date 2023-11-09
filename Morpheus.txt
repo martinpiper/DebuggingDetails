@@ -11,6 +11,11 @@ https://preservation64.de/index.php?title=GMA87
 
 
 Disk version
+GMA88 protection: https://youtu.be/ArK24oEnLb4?t=3408
+https://preservation64.de/index.php?title=Morpheus
+https://preservation64.de/index.php?title=GMA88
+https://preservation64.de/index.php?title=GMA87
+
 $6da looks like the start of the descrmable with X as EOR code
 $6cf looks like PLA for EOR descramble using $c6
 
@@ -63,6 +68,7 @@ c:\work\c64\bin\TapeTool.exe r "E:\Ultimate tape archive\Ultimate_Tape_Archive_V
 start $2a7
 
 IRQ at $351 wins the IRQ/NMI timer setup war
+Looks like the NMI is used to continue the load, to obfuscate the execution of the main loader code. A bit like this code: https://github.com/martinpiper/C64Public/blob/e7dc2ef85d1c72ab90ab7a183705fc0481be91f8/IRQTape/TapeLoaderCIA.a#L42-L52
 
 Quite a nice obfuscated tape loader which eventually stores bytes at $3a6
 Calculated checksum at $c1 and read from tape checksum at $c2
@@ -99,3 +105,9 @@ $272 looks like BCD
 
 
 Quite a lot of code changes between disk and tape.
+
+
+
+
+$7aa9 disk version game code has what looks like a SYS 2061?
+Only when trying to save the high score table.
