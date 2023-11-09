@@ -250,3 +250,11 @@ To remove the lives check entirely
 	This is why in the game loader replacement code this works: 	jsr IOINIT lda ZPCurrentFileDeviceNumber jsr LISTEN 
 		C64 In LISTEN $ed2e sets ATN which causes the drive code to exit
 		It "completes" the drive code receive byte and causes the ATN exit to happen, which allows the M-E to start the drive code again.
+
+
+
+
+c:\work\C1541-Tweaks\c1541\Release\c1541.exe "E:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\f\flying_shark[firebird_1987](pal)(!).g64" -recover C:\Temp\d64recover\file%d_%d.prg
+Finds some extra files, mostly title screen unpack and display, and the original basic loader code "file19_0.prg" with a "Hope this one works" message.
+
+

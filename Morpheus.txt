@@ -103,3 +103,9 @@ Quite a lot of code changes between disk and tape.
 
 $7aa9 disk version game code has what looks like a SYS 2061?
 Only when trying to save the high score table.
+
+
+
+
+c:\work\C1541-Tweaks\c1541\Release\c1541.exe "E:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\m\morpheus[rainbird_1988].g64" -recover C:\Temp\d64recover\file%d_%d.prg
+Seems to have two large game files, maybe one is NTSC?
