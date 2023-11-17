@@ -1,0 +1,54 @@
+Operation Wolf
+https://www.c64-wiki.com/wiki/Operation_Wolf
+
+Disk version
+"C:\Users\marti\Downloads\g64conv-v4.3-win32\g64conv.exe" "E:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\o\operation_wolf[ocean_1988](pal)(!).g64" c:\temp\fs5.txt 5
+
+https://preservation64.de/index.php?title=Operation_Wolf
+https://preservation64.de/index.php?title=V-MAX!V3
+
+
+
+c:\work\C1541-Tweaks\c1541\Release\c1541.exe "E:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\o\operation_wolf[ocean_1988](pal)(!).g64" -recover C:\Temp\d64recover\file%d_%d.prg
+
+Add filename prefixes to recovered files
+
+file17_3.prg isn't is the directory
+Might be scrambled XOR?
+Not scrambled, can see sprites at $4000 and charsets
+
+
+Compare
+C:\Temp\d64recover\thecode_file19_0.prg
+C:\Temp\d64recover\file17_3.prg
+
+thecode_file19_0 contains more data, but the start is identical to file17_3
+First differences at file offset $c572
+file17_3 has a file chain error towards the end
+thecode_file19_0 seems to use different blocks
+Perhaps file17_3 is an old file that was partially deleted.
+
+Looks like a simple protection check, followed by two bit transfer protocol at c:$17d
+8:$6df execute job code
+Real drive code execute 8:$600
+c:$1bf rts of receive drive byte
+
+c:$15f end of load
+Just displays loading screen for a few seconds... Then blanks screen again to load the game data.
+
+$4240 looks like the game start code
+
+
+
+Tape version
+c:\work\c64\bin\TapeTool.exe r "E:\Ultimate tape archive\Ultimate_Tape_Archive_V3.0\Ultimate_Tape_Archive_V3.0\Operation_Wolf_(1988_Ocean_Software_Ltd)_[2588]\Operation_Wolf.tap" bc10000
+
+Will probably attempt to auto-start BASIC line input/decode vector $0302 code at $02a7
+$3e0 code wins
+$351 tape pulse decode
+
+Eventually runs some code at $100 which does the final load higher up in memory and lower in memory, especially the screen and start of BASIC.
+and then does jmp $4240 same as disk
+
+
+Disk and tape practically identical.
