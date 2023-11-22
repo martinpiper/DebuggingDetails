@@ -1,0 +1,34 @@
+Gauntlet US Gold 1987
+https://www.c64-wiki.com/wiki/Gauntlet
+
+"E:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\g\gauntlet[us_gold_1987](newer)(!).g64"
+
+c:\work\C1541-Tweaks\c1541\Release\c1541.exe "E:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\g\gauntlet[us_gold_1987](newer)(!).g64" -recover C:\Temp\d64recover\file%d_%d.prg
+
+
+Level files at $1e00 I think
+
+
+plyrs.spr loads all four player character animations
+
+$4800 $5000 $5800 three game character sets! To animate the enemies without updating the chars in the screen!!
+And $6000 charset for the score panel
+Wow
+
+No drive code in the game at all.
+
+
+
+
+
+
+"E:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\g\gauntlet[mindscape_1987](vmax2)(!).g64"
+Has drive code (VMAX)
+
+
+
+
+"E:\Ultimate tape archive\Ultimate_Tape_Archive_V3.0\Ultimate_Tape_Archive_V3.0\Gauntlet_(1986_U.S._Gold)_[775]\Gauntlet_Side_1.tap"
+c:\work\c64\bin\TapeTool.exe r "E:\Ultimate tape archive\Ultimate_Tape_Archive_V3.0\Ultimate_Tape_Archive_V3.0\Gauntlet_(1986_U.S._Gold)_[775]\Gauntlet_Side_1.tap" bc10000
+
+Why did they not use the tape header? :)
