@@ -1,0 +1,68 @@
+Disk version
+============
+
+"E:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\b\buggy_boy[elite_1987].g64"
+
+https://preservation64.de/index.php?title=Buggy_Boy
+https://preservation64.de/index.php?title=Para_Protect
+Para Protect similar to that used in Last Ninja: https://www.youtube.com/watch?v=yUgD9c2kZUA
+
+
+
+"C:\Users\marti\Downloads\g64conv-v4.3-win32\g64conv.exe" "E:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\b\buggy_boy[elite_1987].g64" c:\temp\fs5.txt 5
+
+c:\work\C1541-Tweaks\c1541\Release\c1541.exe "E:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\b\buggy_boy[elite_1987].g64" -recover C:\Temp\d64recover\file%d_%d.prg
+
+
+cd /d C:\Temp\d64recover2\
+c:\work\C1541-Tweaks\c1541\Release\c1541.exe "E:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\b\buggy_boy[elite_1987].g64" -extract
+
+
+
+Paraprotect loads code in zeropage at $ae file offset $e2 : a5 af ... lda $af ... which executes via vector $328 during load...
+Which rewrites the stop vector $329 during load to be $2ed
+Very obfuscated descramble
+
+
+Tracing backwards through the cpu history...
+
+Main loader entry point is $203 after obfuscation
+Fills memory with repeating pattern
+
+Then runs drive code
+
+Start executing drive code at $205
+
+
+Game start $801 ?
+
+
+Road is a multicolour bitmap!!!
+Road lines are background colour rasters
+Background horizon is chars, smooth scrolled.
+Road objects are sprites, sometimes X or Y expanded.
+
+
+Noticed that before running $800 these were set: $00/$01 = ff 6a
+
+.C:0580  78          SEI
+.C:0581  A2 FF       LDX #$FF
+.C:0583  9A          TXS
+.C:0584  D8          CLD
+.C:0585  A9 FF       LDA #$FF
+.C:0587  85 00       STA $00
+.C:0589  A9 6A       LDA #$6A
+.C:058b  85 01       STA $01
+.C:058d  A9 00       LDA #$00
+.C:058f  95 00       STA $00,X
+.C:0591  CA          DEX
+.C:0592  E0 01       CPX #$01
+.C:0594  D0 F9       BNE $058F
+.C:0596  A9 37       LDA #$37
+.C:0598  85 01       STA $01
+.C:059a  58          CLI
+.C:059b  4C 00 08    JMP $0800
+
+Needed this code at $580 to reset zeropage and processor port and IRQ status...
+
+c:\work\c64\bin\LZMPi.exe -c64mbu "c:\temp\buggyboy5 580.prg" c:\temp\bb.prg $580
