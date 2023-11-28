@@ -35,6 +35,7 @@ Start executing drive code at $205
 
 
 Game start $801 ?
+Several depack/move stages, then game entry at $800 eventually...
 
 
 Road is a multicolour bitmap!!!
@@ -66,3 +67,4 @@ Noticed that before running $800 these were set: $00/$01 = ff 6a
 Needed this code at $580 to reset zeropage and processor port and IRQ status...
 
 c:\work\c64\bin\LZMPi.exe -c64mbu "c:\temp\buggyboy5 580.prg" c:\temp\bb.prg $580
+
