@@ -1,3 +1,5 @@
+https://www.youtube.com/watch?v=Of-4U0b_7mc
+
 https://www.c64-wiki.com/wiki/Turrican
 
 00:00 Introduction
@@ -17,8 +19,8 @@ https://www.c64-wiki.com/wiki/Turrican
 17:22 Timing for the sprites update at the top of the screen
 22:50 Impressive number of sprites on screen, unused sprite memory
 23:56 High score screen load and its great music
-22:35 Modified scrolling code still in memory
-22:55 Sounds effects seem to slow down when things get busy
+25:35 Modified scrolling code still in memory
+25:55 Sound effects seem to slow down when things get busy
 26:45 Text screen double buffer scroll code and timing
 31:34 Common IRQ exit code sets the border colour to black
 31:55 Talking about other ways of doing a full colour scroll
