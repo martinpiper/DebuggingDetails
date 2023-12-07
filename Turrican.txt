@@ -1,0 +1,35 @@
+https://www.c64-wiki.com/wiki/Turrican
+
+00:00 Introduction
+00:30 Memories about the scrolling
+00:55 Disk version, auto run
+01:24 First fast loader for the sample introduction
+01:55 Loading screen, with border sprites, backwards decompression while loading
+02:38 Title screen and secret message from the developer
+03:40 Quick look at the drive code
+05:11 Loading the first level. Different to the first fast loader
+06:30 Level 1 start - Two screen banks
+07:20 Investigating the scrolling code
+08:05 How the C64 draws a screen
+10:54 Moving colour screen data when scrolling down
+11:45 Timing colour screen with the screen refresh
+16:00 Using the border colour to show colour screen timing
+17:22 Timing for the sprites update at the top of the screen
+22:50 Impressive number of sprites on screen, unused sprite memory
+23:56 High score screen load and its great music
+22:35 Modified scrolling code still in memory
+22:55 Sounds effects seem to slow down when things get busy
+26:45 Text screen double buffer scroll code and timing
+31:34 Common IRQ exit code sets the border colour to black
+31:55 Talking about other ways of doing a full colour scroll
+33:52 Quick look at the IRQ routines, using border colours again
+35:40 IRQ timing investigation, using border colours again
+36:48 Weapons effects
+37:45 C64DebugGUI showing the drive code
+38:15 Title screen bitmap and colour bar updates
+39:46 Player sprite uses three sprites, using an extra Y expanded sprite
+41:24 Screen score panel split code and IRQ timing
+49:27 Sprite multiplexing updates and potential for optimisation
+52:58 C64DebugGUI doesn't seem to play nicely with the Turrican keyboard code
+53:50 Noticed a funny bug with enemy animations during pause...
+54:41 Game over and continue yes/no message
