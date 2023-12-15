@@ -1,0 +1,55 @@
+Turrican 2
+https://en.wikipedia.org/wiki/Turrican_II:_The_Final_Fight
+
+Disk version
+"C:\Users\marti\Downloads\g64conv-v4.3-win32\g64conv.exe" "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\t\turrican_ii_s1[rainbow_arts_1991](!).g64" c:\temp\fs5.txt 5
+"C:\Users\marti\Downloads\g64conv-v4.3-win32\g64conv.exe" "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\t\turrican_ii_s2[rainbow_arts_1991](!).g64" c:\temp\fs5-2.txt 5
+
+https://preservation64.de/index.php?title=Turrican_II:_The_Final_Fight
+
+
+
+
+c:\work\C1541-Tweaks\c1541\Release\c1541.exe "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\t\turrican_ii_s1[rainbow_arts_1991](!).g64" -recover C:\Temp\d64recover\file%d_%d.prg
+
+file18_18 might be high score data?
+
+c:\work\C1541-Tweaks\c1541\Release\c1541.exe "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\t\turrican_ii_s2[rainbow_arts_1991](!).g64" -recover C:\Temp\d64recover2\file%d_%d.prg
+
+
+
+With screen off load...
+$cd29 looks like fast load 2-bit protocol
+
+
+With screen on load...
+
+$6b75 looks like disc 2-bit protocol read...
+During screen on, with border sprites for "Loading", bitmap display, and music
+$6b86 reads $f0 for byte received from disk
+
+Also used during level load, with raster colour bars, loading text message ...
+
+
+
+
+Tape version
+c:\work\c64\bin\TapeTool.exe r "D:\Ultimate tape archive\Ultimate_Tape_Archive_V3.0\Ultimate_Tape_Archive_V3.0\Turrican_II-_The_Final_Fight_(1991_Rainbow_Arts)_[5352]\Turrican_II-_The_Final_Fight.tap" bc10000
+
+No auto run
+Straight into the title screen
+Screen off loader, with small border effect
+
+
+
+
+Game code
+asl a used before store to any sprite x pos register
+Indicates all sprite positions are shifted, so a lower resolution sprite position is used during game updates...
+
+The squirling fade in effect are overlay sprites!
+
+$fffc = BCD lives value?
+
+
+Dynamic chars for the weapons effects
