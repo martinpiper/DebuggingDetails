@@ -1,0 +1,59 @@
+Exile
+
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\e\exile[audiogenic_1991](pal).g64"
+
+https://www.lemon64.com/game/exile
+
+
+https://project64.c64.org/Games/exile.txt
+
+
+https://www.lemon64.com/cheat/exile/865
+https://www.lemon64.com/doc/exile/218
+https://www.gamespot.com/games/exile-1988/cheats/
+
+
+5 charsets!! Updated by $83dc
+
+
+
+http://www.level7.org.uk/miscellany/exile-disassembly.txt
+>+39326 +14
+>+39326 0e
+$999e = inventory slot usage count (up to 5 ish)
+$999f = inventory
+68 = grenade
+Look for: stack objects:
+	The list is not quite the same in this version
+> 999e 4 9 9 9 9 9
+Green frogs, not red slime
+
+
+> 999e 4 60 61 62 63
+Gives flasks and the destinator
+
+> 999e 1 60
+Gives destinator, teleport back to the start and fly into the zone...
+
+
+
+00:11 Introduction
+00:24 Disk version with fast load
+01:06 Game start and objective
+01:40 The special graphics mode memories
+02:30 Single buffered screen with a repeating text pattern
+03:35 Score panel screen split gives us a hint
+04:20 Five character sets in one video bank
+07:05 Showing when the video chip displays each character set
+10:45 Character sets updated while scrolling, with a wider screen "cache"
+13:15 Sprite animation frame caching
+19:40 Flexible object entity system, using inventory cheat codes to demonstrate this
+23:05 Found some commented disassembly, to aid in finding cheats
+32:20 Trying to debug the inventory code
+36:20 Trying out lots of inventory objects, to find the "Destinator"
+38:13 A crew member, robot, and a duplicate player character
+41:20 Sprites drop-out, too many objects
+44:56 Imps and wasps...
+50:13 Big cannon
+56:40 Using imps to break the collision detection
+1:03:10 Found the Destinator, let's complete the game!
