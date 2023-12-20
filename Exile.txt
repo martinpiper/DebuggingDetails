@@ -59,3 +59,66 @@ Gives destinator, teleport back to the start and fly into the zone...
 50:13 Big cannon
 56:40 Using imps to break the collision detection
 1:03:10 Found the Destinator, let's complete the game!
+
+
+
+Trying to find the game start...
+
+$61e end of protection check?
+No, 6d4 receives data from the drive...
+$707?
+Checked for $ff in $6aa
+Yes $560e
+
+bank ram
+c:\work\c64\bin\LZMPi.exe -c64mbu "c:\temp\exile 560e.prg" c:\temp\t.prg $560e
+
+To clear the loading bitmap...
+f 5800 7fff 00
+s "c:\temp\exile 560e mem clear 1.prg" 0 200 ffff
+c:\work\c64\bin\LZMPi.exe -c64mbu "c:\temp\exile 560e mem clear 1.prg" c:\temp\t.prg $560e
+
+
+At $560e, screen rop right shows text with:
+	FX138 0
+	FX4 2
+	(G$)
+etc
+This looks like BBC BASIC code?!
+	https://central.kaserver5.org/Kasoft/Typeset/BBC/Ch42.html
+
+
+$b3dd looks like char screen setup for scrolling
+
+$f775 clears $6380 ++ range in the charsets?
+
+
+To trap sprite cache updates
+w store 4400 4fff
+
+$f51e clears a sprite indirected with $77
+	$4fc0 is the first sprite to be updated?
+$f52c seems to update the just cleared sprite data using some table lookups
+	Table method might be decompression
+** Not the only routine that updates a sprite in the cache
+
+$f5ce also looks like a sprite cache update?
+
+$f40a common sprite cache update address calculation?
+X = Xprite cache slot index?
+$3c = Frame?
+
+This works to show all sprite frames...
+.C:4800   A2 20      LDX #$20
+.C:4802   E6 3C      INC $3C
+.C:4804   20 0A F4   JSR $F40A
+.C:4807   AD 12 D0   LDA $D012
+.C:480a   D0 FB      BNE $4807
+.C:480c   4C 00 48   JMP $4800
+
+$35 extra selection on -ve?
+	Half height
+$38 = flips!
+	40 = Flip Y
+	80 = Flip X
+	
