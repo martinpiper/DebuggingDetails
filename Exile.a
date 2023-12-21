@@ -1,0 +1,91 @@
+; Exile test code
+
+!source "stdlib/stdlib.a"
+!to "Exile.prg", cbm
+!sal
+!sl "Exile.map"
+!svl "Exile.lbl"
+!pdb "Exile.pdb"
+!cpu 6510
+!ct pet
+
+ExileScreen = $4000
+ExileCacheSprite = $f40a
+ExileCacheSprite_Frame = $3c
+ExileCacheSprite_Flips = $38
+ExileCacheSprite_Flips_H = $80
+ExileCacheSprite_Flips_V = $40
+
+StartSpriteIndex = $30
+
+* = $4800
+	sei
+	+ClearScreenAt_AX ExileScreen , 0
+
+.l1
+	inc VIC2BorderColour
+
+	+MByteValueToAddress_A 0 , CIA1PortADDR
+	+MByteValueToAddress_A 0 , VIC2MemorySetup
+	+MByteValueToAddress_A 0 , VIC2ExtraBackgroundColour1
+	+MByteValueToAddress_A 0 , VIC2ExtraBackgroundColour2
+
+	+MByteValueToAddress_A VIC2Colour_Black , VIC2ScreenColour
+
+	ldx #$20
+	jsr ExileCacheSprite
+
+	+MByteValueToAddress_A 0 , VIC2SpriteXMSB
+	+MVIC2SpriteEnableAll_A
+
+	; 2x1
+	+MSetSpriteXYColFrame_A 0 , 60		, 60		, VIC2Colour_Yellow , StartSpriteIndex		, ExileScreen
+	+MSetSpriteXYColFrame_A 1 , 60+24	, 60		, VIC2Colour_Yellow , StartSpriteIndex+1	, ExileScreen
+	
+	; 1x2
+	+MSetSpriteXYColFrame_A 2 , 60 		, 90 		, VIC2Colour_Yellow , StartSpriteIndex		, ExileScreen
+	+MSetSpriteXYColFrame_A 3 , 60 		, 90 + 21	, VIC2Colour_Yellow , StartSpriteIndex+1	, ExileScreen
+
+	; 2x2
+	+MSetSpriteXYColFrame_A 4 , 60		, 160		, VIC2Colour_Yellow , StartSpriteIndex		, ExileScreen
+	+MSetSpriteXYColFrame_A 5 , 60 + 24	, 160		, VIC2Colour_Yellow , StartSpriteIndex+1	, ExileScreen
+	+MSetSpriteXYColFrame_A 6 , 60		, 160 + 21	, VIC2Colour_Yellow , StartSpriteIndex+2	, ExileScreen
+	+MSetSpriteXYColFrame_A 7 , 60 + 24	, 160 + 21	, VIC2Colour_Yellow , StartSpriteIndex+3	, ExileScreen
+
+	dec VIC2BorderColour
+
+	+MACROWaitForRaster VIC2SpriteYBorderBottom
+	
+	lda #JoystickBits_Left
+	bit CIA1KeyboardColumnJoystickA
+	bne .notLeft
+	dec ExileCacheSprite_Frame
+.notLeft
+
+	lda #JoystickBits_Right
+	bit CIA1KeyboardColumnJoystickA
+	bne .notRight
+	inc ExileCacheSprite_Frame
+.notRight
+
+	+WaitForPortBitsLoop_A CIA1KeyboardColumnJoystickA , JoystickBits_Up , .notUp
+	lda ExileCacheSprite_Flips
+	eor #ExileCacheSprite_Flips_H
+	sta ExileCacheSprite_Flips
+.notUp
+
+	+WaitForPortBitsLoop_A CIA1KeyboardColumnJoystickA , JoystickBits_Down , .notDown
+	lda ExileCacheSprite_Flips
+	eor #ExileCacheSprite_Flips_V
+	sta ExileCacheSprite_Flips
+.notDown
+
+	lda #JoystickBits_Fire
+	bit CIA1KeyboardColumnJoystickA
+	bne .notFire
+
+	; Exit the remote debug session
+	jam
+
+.notFire
+	jmp .l1

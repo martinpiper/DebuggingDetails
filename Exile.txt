@@ -105,7 +105,7 @@ $f52c seems to update the just cleared sprite data using some table lookups
 $f5ce also looks like a sprite cache update?
 
 $f40a common sprite cache update address calculation?
-X = Xprite cache slot index?
+X = Sprite cache slot index?
 $3c = Frame?
 
 This works to show all sprite frames...

@@ -6,3 +6,10 @@ FlyingSharkLoader.prg
 FlyingSharkBoot.lbl
 FlyingSharkBoot.map
 FlyingSharkBoot.prg
+*.lbl
+*.map
+*.pdb
+Exile.prg
+
+
+target/
