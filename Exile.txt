@@ -122,3 +122,20 @@ $38 = flips!
 	40 = Flip Y
 	80 = Flip X
 	
+
+
+00:10 Finding the game main entry point, after loading
+03:55 Compressing to a single file
+07:50 Why some BBC BASIC code hidden in memory?
+08:54 Temporary game initialisation code found
+12:03 After temporary init, main game code
+12:21 Sprite cache and decompression found
+13:30 Starting to understand the sprite decompression
+16:10 Teleport effect found
+18:22 Hunting for the sprite entry point
+20:26 Decompression entry point and data format
+26:16 Finding the sprite frame index
+27:11 Displaying all sprite frames
+29:49 Memory view with working decompression
+31:27 Sprite half height and flipping functionality
+34:21 Testing with better code using the remote debugger
