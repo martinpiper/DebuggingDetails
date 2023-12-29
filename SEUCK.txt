@@ -1,0 +1,14 @@
+c:\work\C1541-Tweaks\c1541\Release\c1541.exe "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\s\seuck_s1[sensible_1988](pal).g64" -recover C:\Temp\d64recover\file%d_%d.prg
+c:\work\C1541-Tweaks\c1541\Release\c1541.exe "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\s\seuck_s2[sensible_1988](pal).g64" -recover C:\Temp\d64recover\file%d_%d.prg
+
+
+dir
+chain *
+chainwrite C:\temp\d64recover\boot 17 0
+
+
+When using ../SEUCK/GAME4__I.P00, the second barrier should have two extra enemies, a jumping tree...
+
+
+
+C:\Work\C64\Scroller>BuildIt.bat ScrollEntry_SEUCK.a && Scroller.prg

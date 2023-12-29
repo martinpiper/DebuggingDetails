@@ -1,0 +1,73 @@
+https://www.lemon64.com/game/terra-cresta
+https://youtu.be/oN-H7nxnB_Q
+
+"D:\Ultimate tape archive\Ultimate_Tape_Archive_V3.0\Ultimate_Tape_Archive_V3.0\Terra_Cresta_(1986_Imagine)_[2736]\Terra_Cresta.tap"
+
+c:\work\C1541-Tweaks\c1541\Release\c1541.exe "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\t\terra_cresta[imagine_1986](pal).g64" -recover C:\Temp\d64recover\file%d_%d.prg
+
+Cheats: "C:\Temp\terra cresta.prg"
+
+
+Score panel at top uses hires sprites, with a pixel offset.
+
+Score table display seems to use the general putpose multiplexor.
+
+2b (to 48) = Index table
+67 = Y pos
+a3 = X pos div 2
+$49c5 = Colours
+$49e3 = Frames
+
+Max $1e (30) sprites
+
+$4936 looks like a copy from off-screen to on-screen data, in two chunks of $0f ($0e start) copy
+	$49 to $66 is off-screen index
+	$c1 to $de is off-screen X pos
+	$85 to $a2 is off-screen Y pos
+	Most likely reason is to allow calculation of the next frame during the screen display period.
+
+
+
+Multiplexor uses all the sprites, no reserved sprite entry?
+	All sprites used, none reserved, since Y index at $4cc9 has 0-7 range
+
+
+
+
+Multiplexor sort method?
+	Look for off-screen sort table updates
+	$4b42 is opening a space in the index table?!
+	$4b12 looks like a sort
+	$19 looks like a sort operation flag, which isn't loaded anywhere? Only incremented or stored.
+		Each time an enemy appears, it triggers... Or probably moves...
+		This looks like an insertion sort, where the sort detects and inserts values into the correct place...
+		https://en.wikipedia.org/wiki/Insertion_sort
+		$4b24 does the detect/move/insert which should only trigger when a sprite Y pos is in the wrong position in the index table
+		$471e is the jsr...
+
+
+$4c9d calculates the time just before the raster is needed for the multiplexor.
+
+
+
+Dynamic sprite and character set data during the level.
+
+
+00:11 Introduction
+00:29 Tape loader
+04:12 Title screen
+05:36 Score panel in the border
+06:32 Player upgrade mechanics
+08:20 Many sprites and sprite drop out
+10:15 Finding the sprite multiplexor IRQ
+11:26 Just-in-time sprite register updates
+11:50 Sprite X position divided by 2 trick
+14:55 Score panel sprite updates
+17:12 Hiscore display using sprites
+18:39 Graphics memory layout
+20:00 Dynamic sprites and character sets
+24:36 Finding the multiplexor sort routine
+35:40 Insertion sort review
+36:58 Showing CPU time to sort the sprites
+41:32 Are sprites reserved?
+43:12 Outro
