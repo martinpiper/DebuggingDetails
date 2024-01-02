@@ -1,0 +1,64 @@
+Elite
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\e\elite[firebird_1985](pal).g64"
+
+c:0414 two-bit protcol fast load
+	8:0318 send code
+c:0400 gets a byte from the drive
+
+During load...
+c:7607 is called, which seems to move/decompress memory, but also have nops removing some dd02 dd00 bank setup code at c:7691
+c:7885 looks like a memory move routine
+Returns back to c:04a3 which loads more data
+c:0502 looks like the final load for the start address (obfuscated)
+At c:050a loooks like c:0400 is no longer needed after storing $ce then $26 on the stack
+
+
+
+
+
+$b49d line draw using:
+Preserves Y in $9e
+	$6b-$6e x/y start , x/y end
+	256 wide screen used, so the lookup table is easier.
+	Can be called from a few places, some shift 6d/6e to 6b/6c, like in the planet render
+	Some copy in new cordinates, like in the ship render
+		https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm#Algorithm_for_integer_arithmetic
+		$bf pixel step and $bd = slope?
+	$b552 $b566 self modified jumps for line draw?
+
+
+
+Ship model draw
+	Used during the title screen and game
+aa72 draw face list
+	$99 = number of elements
+	...Falls through...
+aa78 erase face list
+	Used twice, once with the number of elements, and once without
+	For draw and erase
+
+
+
+Clears the game screen: f 4000 567f 0
+
+
+
+
+
+
+Game entry...
+$22d cli then rts, which seems to run the game after the kernal IRQ starts...
+$ce27 entry? c:0502 better...
+Add extra code at $400 to init 01 and push the start address onto the stack, to override the disk load start address...
+bank cpu
+t d800 dbff f000
+Also copy the colour RAM from $f000
+And the VIC registers to f400...
+s "c:\temp\elite 0400.prg" 0 200 ffff
+c:\work\c64\bin\LZMPi.exe -c64mbu "c:\temp\elite 0400.prg" c:\temp\t.prg $0400
+
+
+
+N
+Fire
+F1
