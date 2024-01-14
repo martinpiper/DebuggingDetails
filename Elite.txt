@@ -1,4 +1,5 @@
 Elite
+https://www.c64-wiki.com/wiki/Elite
 "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\e\elite[firebird_1985](pal).g64"
 
 c:0414 two-bit protcol fast load
@@ -62,3 +63,13 @@ c:\work\c64\bin\LZMPi.exe -c64mbu "c:\temp\elite 0400.prg" c:\temp\t.prg $0400
 N
 Fire
 F1
+
+
+00:11 Introduction
+00:55 Finding the game start and drive code
+13:00 Creating a single file game
+26:30 Working single compressed file
+28:00 Finding the 3D line draw
+33:20 Bresenham's line draw algorithm
+42:00 Extracting the line draw...
+56:24 ... And a demo

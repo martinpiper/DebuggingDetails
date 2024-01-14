@@ -1,0 +1,55 @@
+https://www.mobygames.com/game/5277/mind-roll/
+https://www.lemon64.com/review/quedex/1246
+
+https://youtu.be/AfSV9IizgUg
+
+https://preservation64.de/index.php?title=Quedex
+Protection	Prism Leisure Protection
+https://preservation64.de/index.php?title=Prism_Leisure_Protection
+Checks data duplication on track 41.
+Disk title in directory is modified to show in green color.
+
+
+https://c64preservation.com/dp.php?pg=home
+Protection: signature on track 41
+Notes: cifo
+Contributor: mayhem
+
+c:\work\C1541-Tweaks\c1541\Release\c1541.exe "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\q\quedex[thalamus_1987](pal).g64" -recover C:\Temp\d64recover\file%d_%d.prg
+
+
+
+Sprite grid on title screen used for game fade
+Sprites used for score panel
+Some text on the map is sprites
+Player ball is three sprites, two for ball and one for shadow
+Fade sprite at $c000
+
+
+
+Protection track 41
+Green colour directory, that fails to read
+Protection file, displays message, loading cycles around reading memory
+
+
+
+Disk directory eventually goes to track 35 then track 75, which fails.
+
+
+
+
+00:11 Introduction
+00:41 Disk protection reliability issues
+01:30 Protection hidden message
+02:30 Willy the Worm!
+03:20 Hunter's Moon playable demo
+07:28 Quedex demo graphics layout
+09:08 Loader with "random" memory reads?
+12:34 Title screen first look
+14:00 Finding the game map
+15:00 Game graphics layout
+16:00 Score panel sprites and vertical split
+22:24 Title screen display analysis
+25:10 Game display analysis
+26:00 Fade routine
+28:26 Protection check and the broken directory
