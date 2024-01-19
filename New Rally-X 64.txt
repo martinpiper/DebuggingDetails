@@ -1,0 +1,24 @@
+https://thestuffmade.itch.io/rally-x-64
+
+Updating the scrolling area character set for the smooth scroll. No need to counter rotate the score panel characters.
+
+Radar characters.
+
+Sprites behind the characters.
+
+Very unrolled speed code, no index register, very quick but uses a lot of memory.
+	But the game only scrolls in 4 directions so it's OK.
+
+
+
+00:11 Introduction
+00:44 Like Radar Rat Race, but better
+01:30 Title screen
+02:20 Character based score panel and radar
+03:05 Vertical split using software scroll
+04:40 Sprites details
+05:00 Very fast screen scroll code
+09:50 Sprite background priority
+14:00 Timing the scroll code
+18:40 Game in C64DebugGUI
+19:56 Only 7 sprites used?
