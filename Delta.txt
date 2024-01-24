@@ -1,0 +1,62 @@
+https://www.c64-wiki.com/wiki/Delta
+https://youtu.be/HqjP4hkg6GI
+
+c:\work\c64\bin\TapeTool.exe r "D:\Ultimate tape archive\Ultimate_Tape_Archive_V3.0\Ultimate_Tape_Archive_V3.0\Delta_(1987_Thalamus)_[1693]\Delta.tap" bc1000
+
+https://archive.org/details/zzap64-magazine
+
+https://archive.org/details/zzapp_64_issue_026_600dpi/page/n37/mode/2up?q=delta
+
+
+Game start = $2eb
+
+
+Backwards loading!
+
+The cheat
+> 3fa1 c1 3c
+
+Two bytes cheat results in one byte in the actual game
+Changed the "dec $12cd" to be "bit $12cb" at $3dda
+
+
+At 3fa0, compressed data, so this doesn't make much sense...
+86 c7 bc f0 a9
+stx $c7
+ldy $a9f0,x
+
+$810 sys 2064 for decompression
+$2d/$2e = c0 b6  $b6c0
+
+break 810
+s "c:\temp\delta 810.prg" 0 801 b6bf
+c:\work\c64\bin\LZMPi.exe -c64mbu "c:\temp\delta 810.prg" c:\temp\t.prg $810
+Input length = $aebf output length = $ae85
+So the original game compression is quite good
+Using lzmpi 2d/2e is wrong after decompression, of course...
+
+
+$12cb = lives
+$3dda = dec $12cb
+Real cheat: > 3dda ea ea ea
+
+
+
+$1770 seems to be the game entry after decompression.
+
+
+00:11 Introduction
+01:35 Mix-E-load, title, and game music
+04:50 How cheat code listings worked
+17:00 Cheats circumvent protection
+20:30 Backwards tape loader
+21:20 Mix-E-load details
+22:44 Lots of memory moving
+23:00 Lots of sprites used
+24:00 Dynamic sprites in-game
+24:50 Starfield, but no other characters
+25:40 Title screen tons of sprites
+26:20 Bullets are characters
+28:00 Noting efficient sprite usage
+29:55 Extended text mode used
+32:26 Analysing the cheat in decompressed memory

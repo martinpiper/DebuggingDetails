@@ -1,4 +1,6 @@
 https://thestuffmade.itch.io/rally-x-64
+https://github.com/martinpiper/DebuggingDetails/blob/main/New%20Rally-X%2064.txt
+
 
 Updating the scrolling area character set for the smooth scroll. No need to counter rotate the score panel characters.
 
