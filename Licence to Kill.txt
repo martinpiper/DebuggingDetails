@@ -1,0 +1,62 @@
+https://www.c64-wiki.com/wiki/Licence_to_Kill
+
+c:\work\c64\bin\TapeTool.exe r "D:\Ultimate tape archive\Ultimate_Tape_Archive_V3.0\Ultimate_Tape_Archive_V3.0\Licence_to_Kill_(1989_Domark)_[4974]\Licence_to_Kill.tap" bc1000
+Will probably attempt to auto-start (as restored IRQ vector $0314 from $029f) loaded code at $0351
+
+
+
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\l\licence_to_kill[domark_1989].g64"
+NTSC
+c:\work\C1541-Tweaks\c1541\Release\c1541.exe "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\l\licence_to_kill[domark_1989].g64" -recover C:\Temp\d64recover\file%d_%d.prg
+
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\l\license_to_kill[domark_1989].g64"
+PAL?
+c:\work\C1541-Tweaks\c1541\Release\c1541.exe "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\l\license_to_kill[domark_1989].g64" -recover C:\Temp\d64recover2\file%d_%d.prg
+
+https://preservation64.de/index.php?title=007:_Licence_to_Kill
+Data duplication on track 36 - 41
+
+
+NTSC Disk
+Trilogic V3.2 SYS 2075
+But doesn't seem to work? CPU JAM
+
+
+PAL Disk
+Also Trilogic V3.2
+38911 text at roughly $a18, indicates compressed BASIC start screen?
+Also what looks like monitor text at $c00 "nv-bdizc"? And "ready" message just before...
+
+$4f jmp $409b
+Here the decompressed monitor screen is visible showing "g 4800"
+Ahh the 38911 was in the zeropage, probably the last displayed number
+
+$1ef rti probably starts the game...
+
+Lucky sequence of undefined opcodes resulting in game start: https://www.lemon64.com/forum/viewtopic.php?t=70136
+
+
+
+PAL Tape
+Wild save, hello hacker message at $33c ish
+Same Trilogic V3.2?
+
+
+00:11 Introduction
+00:26 Looking at the tape and disk structure
+05:08 Trilogic V3.2 freezer?
+06:16 Recollections about the tape version
+08:48 Copying the game character set
+09:10 Double buffered game screens
+09:24 Vertical split and score panel
+12:23 Title screen details
+13:24 Delving into the load...
+19:36 ... frozen snapshot data
+22:20 Tracing the decompression...
+28:28 ... bug found
+30:16 Tape loader with hacker message
+31:29 Same frozen version with bug
+33:30 Debugging the title graphics
+34:16 Game sprite multiplexing
+36:04 Bullets are not sprites
+37:26 Animating Bond logo
