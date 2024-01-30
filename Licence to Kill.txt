@@ -1,4 +1,5 @@
 https://www.c64-wiki.com/wiki/Licence_to_Kill
+https://youtu.be/ifJLPjLUcyY
 
 c:\work\c64\bin\TapeTool.exe r "D:\Ultimate tape archive\Ultimate_Tape_Archive_V3.0\Ultimate_Tape_Archive_V3.0\Licence_to_Kill_(1989_Domark)_[4974]\Licence_to_Kill.tap" bc1000
 Will probably attempt to auto-start (as restored IRQ vector $0314 from $029f) loaded code at $0351
