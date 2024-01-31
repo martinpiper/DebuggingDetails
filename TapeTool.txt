@@ -1,0 +1,23 @@
+Download from: https://martin-piper.itch.io/c64tapetool
+
+https://youtu.be/zPLjrAsoUk0
+
+00:00 Introduction to the quick start
+00:25 Downloading the software
+00:50 Windows security messages
+01:14 Running the example batch file
+01:20 TAP file running with turbo loader
+01:40 Compressed blocks in any order
+02:50 Build batch file in more detail
+03:15 Changing the loader
+03:28 How the framework includes options
+03:48 Configuring the data for the TAP file
+04:45 Compressed data blocks display
+05:15 Customising the TAP file build options
+06:02 Tape turbo loading speed
+06:25 Handling loading errors with retry
+07:58 Sprites in the borders while loading
+09:10 Removing the bitmap to reduce the size
+09:58 Using the filename byte
+11:27 Data block interleaving
+12:26 Software is free to use
