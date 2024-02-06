@@ -46,6 +46,13 @@ Multiplexor sort method?
 		$471e is the jsr...
 
 
+$499f looks like init sort, then copy offscreen to onscreen, then sort?
+	Only called once :)
+	$49b1 can equal rts for testing
+	s "c:\temp\terra cresta sort 499f 4b12.prg" 0 499f 4b59
+
+
+
 $4c9d calculates the time just before the raster is needed for the multiplexor.
 
 

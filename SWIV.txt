@@ -1,0 +1,83 @@
+https://www.lemon64.com/game/swiv
+https://youtu.be/0e4t6AD0HH4
+
+
+Disk version
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\s\swiv[storm_1991](pal)(!).g64"
+
+https://preservation64.de/index.php?title=MAX.:_Maximum_Action_Xtra
+Protection: Checks error 2 on track 1 sector 1 and/or sector 3.
+
+
+$4a3 jsr CHRIN then a sta()
+No drive code?! Just a normal kernal load?!
+
+
+Find and extract the sort routine. Test it with BDD6502 and compare with Terra Cresta sort.
+For at least two frames, one with changed data, the next without:
+	In order
+	Reverse order
+	Pairs of swapped in order.
+	Pairs of swapped reverse order.
+	Triplets of swapped in order.
+	Triplets of swapped reverse order.
+	All the same value.
+
+
+
+6782 is the scroll sprite pos Y add?
+
+
+
+Advancing frame by frame, shows the sprite Y position update for the screen happens a frame after the screen scroll.
+
+
+When the credits text is displayed, it uses the $400 screen memory.
+But then when the high scores are displayed it uses sprites  using a black screen and reusing the $400 screen memory!
+
+
+
+$491f seems to be a table optimised score panel sprite setup
+
+
+$42 sprite Y pos, indexed with X reg
+$02 sprite X pos, also indexed with X reg
+$22 sprite X MSB, also indexed with X reg
+$82 seems to be the sprite index table
+
+
+Sort routine would eventually store result into $82 then
+
+
+$4958 looks like a sort routine
+A = last Y pos? Starting from 255
+$3ba5 jsr $4958
+
+
+$48f1 seems to be sort table init
+
+s "c:\temp\swiv sort 48f1 4958.prg" 0 48f1 498e
+
+
+
+
+00:11 Introduction
+00:35 Somebody wanted a multiplexor comparison
+01:10 Disk loader - Mystery black screen
+03:35 Snakeload - Kernal routines
+06:19 Attract sequence, graphics and sprites overlay
+08:00 Title screen
+10:00 Game level load, kernal routines again
+11:32 Double buffered character scroll
+11:50 Sprite scroll sync issue?
+15:00 Title screen dynamic sprites and overlay
+17:50 C64DebugerGUI shows a large sprite sheet
+18:05 Lots of multiplexed sprites in the game
+19:40 Score panel sprites...
+24:40 ... hires to multicolour split
+26:30 Finding the multiplexor code
+41:30 Testing the sort code in the test debugger
+49:00 Cycles counts and using previous sort results
+52:25 Finding Terra Cresta sort code
+56:10 Testing Terra Cresta sort in the test debugger
+59:00 SWIV and Terra Cresta speed test results
