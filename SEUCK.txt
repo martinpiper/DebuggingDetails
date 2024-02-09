@@ -44,6 +44,11 @@ Expand games with extra functionality.
 	Special weapons
 Add parallax scrolling.
 Extra title screen capability.
+Linked players.
+Twin mode
+Linekd enemies
+Two-way bullets
+Player can shoot certain enemy bullets.
 Hi-score saving etc.
 
 
