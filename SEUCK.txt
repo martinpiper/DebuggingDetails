@@ -49,7 +49,9 @@ Twin mode
 Linekd enemies
 Two-way bullets
 Player can shoot certain enemy bullets.
-Hi-score saving etc.
+Sprite ordering
+Hi-score etc.
+
 
 
 
