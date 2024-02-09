@@ -12,3 +12,49 @@ When using ../SEUCK/GAME4__I.P00, the second barrier should have two extra enemi
 
 
 C:\Work\C64\Scroller>BuildIt.bat ScrollEntry_SEUCK.a && Scroller.prg
+
+
+
+Paralax_Enable
+	Parallax scrolling demo
+	"C:\Work\C64\SEUCK\ParalaxTest.vsf"
+	"C:\Work\C64\SEUCK\ParalaxTestBlocksOnly.vsf"
+
+
+
+
+TSTCLLSN.P00
+	Demonstrates extra enemies available.
+	"C:\Work\C64\SEUCK\TestCollision.vsf"
+	
+	
+	
+"C:\Work\C64\SEUCK\Sideways.vsf"
+
+
+
+* Goals *
+Reduce slowdown and flicker in SEUCK games.
+Remove the sprite to background scroll start/stop wobble.
+Remove wasted memory, the editor is mostly still present.
+Expand games with extra functionality.
+	Pickups
+	Extra movement AI
+	Directional fire
+	Special weapons
+Add parallax scrolling.
+Extra title screen capability.
+Hi-score saving etc.
+
+
+
+
+How to find:
+Sprites
+Characters
+Blocks
+Maps
+Animations
+	Firing
+Attack waves
+Title screen
