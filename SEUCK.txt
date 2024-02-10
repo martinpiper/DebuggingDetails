@@ -37,6 +37,8 @@ TSTCLLSN.P00
 Reduce slowdown and flicker in SEUCK games.
 Remove the sprite to background scroll start/stop wobble.
 Remove wasted memory, the editor is mostly still present.
+
+* Stretch goals *
 Expand games with extra functionality.
 	Pickups
 	Extra movement AI
@@ -46,7 +48,7 @@ Add parallax scrolling.
 Extra title screen capability.
 Linked players.
 Twin mode
-Linekd enemies
+Linked enemies
 Two-way bullets
 Player can shoot certain enemy bullets.
 Sprite ordering
@@ -57,11 +59,14 @@ Hi-score etc.
 
 
 How to find:
-Sprites
 Characters
 Blocks
 Maps
+	 Colours
+Sprites
 Animations
 	Firing
 Attack waves
+Score panel
+Sound effects
 Title screen
