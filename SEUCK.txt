@@ -84,6 +84,7 @@ https://www.c64-wiki.com/wiki/S.E.U.C.K.
 
 https://docs.google.com/document/d/12BpZ3AHx5HXzJ6y-Kt0s7j51BUJgdqWsx_0PjP_UaXw/edit?usp=sharing
 
+Source code: https://github.com/martinpiper/C64Public/blob/master/Scroller/README.md
 
 
 SEUCK - Background
