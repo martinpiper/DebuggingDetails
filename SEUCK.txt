@@ -2,6 +2,7 @@ c:\work\C1541-Tweaks\c1541\Release\c1541.exe "D:\C64_Preservation_Project_10th_A
 c:\work\C1541-Tweaks\c1541\Release\c1541.exe "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\s\seuck_s2[sensible_1988](pal).g64" -recover C:\Temp\d64recover\file%d_%d.prg
 
 
+
 dir
 chain *
 chainwrite C:\temp\d64recover\boot 17 0
@@ -63,10 +64,42 @@ Characters
 Blocks
 Maps
 	 Colours
+Levels
 Sprites
 Animations
 	Firing
 Attack waves
+	Movement
 Score panel
 Sound effects
 Title screen
+
+
+
+
+
+Start of final game $4048
+
+https://www.c64-wiki.com/wiki/S.E.U.C.K.
+
+https://docs.google.com/document/d/12BpZ3AHx5HXzJ6y-Kt0s7j51BUJgdqWsx_0PjP_UaXw/edit?usp=sharing
+
+
+
+SEUCK - Background
+https://youtu.be/FKcuB8lMOSQ
+
+00:07 Introduction
+00:50 SEUCK functionality
+02:45 Example game 1
+04:40 Saving a final game
+06:20 Loading the final game
+08:23 Editor code remains in the game
+09:15 Restoring the editor from the game
+10:55 Push scrolling sprite wobble bug
+12:00 Reverse engineering rationale
+12:30 What to reverse engineer
+13:20 Identifying data offsets for the background
+40:25 Using CharPad to validate the data offsets
+43:00 Reviewing the new code and demo
+
