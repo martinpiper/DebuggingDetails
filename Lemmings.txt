@@ -1,0 +1,52 @@
+Lemmings
+https://www.c64-wiki.com/wiki/Lemmings
+
+
+Disk version
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\l\lemmings_s1_boot[psygnosis_1994](manual)(pal)(!).g64"
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\l\lemmings_s2_fun[psygnosis_1994](manual)(pal)(!).g64"
+
+One-bit drive protocol? Looks like it rotates two bits into $fd, but each bit comes from one read of the serial port, with a following ACK.
+	c:cef9
+	8:654
+
+
+https://project64.c64.org/
+
+https://project64.c64.org/Games/lemmin10.txt
+
+
+The background uses sprites, which move horizontally in columns.
+New data is introduced to the left and right, existing data is unchanged and the sprites just move.
+
+The lemmings and crosshair are characters!
+Using two dynamic character sets. $5000 $5800
+
+
+Removes all chars in the game display
+f 5000 5fff 0
+
+Clears both screens, used for lemmings
+f 4000 47ff 0
+
+Seems to fill all sprites used for the background
+f 6000 6fff ff
+
+
+
+Find lemmings dynamic character updates
+w store 5000 5100
+
+
+00:10 Introduction
+02:45 One bit disk transfer protocol
+04:30 Animated intro
+08:20 Level background uses dynamic sprites
+10:40 Lemmings use dynamic characters
+13:35 Intermission screen uses a reverse character set
+15:00 Dynamic character usage
+17:00 Exploding lemmings update sprite level data
+17:40 Animated bubbles use dynamic characters
+18:20 Understanding the background sprite sheet
+22:40 Removing the border shows the sprite sheet extent
+24:10 Finding the code for the lemming animation
