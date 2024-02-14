@@ -1,6 +1,8 @@
 Lemmings
 https://www.c64-wiki.com/wiki/Lemmings
 
+https://github.com/martinpiper/DebuggingDetails/blob/main/Lemmings.txt
+
 
 Disk version
 "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\l\lemmings_s1_boot[psygnosis_1994](manual)(pal)(!).g64"
