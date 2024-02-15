@@ -53,3 +53,14 @@ w store 5000 5100
 18:20 Understanding the background sprite sheet
 22:40 Removing the border shows the sprite sheet extent
 24:10 Finding the code for the lemming animation
+
+
+
+
+
+To disbale the lemmings draw...
+> 148d ea ea ea
+To disable the crosshair draw...
+> 1937 60
+
+C:\Downloads\ImageMagick-7.0.7-4-portable-Q16-x64\convert.exe "C:\Users\marti\Videos\Captures\Lemmings combined.png" -sample 50% "C:\Users\marti\Videos\Captures\Lemmings combined small.png"
