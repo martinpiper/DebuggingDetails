@@ -104,3 +104,44 @@ https://youtu.be/FKcuB8lMOSQ
 40:25 Using CharPad to validate the data offsets
 43:00 Reviewing the new code and demo
 
+
+
+
+
+
+SEUCK - Levels
+
+https://csdb.dk/release/?id=152965
+
+
+$ae92			: 0  1  2  3  4  5  6
+Base			: 00 00 14 00 00 81 FF	Scroll
+Level1			: 0E 00 0E 00 05 01 80	Still
+Level1Redraw	: 0E 00 0E 00 05 01 00	Still
+Scroll2			: 0E 00 0E 00 05 81 00	Scroll
+Push2			: 0E 00 0E 00 05 C1 00	Push
+Push1			: 0E 00 0E 00 05 C0 00
+
+0/1 Start pos lo/hi
+2/3 End pos lo/hi : Map end = FB 01
+4 = Duration
+5 = Type : Bits 7/6
+		Still	: %00
+		Scroll	: %10
+		Push	: %11
+	Speed : Bit 0 : 0 = Speed 1 : 1 = Speed 2
+6 = 00 = Redraw : ff = loop : 80 = Continue
+
+
+With three static screens...
+00 00 00 00 02 00 00
+27 00 27 00 03 00 00
+35 00 35 00 04 00 FF
+
+60 00 BA 00 00 80 80
+60 00 BB 00 00 80 80
+
+Redraw Redraw Loop
+Times: 2 3 4
+
+
