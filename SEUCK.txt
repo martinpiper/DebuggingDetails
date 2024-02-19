@@ -110,7 +110,7 @@ https://youtu.be/FKcuB8lMOSQ
 
 
 SEUCK - Levels
-
+https://youtu.be/h9aFMf6X3dI
 https://csdb.dk/release/?id=152965
 
 
@@ -145,3 +145,12 @@ Redraw Redraw Loop
 Times: 2 3 4
 
 
+00:00 Introduction
+00:18 Previously: Background map data
+00:26 This episode: Levels
+01:00 How levels link to enemy attack waves
+04:21 Finding level data
+35:34 Using data and source code
+39:38 Next video: Sprites and animations
+39:59 Example game with lots of enhancements
+44:49 Final test of level data
