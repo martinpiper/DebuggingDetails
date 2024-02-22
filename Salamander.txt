@@ -1,4 +1,7 @@
 Salamander
+https://www.c64-wiki.com/wiki/Salamander
+https://www.youtube.com/watch?v=IZhljxeVa4w
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\s\salamander[imagine_1988](pal).g64"
 
 
 
@@ -7,3 +10,69 @@ c:018b
 8:06b4
 
 
+"You need to destroy all four supports to trigger it "
+
+
+
+Level 1
+Double buffered screens at $c000 $c400
+Three charsets at $c800 $d000 $d800
+
+End level boss dynamically updates chars at $d000 for the tentacle/arm thing, except the end which is a sprite.
+The large brain is a sprite grid.
+
+Sprites score
+
+
+
+Level2
+Single screen at $c000
+
+Chars score, which disappears when the end level boss appears.
+Boss rotating spikes are chars at $d000, which still spin when paused.
+Middle part is a sprite grid.
+Note the player pickups/multiples flash/flicker alternating with each frame.
+Also note how the boss middle sprite grid moves differently to the spikes.
+Also note how the spikes overdraw the screen into $c400 which isn't visible.
+	Also seems to overdraw into $bc00...
+
+
+
+Level 3
+Double buffered screens at $c000 $c400
+Double buffered scroll updates several vertical character chunks eachs frame.
+
+Loads what looks like 4 charsets at $c800 $d000 $d800 $e000
+$c800 $d000 seems to show the animated flames at the bottom of the screen...
+$d800 $e000 flames at the top of the screen.
+
+When the large flames animate, (the CMEs?), the first couple of frames use the first charset, then the second charset is used. The smaller flames at the surface seem to be shared across charsets.
+
+Sprite based score again
+Again the player pickups/multiples are flickering when the boss is displayed.
+The segments of the large snake boss are expanded sprites.
+The head frames were dynamically copied into the sprite data.
+
+
+
+
+Level 4
+
+More sprites, much less charset data.
+
+
+
+
+00:11 Introduction, about the game
+01:06 Title screen
+01:42 Disk code, two bit transfer
+04:37 Level 1 uses three charsets
+09:52 Boss uses dynamic characters
+12:20 Level 2
+14:00 Boss uses sprites and characters
+17:41 Level 3 with four charsets!
+20:00 Large animated flames
+23:48 Boss uses dynamic expanded sprites
+25:41 Level 4
+28:14 Boss (bomb)
+28:50 Win screen
