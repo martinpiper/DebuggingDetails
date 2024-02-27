@@ -154,3 +154,22 @@ Times: 2 3 4
 39:38 Next video: Sprites and animations
 39:59 Example game with lots of enhancements
 44:49 Final test of level data
+
+
+
+
+SEUCK - Sprites
+https://youtu.be/VJbpLoU6OJ0
+
+00:00 Introduction
+00:18 Previously: Level data
+00:30 This episode: Sprites and animations
+01:11 Finding sprite and colour data
+09:46 Adding the sprite multiplexor
+13:06 One sprite with scrolling
+14:00 Adding more sprites with scrolling
+16:40 There are 32 sprites!
+17:15 Finding animation data
+34:03 Animation code testing
+35:38 Player firing
+37:08 Directional animation test
