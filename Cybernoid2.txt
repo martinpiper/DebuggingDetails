@@ -1,0 +1,66 @@
+Cybernoid 2
+https://www.lemon64.com/game/cybernoid-2
+
+
+Disk version:
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\c\cybernoid_ii[hewson_1988].g64"
+
+
+Two bit transfer protocol
+c:0584
+8:0543
+Seems to have a nice decrypt table lookup at c:05ad, for the table at c:0600 - c:06ff
+Values only appear once in the table. e.g. h 600 700 36
+
+
+
+
+c:\work\C1541-Tweaks\c1541\Release\c1541.exe "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\c\cybernoid_ii[hewson_1988].g64" -recover C:\Temp\d64recover\file%d_%d.prg
+
+Hidden encrypted files found
+
+
+
+Title screen
+Char screen
+Animated characters
+
+
+Game
+Bitmap at $e000
+Underneath the kernal
+
+
+
+Bullet draw into bitmap
+Any multiplexor?
+
+
+$14 = lives
+> 4eed ea ea
+$7b1c seems to be a lives cheat enable/disable flag :)
+
+4ec3 a9
+4ebb d0 06
+
+
+No collision with enemies
+> 4ebb ea ea
+
+
+
+Finding animated bitmap draw.
+When only particle effects are being rendered...
+w store e000 ff00
+$37aa shows the bitmap draw for particles is using the eor method...
+
+
+
+Multiplexor sprite MSBX update $2492
+Seems to be general purpose, updates any sprite index 0-7
+Seems to be using a raster IRQ to handle this
+
+
+
+Stuck! But the screen at $0400 can be edited to remove collision issues
+f 4c8 7b0 0
