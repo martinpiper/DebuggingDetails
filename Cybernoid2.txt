@@ -1,5 +1,6 @@
 Cybernoid 2
 https://www.lemon64.com/game/cybernoid-2
+https://youtu.be/3SvsElGt3Hc
 
 
 Disk version:
@@ -64,3 +65,28 @@ Seems to be using a raster IRQ to handle this
 
 Stuck! But the screen at $0400 can be edited to remove collision issues
 f 4c8 7b0 0
+
+
+Stormlord video: https://www.youtube.com/watch?v=snUjaXgaGb4
+
+
+
+00:12 Introduction
+01:23 Disk version loader
+09:04 Title screen graphics
+10:28 Game display
+16:27 Finding infinite lives
+18:36 Finding invulnerability
+23:28 Success! Nothing can hurt me
+24:22 This game is hard
+24:40 Bitmap animation routine
+29:28 Sprite multiplexing
+35:58 Static and moving pickups
+36:57 Getting stuck in the level
+37:48 Disable background collision
+42:17 Quite a lot of sprites
+42:32 Pickups only spawn in free spots
+43:07 Never seen this screen before...
+43:18 Game loops...
+43:31 Exiting screen without collision
+45:53 The End
