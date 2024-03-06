@@ -173,3 +173,52 @@ https://youtu.be/VJbpLoU6OJ0
 34:03 Animation code testing
 35:38 Player firing
 37:08 Directional animation test
+
+
+
+
+SEUCK - Attack waves - Part 1
+https://youtu.be/60HR-yhPSy8
+
+Enemy 1: 2A 00 CB 3F 0C 38 00
+Bytes:
+	0/1	= Pixel scroll position, from the bottom of the map, starting at zero and increasing.
+	2/3	= Address of movement data
+	4/5	= X/Y coordinates. X = div 2
+	6	= Enemy type index, 0 based
+>> FF 48 F8 62 F2 24 F4 61 F1 *10*
+Enemy 2: 2A 00 C1 3F A3 E5 00
+>> FF 8A 42 1A 22 4A 72 88 F8 F8 *10*
+
+Enemy 3: 00 00 CB 3F 0B 38 00
+Enemy 4: 01 00 C9 3F 0A 35 01
+Enemy 5: 03 00 C7 3F 0B 38 01
+
+
+Corners:
+It has inserted the enemies based on their pixel scroll position
+00 00 C5 3F A4 38 01		top right
+00 00 C3 3F A3 E4 01
+00 00 C1 3F 0C E4 01
+01 00 C9 3F 0A 35 01
+03 00 C7 3F 0B 38 01
+
+0C 38	Top left
+A4 38	Top right
+A3 E4	Bottom right
+0C E4	Bottom left
+
+We have enough to place enemies in the map as it scrolls
+
+
+00:00 Introduction
+00:18 Why reverse engineer?
+01:30 This episode: Enemy attack waves
+03:30 Reviewing the requirements
+08:00 Preparing some data
+10:14 Comparing binary file differences
+16:49 Found some pointers to data
+18:35 Found enemy placement data?
+22:28 Analysing the data
+36:48 Reviewing the new code
+44:14 Code demo
