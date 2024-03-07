@@ -1,0 +1,61 @@
+Arnie
+https://www.lemon64.com/game/arnie
+
+Chris Butler
+
+
+Tape version
+"D:\Ultimate tape archive\Ultimate_Tape_Archive_V4.5\Ultimate_Tape_Archive_V4.5\Arnie_(1992_Zeppelin_Games)_[6525]\Arnie.tap"
+
+c:\work\c64\bin\TapeTool.exe r "D:\Ultimate tape archive\Ultimate_Tape_Archive_V4.5\Ultimate_Tape_Archive_V4.5\Arnie_(1992_Zeppelin_Games)_[6525]\Arnie.tap" bc1000
+
+Tape header empty. Will probably attempt to auto-start (as restored IRQ vector $0314 from $029f) loaded code at $02a8
+Turbo loader at $3b3 uses some kernal ROM routines $fcdb $fcd1 for updating and checking AC/AD/AE/AF
+  |   $AC-$AD/172-173         Pointer: Tape Buffer/Screen scrolling
+  |   $AE-$AF/174-175         Tape End Address/End of Program
+
+
+
+Sprite multiplexor
+
+16 sprites?
+Because $98 contains 16 values all <= $0f (15)
+al 98 .spriteIndexTable
+
+$3802 is pulling items from the stack, from sp 0 upwards...
+If negative, skipping the value...
+If positive storing the index into the index table table and erplacing the value with $80 which is negative...
+Unrolled for all index table entries!
+
+The code above, is using a value divided by 2, hold on...
+al b8 .spriteYPos
+Because it was storing that into $d001
+... sprite Y pos divided by 2...
+
+Very familiar sort routine!
+https://www.lemon64.com/forum/viewtopic.php?p=47323#p47323
+Basically the sort is identical to Armalyte...
+
+Yup, same as Turbo Chrage as well. Same coder...
+I guess Dan Phillips should have had a credit in Arnie too then :)
+
+
+Game map graphics
+Single buffered screen
+No colour RAM updates?
+
+charset $f800
+Map W/H 256 128
+At $4000 - $bfff
+LRTB
+
+
+
+Map collision fetch $1c71 using char mapped type table at $1ca6
+f 1ca6 1da5 0
+
+
+Title screen logo uses score panel charset at $f000
+And the screen at $f400 overlaps this charset
+And the title logo uses the empty space in the game map roughly middle left at 4,32
+"C:\work\DebuggingDetails\Arnie map.ctm"
