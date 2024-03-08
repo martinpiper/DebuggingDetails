@@ -37,6 +37,7 @@ https://www.lemon64.com/forum/viewtopic.php?p=47323#p47323
 Basically the sort is identical to Armalyte...
 
 Yup, same as Turbo Chrage as well. Same coder...
+https://www.youtube.com/watch?v=mJxMBlK4CxM
 I guess Dan Phillips should have had a credit in Arnie too then :)
 
 
@@ -59,3 +60,24 @@ Title screen logo uses score panel charset at $f000
 And the screen at $f400 overlaps this charset
 And the title logo uses the empty space in the game map roughly middle left at 4,32
 "C:\work\DebuggingDetails\Arnie map.ctm"
+
+
+00:11 Introduction
+00:32 Tape loader
+00:55 Memory filled with kernal data
+04:00 Loading bitmap
+05:24 Turbo load code
+08:10 Game title screen
+09:12 Score panel charset
+09:56 Sprite data
+10:23 Bullets are multicolour sprites
+10:46 Map data in memory
+12:24 Game single screen, with scroll
+14:00 Looking for the multiplexor
+16:00 Finding the sort routine
+16:36 ... this code looks very familiar
+21:00 ... by Dan Phillips (Armalyte)
+23:12 ... Turbo Charge has the same code...
+24:28 Map data extracted in CharPad
+28:00 Disable collision detection
+31:04 Game logo in the map data
