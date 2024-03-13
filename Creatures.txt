@@ -1,0 +1,59 @@
+Creatures
+https://www.c64-wiki.com/wiki/Creatures
+https://youtu.be/DM3Dh3zWoZ8
+
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\c\creatures_s1[thalamus_1991](pal)(!).g64"
+
+c:\work\C1541-Tweaks\c1541\Release\c1541.exe "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\c\creatures_s1[thalamus_1991](pal)(!).g64" -recover C:\Temp\d64recover\file%d_%d.prg
+
+
+
+Two bit disk protocol at c:c349 and 8:0756
+Drive code comparison video: https://www.youtube.com/watch?v=RzJxICvf8YI
+
+
+
+
+HSP / DMA delay etc screen render at c:23b1
+https://codebase64.org/doku.php?id=base:horizontal_screen_positioning_hsp
+https://github.com/martinpiper/C64Public/blob/master/RasterTest/RasterTest2.a
+
+https://www.cebix.net/VIC-Article.txt
+3.14.6. DMA delay
+"
+The most sophisticated Bad Line manipulation is to create a Bad Line
+Condition within cycles 15-53 of a raster line in the display window in
+which the graphics data sequencer is in idle state, e.g. by modifying
+register $d011 so that YSCROLL is equal to the lower three bits of RASTER.
+
+But as
+the accesses started in the middle of a line, less than 40 accesses took
+place so VC has been incremented by a total of less than 40 in this raster
+line and no longer is a multiple of 40 as it normally always is at the end
+of a raster line. Because of the working of VC (see section 3.7.2.), this
+"misalignment" is continued for all following lines. So the whole screen
+seems to be scrolled to the right by as much characters as the number of
+cycles the $d011 access was done after cycle 14.
+"
+
+
+
+Score table scroll uses FLD
+https://www.cebix.net/VIC-Article.txt
+3.14.2. FLD
+
+
+
+00:00 Introduction
+00:11 Developers of the game
+00:46 Disk turbo loader
+05:00 Intro screen with animated charset
+08:20 Title screen first look
+11:22 Game scroll first look
+16:10 Editing collision information
+18:00 Intro sprite multiplexing
+18:06 Intro Creatures logo bounce
+19:05 Title screen logo and multiplexed sprites
+19:25 Score scroll using flexible line distance
+24:00 Game horizontal scroll using DMA delay
+34:00 Example code for horizontal scrolling

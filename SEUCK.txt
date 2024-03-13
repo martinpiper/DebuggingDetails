@@ -222,3 +222,67 @@ We have enough to place enemies in the map as it scrolls
 22:28 Analysing the data
 36:48 Reviewing the new code
 44:14 Code demo
+
+
+
+
+SEUCK - Attack waves - Part 2
+
+Decoding the movement data
+Automated testing
+
+
+Known data
+
+> Test moves 1
+	Top left static
+		FF 10
+	Top right, four frames left
+		FF 12 10
+	Bottom right, four frames up
+		FF 18 10
+	Bottom left, dour frames right, then four down
+		FF 14 11 10
+
+	Low nybble movement, bits:
+		1 = 0001 = right
+		2 = 0010 = left
+		4 = 0100 = down
+		8 = 1000 = up
+	Hi nybble step count, multiply each value by 4 frames
+		
+
+> Enemy bits speed affects how far each movement step actually moves. Enemy bits speed can be altered after the movement data has been entered.
+
+Raw placement data
+00 00 0>CB 3F 0C 38 00
+00 00 1>C9 3F A2 38 00
+00 00 2>C6 3F A1 E3 00
+00 00 3>C3 3F 0C E6 00
+
+> Raw movement data
+FF 14 11 3>10 FF 18 2>10 FF 12 1>10 FF 0>10
+
+
+
+> Test moves 2
+Down right, up right, up left, down left
+FF 16 1A 19 15 10
+
+
+> Test moves 3
+Longer movement: Long right, short up, short left, long down
+FF B4 F4 A2 98 F1 F1 10
+
+We have enough data to reproduce the behaviour...
+
+
+00:00 Introduction
+00:18 Why reverse engineer?
+01:25 This episode: Attack wave movement
+03:45 Single stepping the test movements
+09:08 Data analysis, understanding bits
+21:26 New enemy movement code
+27:40 Running the new code
+33:34 Enemy AI code
+35:40 Enemy AI demo
