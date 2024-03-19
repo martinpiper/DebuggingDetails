@@ -286,3 +286,82 @@ We have enough data to reproduce the behaviour...
 27:40 Running the new code
 33:34 Enemy AI code
 35:40 Enemy AI demo
+
+
+
+
+SEUCK - Enemy bits
+https://youtu.be/NUciFe8t0gk
+
+$3108
+
+Offset
+ln = Low nybble
+hn = High nybble
+b0 = bit 0 etc...
+													Base	1		2		3		4		5
+3	b45	Speed 1/2/3									1		2				3
+6		Points 0-255 * 10							0		10						50
+1	hn	Hits to kill 1-15							1		2
+		
+1	ln	Fire type none/directions/+/X/R/D			n		u								d
+2		Fire rate 1-99								36		50
+3	b67	Bullet speed 0-3							2		1
+		
+0	hn	Explosion SFX								1		2		1		3
+0	ln	Bullet SFX									1		2				4
+		
+4	ln	Explosion object							1		2		1		5
+4	hn	Bullet object								1		2				6
+		
+3	b0	Collision: Enemy to ship: Enemy die			n		y		n
+3	b1	Collision: Enemy to ship: Ship die			n		y
+		
+3	b2	Collision: Enemy to bullet: Enemy die		y		n		
+3	b3	Collision: Enemy to bullet: Bullet die		n		y
+
+		** ** ** ** **    **
+Base	11 10 24 94 00 00 00
+1		22 21 32 6B 11 00 01
+2		12 21 32 6A 10 00 01
+3		34 21 32 7A 54 00 01
+4		34 21 32 7A 54 00 05
+5		34 25 32 7A 54 00 05
+
+		**** ****
+Byte 3	7654 3210
+Base	1001 0100
+1		0110 1011
+2		0110 1010
+3		0111 1010
+4		0111 1010
+
+Fire direction list:
+	None			0
+	Up				1
+	Up right		2
+	Right			3
+	Down right		4
+	Down			5
+	Down left		6
+	Left			7
+	Left up			8
+	+				9
+	X				a
+	R				b
+	D				c
+
+
+We now have all the details needed :)
+
+00:00 Introduction
+00:18 Why reverse engineer?
+01:25 This episode: Enemy bits (propertirs)
+02:53 Reviewing the requirements
+09:20 Creating the data
+12:30 Analysing the data
+27:22 Analysing bit fields
+35:55 Source code review
+50:05 Sprite multiplexor and hardware collision
+49:45 New code demo
+1:04:22 Aimed enemy fire
