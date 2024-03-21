@@ -1,0 +1,143 @@
+Thrust
+https://www.lemon64.com/game/thrust
+https://youtu.be/oDCuOCVqlwI
+
+Disk version
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\t\thrust[firebird_1986](pal).g64"
+
+
+
+c:c8d9
+Receive two bits, one at a time, from the drive.
+Called four times to receive 8 bits for the whole byte.
+c:c8d8 A = byte from drive
+8:0547 X = byte to send
+
+
+Debugging shows the game display uses a bitmap, with some text (charset) for the score panel, with a screen split.
+Game bitmap at $6000, single buffer.
+Score panel at the top of the bitmap isn't used for rendering during the game.
+Sprites for the ship, gun emplacement, reactor and line and orb at $4000
+Dynamic drawn line for the tether.
+
+
+The score panel is text mode using the charset at $5800 instead
+The "score panel" in the top of the bitmap screen at $6000 can be cleared without any seeming ill effects.
+
+
+If the start of the game demo loop, self playing partm has the bitmap cleared with "f 6000 7f40 0" then when the screen scrolls the landscape is left trailing, classic EOR draw?
+Testing with "w store 7f00 7f40"
+Yes, $830d looks like a classic eor store draw for the bitmap data to render the landscape.
+Looks like it renders up to a nybble (4 bits, two multicolour pixel) resolution, using the X register...
+
+
+$500-$5ff Looks like some kind of right edge position table
+f 500 5ff 80
+	Fills the right hand edge of the screen with landscape
+	But the top and bottom areas of the map get refreshed when the screen scrolls vertically.
+	f 540 548 80 shows this with a horizontal bar that doesn't refresh when moving horizontally. But does refresh when scrolling vertically.
+
+Using:
+	f 400 4ff 60
+	f 500 5ff 80
+	Creates a long vertical shaft with a blank space in the middle, which gets refreshed with new map data as the player falls down it.
+
+I wonder what routine calculates into 400 or 500?
+Seems to store pairs of values into $400, overwriting one byte of the pair from the previous iteration. Odd.
+$840f stores into $400 and $500 for the left and right hand edge, updating one entry per iteration (but writing two bytes, there is that weird overlapping write pattern).
+
+$840f used on game start to fill the 400/500 buffers, and also screen scroll up, but not screen scroll down...
+$83fe is used when scrolling up!
+$841c is the comon routine, there is some self modifying code to adjust the common code...
+
+
+>> Side note: Stack is filled with "Firebird" with descending prefix byte values...
+
+
+During level start (setup) $83ef is called with counteers in $70 and $71
+$84c8 seems to use the X register as a counter for when to read new values from: ($9f),y which goes to X again, and also add ($9d),y into A.
+A seems to be maintained with a specific delta value based on the X counter?
+Y is incremented.
+There seems to be a SBC variant at $84d7 which decrements Y, perhaps this is for when the buffer is filled from the other end? Yes!
+C:009d  45 a0 3c a0
+A+=$a045 X=$a03c
+
+During the 400 fill, the two byte stores for each iteration use Y = 0 and 1 when filling from the top of the map.
+>>> break 8439 for the first A reg update for $400 left hand edge.
+>>> break 8484 form first A reg right hand edge update.
+
+
+
+
+$84b4 and $84b7 seem to maintain A/X/Y for both $400 fill calculation values from A used in the ADD.
+Perhaps two slopes with counts?
+But why would one overwrite the previous calculation?
+
+>> $a045 - $a03c = $9, is that 9 segments in this level, on the left edge
+
+X  >C:a03c  ff ff ab 01  0f 01 0c 01  ff
+A+ >C:a045  00 00 00 55  01 15 01 19  00
+
+So does this mean, for the left hand edge:
+	ff lines with 0 delta
+	ff lines with 0 delta
+	ab lines with 0 delta
+	1 line of 55 delta
+	f lines of 1 delta
+	1 lines of 15 delta
+	c lines of 1 delta
+	1 line of 19 delta
+	ff lines of 0 delta
+
+So let's change the top of the map... Left edge
+
+> a03c ff ff ff ff ff ff ff ff ff
+> a045 00 00 00 01 00 00 00 00 00
+
+Produces a left hand edge slope, to the right, after 3 screens or so
+
+Right hand edge?
+C:009d  55 a0 4e a0
+A+=$a055 x=$a04e
+
+Removes the right hand edge...
+
+> a04e ff ff ff ff ff ff ff ff
+> a055 0 0 0 0 0 0 0 0 0
+
+>> 7 segments on the right edge
+
+
+> Where are the level addresses setup?
+ w store 84c2 84c3
+ $a909 and $a90f
+$a6b8 Level init
+X = level number from $a6a4
+
+$a6a5 = 1 = inverted gravity
+$a8f7 = Gravity
+	> a8f7 0 0 0 0 0 0
+
+
+> $82ab reads the left hand edge, subtracts a self-modified X position, compares with $50 (80) for the horizontal multi-colour pixel resolution, clip checking, subtracting the last cached value at $a00, and if there is no change then avoiding any render. If there is a change compared to the previous frame $82d7 code runs, this runs the EOR screen render code.
+
+
+00:00 Introduction
+00:30 Memories of the game
+01:20 Quickly noticed the disk loader
+01:50 Game screen quick view
+04:10 Title screen and attact mode
+05:15 Hardware sprites during the game
+06:05 Drive code located, 1-bit transfer
+10:10 Two score panels
+11:44 Memory debug view while scrolling
+15:58 Terrain draw using EOR
+18:15 Finding the draw code
+20:15 Finding the terrain line buffers
+24:14 Discovering the line draw cache
+34:35 Finding the level data calculation
+58:40 Understanding the level data
+1:14:50 Quickly create a new level
+1:17:40 Level map data pointers
+1:20:20 Reverse gravity flag found
+1:23:40 Sprite frames and dynamic lines
