@@ -365,3 +365,90 @@ We now have all the details needed :)
 50:05 Sprite multiplexor and hardware collision
 49:45 New code demo
 1:04:22 Aimed enemy fire
+
+
+SEUCK - Player limitations
+https://www.youtube.com/watch?v=q8H3OIrFiXw
+
+						Base		1		2		3		4		5		6		7		8
+$12	Player enabled:		Y					N
+$10	Lives:				3					1
+$9	Speed:				2					3
+
+$a	Num bullets:		3					2				1
+$c	Bullet speed:		7					4
+$b	Directional fire:	N					Y
+$d	Bullet duration:	$63					$61
+
+$f	Collision char:		$ff					$f8
+$e	Player will:		Stop				Die						Stop
+
+$11	Extra life 10000:	No					Y								N
+
+	Player area:		TLBR						BL								<<>>	Max right
+0/1		Left	lo/hi
+2		Up
+3/4		Right	lo/hi
+5		Down
+	Player start:		Middle		TL												><
+6/7		X	lo/hi
+8		Y
+
+Player 1 = $409d
+
+		0			4			8			c			10
+                 ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **
+Base:	16 00 32 43 01 E5 B2 00 8C 02 02 00 07 63 00 FF 02 00 01
+1:		16 00 32 43 01 E5 28 00 3E 02 02 00 07 63 00 FF 02 00 01
+2:		16 00 32 43 01 E5 28 00 3E 03 01 01 04 61 01 F8 00 01 00
+3:		16 00 AF 61 00 E5 28 00 3E 03 01 01 04 61 01 F8 00 01 00
+4:		16 00 AF 61 00 E5 28 00 3E 03 00 01 04 61 01 F8 00 01 00
+5:		16 00 AF 61 00 E5 28 00 3E 03 00 01 04 61 00 F8 00 01 00
+6:		16 00 AF 61 00 E5 28 00 3E 03 00 01 04 61 00 F8 00 00 00
+7:		5C 00 5D 1D 01 B1 7D 00 84 03 00 01 04 61 00 F8 00 00 00
+8:		5C 00 5D 43 01 B1 7D 00 84 03 00 01 04 61 00 F8 00 00 00
+
+
+
+0/1		Player area: Left	lo/hi
+2		Player area: Up
+3/4		Player area: Right	lo/hi
+5		Player area: Down
+6/7		Player start: X	lo/hi
+8		Player start: Y
+$9		Speed
+$a		Num bullets
+$b		Directional fire
+$c		Bullet speed
+$d		Bullet duration
+$e		Player will
+$f		Collision char
+$10		Lives
+$11		Extra life 10000
+$12		Player enabled
+
+
+Charset data for title and score: $f400
+	Offset to score = 34
+	Offset to live = 54
+
+
+In the code references:
+	ScrollerData.a
+		Player1Properties
+		Player2Properties
+		TitleScreenCharData
+		SpriteScoreChars
+	
+	ScrollMain.a
+		InitPlayer1 / InitPlayer2
+		ScorePlayer1Render / ScorePlayer2Render / ScorePlayer1RenderLives / ScorePlayer2RenderLives
+	
+	
+	AnimationEngine.a
+		PlayerOffset_CharacterCollision
+		PlayerOffset_ExtraLife
+		
+		
+	PlayerControl.a
+		PlayerOffset_*, the player properties
