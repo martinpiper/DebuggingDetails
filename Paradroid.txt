@@ -1,0 +1,85 @@
+Paradroid
+https://www.lemon64.com/game/paradroid
+
+https://youtu.be/12Lr2eYTzMg
+
+Disk version
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\p\paradroid[hewson_1986](pal).g64"
+
+c:\work\C1541-Tweaks\c1541\Release\c1541.exe "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\p\paradroid[hewson_1986](pal).g64" -recover C:\Temp\d64recover\file%d_%d.prg
+
+Two-bit protocol
+c:0414 reads four (0-3) times from $dd00
+Drive 8:0318 writes four times into $1800
+c:0429 retuns the byte in A
+
+
+C64DebugGUI
+Game screen seems to use one char screen for the score panel and the game scroll, but the screen split seems to switch to a different charset...
+Screen split is unusual, it uses a blank charset at $4000, which has mostly empty data, and the screen is not in "illegal" state, it is is normal draw state.
+
+
+Charpad
+Game level map scroll, also used for the title screen scroll:
+	Char screen map data at $8000
+		Dimensions: 256 x 63 during the title screen...
+		
+	Char set data at $7000 during title screen and score panel
+	Char set data at $7800 during game map display
+	Code at $399e loads from $800,x where X=the screen char to store to d800- colour RAM. This colourises the screen.
+	
+	
+ICU64
+Changing the level  in the lift shaft shows a lot of yellow writes in the memory view for the map char screen data updates...
+What writes to there? $35f0
+	$35ea is a 4x4 char block draw!
+$35a8 seems to be the start of a decompression loop...
+	Compressed data format:
+	If the byte is positive (bpl) then store it once in the map data, as the 4x4 block number...
+	Otherwise read the next byte and use that as a counter, and draw that many 4x4 blocks...
+	$3621 uses $57 as the number of blocks to draw loop test while drawing 4x4 blocks
+
+$2727 looks like the map decompression call? zp $33 seems to be the level index? It ends in rts.
+$f100 and $f110 seem to be start of compressed data lo/hi tables
+	break 3590
+	del
+	> 33 0
+	x
+	Shows the player can move outside the map, in the void... And override the chosen map.
+	
+	g 2727
+	break 272e
+
+
+$f100 tables, compressed map data start lo/hi
+>C:f100  49 89 25 5c  6c 5b 5b 78  47 f9 76 98  e5 20 af cb
+>C:f110  f2 f2 f3 f3  f4 f5 f6 f7  f8 f8 f9 fa  fb fd fd fe
+
+$e800 seems to be the start of 4x4 block data for the map... $20 blocks (0-$1f)
+
+
+The map in 4x4 blocks is obviously 64 x 16 blocks
+	Paradroid.py will extract the map data suitable for "Paradroid tiles mode.ctm"
+
+
+00:12 Introduction
+00:21 Initial memories
+00:57 Disk loader - Two bits
+05:00 Title screen instruction text
+06:10 Screen scroll split in C64DebugGUI
+08:00 Sprite movement and screen boundaries
+11:20 Information screen graphics
+15:48 ICU64 shows graphics layout
+16:07 Memory debug view shows scroll data copy
+19:20 Using CharPad to show the title screen text
+26:30 Screen scroll split analysis
+27:40 Enemy movement / targeting visible in memory debug
+32:47 Dynamic sprite animation
+33:50 CharPad showing the game map in memory
+35:17 Extracting all level maps...
+39:10 Finding the 4x4 tile draw code
+40:43 Finding the map data format is RLE compressed
+48:05 Finding the level number setup code
+53:58 Using remote debugger automation to extract maps
+1:01:47 Showing 4x4 tile data in CharPad
+1:04:58 Decompressing the RLE map data, to use tile maps
