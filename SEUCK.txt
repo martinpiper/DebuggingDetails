@@ -452,3 +452,49 @@ In the code references:
 		
 	PlayerControl.a
 		PlayerOffset_*, the player properties
+
+
+
+SEUCK - Sound effects and title screen
+https://youtu.be/J_MVIATywr8
+
+Data offsets
+	24 Sound effects
+	$b810
+
+	
+Code reverse engineer
+	Init				$5c09
+	Play SFX			$5c33
+		A = SFX number
+	Tick (every frame)	$5c94
+	End of code = $5d62?
+	
+	Disassemble
+	Tidy
+
+
+
+Title screen text
+	$3204
+
+Title screen colour effect
+	$41c1 colour bar table, 8 entries per effect
+		$41c9 next colour effect...
+		$4154 = every 4 frames update the colour bar scroll value from 0-7
+	$409c = Effect type 1 - 15 and 16 = colour bar effects
+
+
+00:00 Introduction
+00:18 Sound effects data
+07:06 Sound effects code
+26:37 Game sound effects working
+27:48 Title screen data
+30:37 Title screen code
+38:43 Title screen in game
+41:18 Adding spinning balls
+43:03 And title screen music
+
+
+
+SEUCK - Horizontal scroll, superweapons, AI, aimed fire
