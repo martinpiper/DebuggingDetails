@@ -1,0 +1,78 @@
+Parallax scrolling
+
+https://docs.google.com/spreadsheets/d/18c70Uyh_W6WMdfgkTumhd1SnU5wqMkVV-JmKBuqUs6s/edit?usp=sharing
+
+Hawkeye: https://youtu.be/D8HaeTB5qXQ
+Morpheus: https://youtu.be/-ZTup3-iLg0
+Tusari: https://youtu.be/JInmnryzons
+
+
+Name			Type
+SotB			Raster
+SotB			Pre-scrolled charset
+SotB			Sprite
+SotB			Sprite split
+C64anabalt		Sprite
+C64anabalt		Pre-scrolled charset
+Hawkeye2		Pre-scrolled charset
+Hawkeye			Pre-scrolled charset
+Firebird		Raster
+Firebird		Sprite
+Lost Robot 2	Raster
+Lost Robot 2	Sprite
+Army moves		Raster
+Morpheus		Animated charset
+Morpheus		Sprite
+Tusari			Raster
+Tusari			FLD
+Zeta Wing 2		Animated charset
+SEUCK Redux		Animated charset
+Parallax		Animated charset
+
+
+C:\CCS64\carts\SOTB.CRT
+
+C:\Backups\OldMachines\OldMachineBackup\D\Downloads\C64anabalt-header-fixed.crt
+
+C:\Downloads\Hawkeye 2 Teaser - Onslaught.d64
+
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\h\hawkeye_s1[thalamus_1988](pal)(!).g64"
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\h\hawkeye_s2[thalamus_1988](pal)(!).g64"
+
+"C:\Users\marti\Downloads\3AD-FRBR\Firebird_3ad.d64"
+
+"C:\Users\marti\Downloads\LostRobot2_3AD\LostRobot2_3AD.d64"
+
+"C:\Users\marti\Downloads\Walker.t64"
+
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\a\army_moves[imagine_1987](pal)(!).g64"
+
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\m\morpheus[rainbird_1988].g64"
+
+"C:\Users\marti\Downloads\TusariGame (1)\TusariGameSide1.d64"
+
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\t\turrican_ii_s1[rainbow_arts_1991](!).g64"
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\t\turrican_ii_s2[rainbow_arts_1991](!).g64"
+
+
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\f\flimbos_quest[system3_1990].g64"
+
+
+"C:\Users\marti\Downloads\Snow Force v1.0.crt"
+
+
+"C:\Users\marti\Downloads\ZetaWing2 v1.02.crt"
+
+
+"C:\Users\marti\Downloads\ENFORCER +11DGHI.D64"
+
+
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\s\star_paws[software_projects_1987](cyan2)(pal).g64"
+
+
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\x\x-out_s1[rainbow_arts_1989](!).g64"
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\x\x-out_s2[rainbow_arts_1989](!).g64"
+
+SEUCK Redux
+
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\p\parallax[ocean_1986](pal)(cyan1).g64"
