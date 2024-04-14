@@ -1,4 +1,5 @@
 Parallax scrolling
+https://youtu.be/aK630qKQMRg
 
 https://docs.google.com/spreadsheets/d/18c70Uyh_W6WMdfgkTumhd1SnU5wqMkVV-JmKBuqUs6s/edit?usp=sharing
 
@@ -25,7 +26,23 @@ Morpheus		Animated charset
 Morpheus		Sprite
 Tusari			Raster
 Tusari			FLD
+Tusari			Animated charset
 Zeta Wing 2		Animated charset
 SEUCK Redux		Animated charset
 Parallax		Animated charset
 
+00:11 Commodore 64 screen display
+00:40 Horizontal scrolling - Code!
+11:50 Shadow of the Beast
+26:28 C64anabalt
+35:57 Hawkeye 2 demo
+38:55 Hawkeye (original version)
+40:30 Firebird
+45:40 Lost Robot II
+47:02 Army Moves
+48:45 Morpheus
+50:40 Tusari
+54:46 Zeta Wing 2
+57:02 SEUCK Redux
+1:00:28 Parallax
+1:01:48 Results!
