@@ -1,3 +1,6 @@
+
+
+
 c:\work\C1541-Tweaks\c1541\Release\c1541.exe "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\s\seuck_s1[sensible_1988](pal).g64" -recover C:\Temp\d64recover\file%d_%d.prg
 c:\work\C1541-Tweaks\c1541\Release\c1541.exe "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\s\seuck_s2[sensible_1988](pal).g64" -recover C:\Temp\d64recover\file%d_%d.prg
 
@@ -227,6 +230,7 @@ We have enough to place enemies in the map as it scrolls
 
 
 SEUCK - Attack waves - Part 2
+https://youtu.be/ri5ATGKv71o
 
 Decoding the movement data
 Automated testing
@@ -368,7 +372,7 @@ We now have all the details needed :)
 
 
 SEUCK - Player limitations
-https://www.youtube.com/watch?v=q8H3OIrFiXw
+https://youtu.be/q8H3OIrFiXw
 
 						Base		1		2		3		4		5		6		7		8
 $12	Player enabled:		Y					N
