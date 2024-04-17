@@ -498,3 +498,13 @@ Title screen colour effect
 
 
 SEUCK - Horizontal scroll, superweapons, AI, aimed fire
+https://youtu.be/UENzjhOqlts
+
+00:00 Introduction
+00:18 Horizontal SEUCK
+00:59 Legion of the Damned game code and demo
+05:00 Double spell blast example!
+05:28 Parallax scrolling
+07:24 Aimed enemy fire demo
+08:22 Enemy AI demo
+09:56 Source code
