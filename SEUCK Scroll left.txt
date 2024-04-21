@@ -1,0 +1,141 @@
+		bk 19d8
+		l "C:\work\c64\SEUCK\Sideways-Scrolling-SEUCK-PAL.prg" 0
+		g 80d
+		bank ram
+		> bc22 ea ea ea
+		t ef98 efe7 ef70
+		> efc4 d3 c3 d2 cf  cc cc a0 cc  c5 c6 d4 a0  c3 cf c4 c5  a0 c2 d9 a0  cd c1 d2 d4  c9 ce a0 d0  c9 d0 c5 d2
+			> 72a1 0
+			a 72d2
+				clc
+				adc #5
+				sta 5
+				cmp #$28
+
+
+		a 71fe
+			lda $7859
+			ora $7858
+			beq 7215
+			dec $7858
+			lda $7858
+			cmp #$ff
+			bne $7215
+			dec $7859
+
+
+		a 721f
+			inc $7858
+			bne $7227
+			inc $7859
+			jsr $2b89
+			nop
+			nop
+			nop
+			nop
+			nop
+			nop
+			nop
+			nop
+			nop
+			nop
+
+		
+		a 2b6f
+			lda $7856
+			nop
+			nop
+			nop
+
+
+					> 47c0 23
+					> 2b42 ed
+		l "c:\temp\t1.prg" 0
+		l "c:\temp\t2.prg" 0
+		l "c:\temp\t3.prg" 0
+					> 497b ce
+					> 497e ce
+					> 4981 ce
+					> 4984 ce
+					> 2a73 ce
+					> 2a76 ce
+					> 2a79 ce
+					> 2a7c ce
+					> 499e ff
+					> 49a2 27
+					a 49c2
+					lda #0
+					sta $06
+
+					> 2b09 23
+					a 2b5f
+					sec
+					sbc #$05
+
+					> 4902 7
+			> 2aa1 27
+			a 4951
+				ldx #$27
+				stx $1e
+				lda #$04
+				sec
+				sbc $03
+				sta $03
+				rts
+
+			a 2aa0
+				jsr 4951
+				nop
+
+
+
+				t 89c2 89d7 0100
+				t 89a7 89bc 89c2
+				t 0100 0115 89a7
+				> 8acd 8
+				a 2bdb beq 2be3
+
+				a 2bdf cmp #$30
+					bcs 2be6
+				
+				a 2b9e sec
+					sbc #$01
+				
+				a 2ba4 bcs 2bae
+
+				a 2bb2 sec
+					sbc #$01
+				
+				a 2bb8 bcs 2bc2
+				
+				a 2bec sec
+					sbc #$01
+					
+				a 2bf2 bcs 2bfc
+				
+				a 2c00 sec
+					sbc #$01
+				
+				a 2c06 bcs 2c10
+				
+
+		a 2bc3 bcc 2bc8
+		
+		a 2bc8 rts
+			sta $bc01,x
+			inc $5dc5
+			rts
+		
+		a 4be6 jsr 2bc9
+		
+		a 4ef3 jsr 2bc9
+		
+		
+		> 4cd1 1
+		> 4cd3 1
+		> 4fdd 1
+		> 4fdf 1
+
+
+
+s "c:\work\c64\seuck\sideways left bc00.prg" 0 200 ffff
