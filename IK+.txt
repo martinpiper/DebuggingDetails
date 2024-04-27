@@ -1,0 +1,43 @@
+Also known as International Karate +
+https://youtu.be/6pNqESNTYB0
+
+https://www.lemon64.com/game/ik-plus
+"D:\Ultimate tape archive\Ultimate_Tape_Archive_V4.5\Ultimate_Tape_Archive_V4.5\IK+_(1990_Hit_Squad)_[1506]\IK+.tap"
+
+
+After what looks like unfreeze code the main entry seems to be $0840
+Note the BASIC code visible in the screen...
+
+$150b draw routine for all three
+
+al 864 .drawScreenChars
+al 85e .drawCharset
+
+
+3f6d
+
+6e-71 = x pos
+
+
+11f?
+122?
+125?
+
+
+al 6b .animationFrame
+al 6e .posX
+al 71 .flipX
+
+
+
+00:12 Introduction
+00:40 Sprite grids and characters
+02:40 Examine the sprite updates
+04:18 Quite a lot of memory updates
+04:50 Graphics data memory layout
+05:33 Double buffered rendering
+06:28 Three duplicate characters
+07:49 Several frames to calculate
+08:29 Game memories
+09:30 Analyse animation code
+28:52 Writing debug code
