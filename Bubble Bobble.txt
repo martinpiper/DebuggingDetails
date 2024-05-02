@@ -1,0 +1,57 @@
+Bubble Bobble
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\b\bubble_bobble[firebird_1987](pal)(!).g64"
+
+https://preservation64.de/index.php?title=Bubble_Bobble
+https://preservation64.de/index.php?title=GMA87
+
+
+Bubbles and some other graphics are software sprites, character based.
+Two charsets at $4000 and $4800
+Screens at $5000 and $5400
+
+Some dynamic characters for each level.
+The ready message seems to be software sprites.
+
+w store 4b00 4fff
+Software sprite region in charset.
+
+
+$e835 for very large char based updates? Without masking?
+	Yes, it's a "no mask needed" check
+$e82d is the more general purpose masked plot
+
+>> $e779 entry for each software sprite plot
+Seems to trigger for bubble draw but not pop frame draw? Even though both are software sprites
+
+$e965 is a jmp() which sometimes calls $e779
+
+
+
+doesn't $e931 which eads $ca look like an animation type table?
+
+al ca .softAnimationFrame
+al dc .softAnimationXPos
+al ee .softAnimationYPos
+
+
+Valid frame/type 4 1a 0e 14 10
+
+
+00:12 Introduction
+00:29 Disk "Bleep load"
+01:07 Memories
+01:21 Looking for hardware sprites
+01:32 ... and software sprites
+02:38 More character masking
+03:54 Starting to see dynamic characters
+05:16 Two character sets!
+05:48 Lots of hardware sprite frames
+08:18 Memory write debug, for character sets
+09:55 Using the machine code monitor
+12:35 Backup screen data
+14:15 Dynamic characters for each level
+15:26 Collision data
+18:18 Finding software sprite code
+35:56 Finding frame, xpos and ypos tables
+39:01 Rendering new sprites!
+41:50 Technical summary
