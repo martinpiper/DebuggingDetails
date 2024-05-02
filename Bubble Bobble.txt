@@ -1,8 +1,13 @@
 Bubble Bobble
+https://www.lemon64.com/game/bubble-bobble
+
+https://youtu.be/O3eAtyBHOOc
+
 "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\b\bubble_bobble[firebird_1987](pal)(!).g64"
 
 https://preservation64.de/index.php?title=Bubble_Bobble
 https://preservation64.de/index.php?title=GMA87
+https://youtu.be/RzJxICvf8YI
 
 
 Bubbles and some other graphics are software sprites, character based.
