@@ -1,0 +1,161 @@
+Nebulus
+https://www.lemon64.com/game/nebulus
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\n\nebulus[hewson_1987](pal).g64"
+
+
+Adding a "w store 7198" for a platform beyond the edge of the tower...
+
+$bffd looks like a screen clear
+
+i 7000 73ff
+
+
+$c55e alters the screen byte with and #$fc , why?
+Hmm is extracting the correct edge pixel colour from the charset?
+
+
+$c504 seems to draw a platform with a different horizontal offset...
+
+
+$c000 looks like some tower segment tables...
+
+$c0d6 tower draw
+
+Object draws... (platforms etc)
+$c504
+$c51a
+$c53b
+$c55e
+
+
+
+$c425 decides what draw routine to use...
+
+$c3f6 common object draw return address
+$c401 before each object draw, better break point
+	Steps each row vertically, then around the tower anti-clockwise
+	
+
+
+The charset organised with horizontal offsets for the object char combinations is the interesting part
+Along with the sprite masking
+
+
+For the first level start "w store 7121" is better as it finds the left hand platform object.
+
+$bfcf is the tower edges clear.
+	$bfdc is the $7000 screen
+	$c341 after edge clear
+
+
+
+After doing a break on tower edges clear.
+$c3ac is an earlier object draw? Or maybe the other buffer?
+
+$c3cc after $bfdc
+
+
+
+$c800 and $c880 are tables...
+	Perhaps to do with the rotation lookup and back / front side of the tower?
+
+$c31b might be angle of rotation, used by $c390?
+	Seems to be updated every vertical column of the tower draw...
+
+
+
+$47 = rotation of tower?
+
+
+$c3ec looks like the start of the segments draw around the tower?
+	c3ec  A9 13      LDA #$13
+
+
+https://youtu.be/w5KNnicS9u0
+
+00:12 Introduction
+00:37 Disk loader - GMA Bleep load
+01:23 Title screen in C64DebugGUI
+02:30 Game overview and noting sprites
+05:10 Tower draw below the water
+06:16 ICU64 shows sprites and chars
+07:30 Double buffered screens
+08:44 Player sprites, lots of them
+08:59 Sprite masking - 1
+11:28 Bonus level parallax scrolling
+12:26 Tower rendering
+13:17 Sprite masking - 2
+14:58 Rendering frames
+16:00 Trying to find the platform draw
+18:50 Screen clear sections
+22:04 Character set data structure
+24:00 Rendering platforms - 1
+29:10 Tower rows draw
+32:28 Finding other platform/object draws
+35:56 Draw columns around the tower
+41:51 Sprite masking - 3
+42:11 Graphics memory shuffling
+
+
+
+
+
+
+
+
+.C:c3f1   AD F8 08   LDA $08F8
+.C:c3f4   30 0B      BMI $C401
+
+$08f8 looks like object storage around the tower
+	Self modified read address
+
+
+
+Counting column draws...
+	6 back side?
+	and 8 front side?
+	Noting the read addresses for the object/platforms...
+	... Edge clear
+	8f8
+	7f8
+	6f8
+	cf8
+	df8
+	... Tower draw
+	5f8
+	4f8
+	3f8
+	2f8
+	ef8
+	ff8
+	10f8
+	11f8
+	The draw order is from back to front, right and left to center
+	Moving up the tower increases the offset into the table rows...
+
+From level 1 start...
+	> 300 0 0 0 0 0 0 0 0
+	Removes the platform to the right of the player start position
+
+Load "C:\Temp\neb1.vsf"
+Adds a platform and a doorway just to the right of the start position
+	> 300 81 83 83 83 83
+
+
+This adds a very tall lift just to the right of the start position, which ends at "8", and allows the player to then walk to the exit:
+	> 300 0 81 85 0   0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0     0 0 0 0 8
+
+What stores tower data into $300 - $1200?
+	$b0a3 looks like a decompression routine for level data
+	seems to be a bit field... CC = empty block, CS = block type
+		$2000 bit fields? ($02)
+		$3018 block/object/platform types? ($04)
+	Write to ($06)
+	$b043 level init with $4a
+		Stores into $02 $04 $06
+	$b078 A = $3010,x which might be tower height
+		>C:3010  2f 47 31 42  60 40 50 60
+	$b0a3 called twice, to decompress each row (up to 16 entries per row, two bytes of 8 bits)
+	
+	>> It might be a bit problematic to compress new level data :) but at least the decompression routine was found...
+
