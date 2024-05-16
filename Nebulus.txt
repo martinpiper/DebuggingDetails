@@ -110,6 +110,11 @@ $08f8 looks like object storage around the tower
 	Self modified read address
 
 
+The level decompress does not init $2f8 - $2ff, but it does sparse inits $200-$1200
+	This shows this: f 200 11ff 0
+
+
+ $1200 seems to be inited data of some sort, between the title screen and game
 
 Counting column draws...
 	6 back side?
@@ -143,13 +148,14 @@ Adds a platform and a doorway just to the right of the start position
 
 
 This adds a very tall lift just to the right of the start position, which ends at "8", and allows the player to then walk to the exit:
-	> 300 0 81 85 0   0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0     0 0 0 0 8
+	> 300 0 81 85 0   0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0  0 0 0 0  0 0 8 0  0 0 0 0
 
 What stores tower data into $300 - $1200?
 	$b0a3 looks like a decompression routine for level data
 	seems to be a bit field... CC = empty block, CS = block type
-		$2000 bit fields? ($02)
-		$3018 block/object/platform types? ($04)
+		$b0a2 = bit field shifted out to carry LSB to right
+		$2000 bit fields ($02)
+		$3018 block/object/platform types ($04), except 0, due to bitfield
 	Write to ($06)
 	$b043 level init with $4a
 		Stores into $02 $04 $06
@@ -159,3 +165,25 @@ What stores tower data into $300 - $1200?
 	
 	>> It might be a bit problematic to compress new level data :) but at least the decompression routine was found...
 
+	>> C:\Work\DebuggingDetails\Nebulus.py
+		l "c:\temp\nebout1bits.prg" 0
+		l "c:\temp\nebout1tiles.prg" 0
+	>> success :) the new compressed tower data works :)
+	
+	
+	
+Sprite mirroring (X flip) between the intermission and game for the player character is done with a X flip lookup table for each sprite byte at $1200
+	$ad23 flip routine for each sprite pair
+
+
+https://youtu.be/893jG1PXW-k
+
+00:12 Introduction
+00:24 Finding level data
+07:40 Looking for level decompression
+16:14 Altering the level in memory
+20:00 Coding level data compression
+26:03 Compression code works!
+27:10 Compressing new level data
+28:28 Using new data in the game
+30:10 Sprite mirroring/flipping
