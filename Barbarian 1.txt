@@ -1,0 +1,28 @@
+
+https://www.lemon64.com/game/barbarian-the-ultimate-warrior
+
+To clear the screen and clear the soure off screen buffer
+f 6800 7eff 0
+f af00 b92f 0
+
+
+This uses bitmap based player characters, with a sprite overlay for the clothes, and some parts of the head and sword if they are above a certain point.
+	Also sprites for the head and monster thing that kicks the head.
+
+
+
+IK+ video: https://youtu.be/6pNqESNTYB0
+	IK+ used two sprite grid for two players, and a character based player.
+
+
+https://youtu.be/bLtoCFE3M6o
+
+00:12 Introduction
+00:30 Quick graphical overview
+01:54 Player characters in more detail
+03:50 Looking at the memory access
+05:27 Find sprite data...
+06:50 Software sprite off-screen buffers
+11:08 Screen transition/wipe effect
+20:20 Other bitmap animation, the snakes
+20:38 Software sprite analysis - Part 2
