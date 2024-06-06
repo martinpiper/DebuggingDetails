@@ -1,0 +1,104 @@
+Skool Daze
+https://www.lemon64.com/game/skool-daze
+
+"D:\Ultimate tape archive\Ultimate_Tape_Archive_V4.5\Ultimate_Tape_Archive_V4.5\Skool_Daze_(1986_2.99_Classics)_[7092]\Skool_Daze.tap"
+
+Tape entry $2ed
+
+c:\work\c64\bin\TapeTool.exe r "D:\Ultimate tape archive\Ultimate_Tape_Archive_V4.5\Ultimate_Tape_Archive_V4.5\Skool_Daze_(1986_2.99_Classics)_[7092]\Skool_Daze.tap" bc10000
+
+Interesting way of starting the loaded code by claiming the $0328-$0329/808-809     Vector: Kernal STOP Routine
+It does this twice, once for the load, then continues the load into the extended zeropage and screen, while doing a check for the loaded data to complete at $0496
+>> $400 is the real code entry for the loader
+
+
+$01 27 Then jsr $0800
+c:\work\c64\bin\LZMPi.exe -c64mbu "c:\temp\skd 400.prg" c:\temp\skdcmp.prg $400
+
+
+Memory at ~$7d20 seems to havbe multiple reads, spaced by 128 bytes.
+Seems to follow the position and shape of software sprites on the screen.
+
+
+$3326 each bitmap char cell of the characters
+Reads from ~$7c00 ($52), original colour data at offset $80 (the second 128 byte bank)
+Stores to $cc00 ($5c), bitmap colour screen
+Then loads with offset $00, from the first 128 byte bank.
+Stores to $4000 which is work space area?
+$31ea looks like it reads $4012 temporary workspace and draws cells into the bitmap using $3326
+
+f 4000 407f 0
+Then run with break at 31ea seems to not draw anything. But then continuing without the fill, seems to draw normally.
+It then clears $4012 after drawing
+
+After 31ea completes, look for w store 4012 406f
+
+
+$36e3 stores into the workspace?
+
+
+At $0828- repeated jsr 3ab4 does what?
+	$82c seems to trigger when using the weapon.
+f 841 849 ea
+
+
+$3ab4 runs the game update loop. This is called four times by $0828-
+$31ea draws the game screen
+$bd00 seems to be sound
+
+
+fill $e000 with 0 shows the game does a dirty rectangle draw
+$33b5 is the cell draw using $4000 data
+$339b is the $4000 data creation, using masekd data in adjacent $100 banks of data, containing data and mask
+
+
+interesting, not all software sprites are drawn each frame
+
+$371f updates the $4012 work area of the cell draw?
+	Yes, without this there is nothing drawn
+
+
+324d = four cells in each character row
+$36e3 = process character, nothing moves without it. But when the screen moves, characters are drawn.
+	.C:325c   20 E3 36   JSR $36E3
+	> 324e 1 only the head of the teacher characters move...
+	
+	
+	
+$33d0 this looks like a store of animation data into a draw list...?
+	Stores data back into the animation and game state storage from zeropage, for each entity
+	$33bf specifically
+$328a gets animation and game state data for each entity into zeropage
+	$3279 specifically
+
+This is basically:
+.C:3acb   20 79 32   JSR $3279	Get entity data
+.C:3ace   20 5E 3B   JSR $3B5E	Process entity, except player
+.C:3ad1   20 BF 33   JSR $33BF	Store entity data
+
+
+$8d00  - ~b000 is graphics data with mask
+
+
+
+.C:1390   20 2E 32   JSR $322E
+
+
+$8c60 = player frame, x, y pos etc?
+$7860 other characters, teachers, pupils etc
+
+
+
+Before editing:
+01:24 creating a prg from the tape version
+18:22 Run it is C64DebugGUI, note sprites and graphics mode
+21:28 Note the memory patterns, blobs align with software sprite positions
+24:18 More hardware sprites for the speech bubble
+28:20 ICU64 shows the same blobs for software sprites
+35:21 Every bitmap cell draw
+01:09:20 Stopping the render
+01:29:24 Game logic run four times, then renders
+01:36:21 Finding dirty rectangle draw
+01:36:23 Not all sprites are drawn each frame
+02:23:45 Examining the updating block of bytes, find the game entity data
+02:52:20 Game running
