@@ -1,5 +1,6 @@
 Skool Daze
 https://www.lemon64.com/game/skool-daze
+https://youtu.be/Su2mKxz9VSc
 
 "D:\Ultimate tape archive\Ultimate_Tape_Archive_V4.5\Ultimate_Tape_Archive_V4.5\Skool_Daze_(1986_2.99_Classics)_[7092]\Skool_Daze.tap"
 
@@ -89,16 +90,15 @@ $7860 other characters, teachers, pupils etc
 
 
 
-Before editing:
-01:24 creating a prg from the tape version
-18:22 Run it is C64DebugGUI, note sprites and graphics mode
-21:28 Note the memory patterns, blobs align with software sprite positions
-24:18 More hardware sprites for the speech bubble
-28:20 ICU64 shows the same blobs for software sprites
-35:21 Every bitmap cell draw
-01:09:20 Stopping the render
-01:29:24 Game logic run four times, then renders
-01:36:21 Finding dirty rectangle draw
-01:36:23 Not all sprites are drawn each frame
-02:23:45 Examining the updating block of bytes, find the game entity data
-02:52:20 Game running
+00:11 Introduction
+00:20 Creating a prg from the tape version
+11:59 Run it in C64DebugGUI, note sprites and graphics mode
+14:51 Note the memory patterns, blobs align with software sprite positions
+16:29 More hardware sprites for the speech bubble
+17:42 ICU64 shows the same blobs for software sprites
+20:09 Every bitmap cell draw
+25:09 Stopping the render, understanding the logic
+29:49 Game logic run four times, then renders
+33:42 Finding dirty rectangle draw
+37:20 Not all sprites are drawn each frame
+38:07 Find the game state entity data
