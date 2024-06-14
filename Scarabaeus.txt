@@ -1,0 +1,46 @@
+Scarabaeus (America as Invaders of the Lost Tomb)
+https://www.lemon64.com/game/scarabaeus
+https://www.c64-wiki.com/wiki/Scarab%C3%A6us
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\s\scarabaeus[ariolasoft_1985](pal).g64"
+
+
+Map display screen at $800 and chars at $3000
+
+Game 3D display and score panel screens at $5000 $5400, charsets at $4000 $4800
+Two charsets!
+The multicolour charset data for the score panel seems to be swapped, depending on the screen 3D draw state?
+The dynamic charset data for the 3D view isn't copied in when rotating the view, filling the charset with the same data shows it isn't being restored from elsewhere...
+
+The charset at $4000 seems to be used for axis aligned movement and display.
+The charset at $4800 seems to be used for rotation between the axis aligned display.
+	Verified by filling the entire charsets
+
+
+Possible to cheat on the first level by inserting "ghost" chars into the map display at $800
+
+More map copies at $c800 and $f000?
+	$c800 "e" is used for empty space and reversed "@" is solid.
+
+
+The 3D draw *axis aligned* basically draws the left hand columns, to the middle, then the right hand columns, to the middle using a lookup table at $e8df
+
+
+
+
+00:11 Introduction
+01:00 Intro sequence graphics
+03:53 Initial investigation with C64DebugGUI
+10:23 Finding a few map views in memory
+11:39 Dual screen 3D and debug map view
+12:55 3D view investigations
+18:59 Finding a map view item cheat
+23:24 Map for the 3D view
+26:41 Monster escapes the map
+26:57 Filling the map with solid walls
+28:37 Far wall movement!
+29:07 Making a very long corridor
+29:38 Empty space, just columns
+30:06 3D draw routine logic
+35:58 Seems to use a table for drawing
+37:03 Not a full 3D view, more optimised
+38:29 Summary and outro
