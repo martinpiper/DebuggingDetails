@@ -1,0 +1,64 @@
+https://youtu.be/nbmgK4fMPtM
+
+
+
+
+.C:becf   AE EC BD   LDX $BDEC
+.C:bed2   BD 80 04   LDA $0480,X
+.C:bed5   4A         LSR A
+.C:bed6   4A         LSR A
+.C:bed7   A8         TAY
+.C:bed8   BD 80 04   LDA $0480,X
+.C:bedb   79 D1 BF   ADC $BFD1,Y
+.C:bede   9D 80 04   STA $0480,X
+.C:bee1   BD 80 02   LDA $0280,X
+.C:bee4   79 D1 BF   ADC $BFD1,Y
+.C:bee7   9D 80 02   STA $0280,X
+.C:beea   BC 00 02   LDY $0200,X
+.C:beed   D9 6F BE   CMP $BE6F,Y
+.C:bef0   90 03      BCC $BEF5
+
+
+
+
+
+
+.C:61cc   A2 7F      LDX #$7F
+.C:61ce   8E EC BD   STX $BDEC
+.C:61d1   A9 40      LDA #$40
+.C:61d3   9D 00 03   STA $0300,X
+.C:61d6   A9 FF      LDA #$FF
+.C:61d8   9D 80 03   STA $0380,X
+.C:61db   CA         DEX
+.C:61dc   10 F3      BPL $61D1
+
+
+
+
+break bf5e
+Removes old star position, plots new star position
+
+
+
+NMI vector at $21 for sample playback
+Yes, stored into $d418 which is SID volume
+$2c and $55 store sample data into volume
+It has upper and lower nybble shifting for each sample byte
+
+
+https://youtu.be/nbmgK4fMPtM
+
+00:12 Introduction
+00:24 Tape version
+00:47 Cyberload turbo load
+07:00 Making a single compressed file
+10:38 Game ues a bitmap screen
+11:20 Sprites usage, bullets and stars
+12:04 Is this a large lookup table?
+13:00 Matching stars motion with memory access
+14:40 Experimenting to understand code logic
+16:30 Looking at the stars update code
+21:00 More stars in the title screen
+22:00 Understanding the star draw logic
+24:00 Very quick star remove and draw code
+30:21 Sound sample memory and ode
