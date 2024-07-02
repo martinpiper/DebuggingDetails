@@ -1,0 +1,80 @@
+Bandits (1983)
+https://www.lemon64.com/game/bandits
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\b\bandits[sirius_1983](!).g64"
+
+https://github.com/martinpiper/C1541-Tweaks
+
+c:\work\C1541-Tweaks\c1541\Release\c1541.exe "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\b\bandits[sirius_1983](!).g64"
+	recover C:\temp\tt\t%d-%d.prg
+	
+The title screen that displays the game logo, uses a bitmap and copies from the original at $4000 and displays at $a000
+Also when displaying the enemies and the box screen transition
+
+
+The game has two double buffered screen at $4000 using charset $5000 and $4400 using charset $5800
+The top and bottom score panel sections uses charset at $4800
+
+Game draw loop...
+
+$09ba looks like the $5000 charset clear and screen clear after it...
+
+$0d42 looks like a simpler charset based draw, for enemy bullets!
+
+$643c looks like the code that updates the char screen, for enemies
+	There is a bne test at 643e that checks for an existing character, or when to allocate a new character in the charset...
+	$64f9 looks like the main charset based draw, for enemies
+
+
+Basically, clear the charset and screen
+Render bullets, updating into screen and charset
+Render enemies, updating into screen and charset
+Screen draw tests for any existing characters and reuses them, or allocates new charset chars, when needed.
+
+A nice mixture of bitmap for the titles, and dynamic charset and screen based rendering for the game.
+
+$6132 seems to be the main draw enemy entry, subroutine
+	(C:$6132) h 0 ffff 20 32 61
+	6e0a
+	72c7
+	73ec
+	76ec
+	77ac
+	78f6
+
+
+
+The title screen smooth vertical scroll is moving the entire bitmap data
+	It restores data from internal storage, and then copies it to $2000, which is temporary full screen storage
+
+
+The game over displays renders into the charsets
+The large "mothership" is rendered into chars, like the enemies.
+
+
+The rocket takeoff attract sequence uses some dynamic sprites.
+The game main player ship is a hardware sprite, as are the items down the right hand side.
+
+
+https://youtu.be/BCYGItQHxuI
+
+00:11 Introduction
+00:43 Using C64DebugGUI to examine the graphics
+01:20 Title sequence using bitmap
+02:50 Nice transition betwwen title and game
+02:59 Game start
+03:08 Scrolling starfield
+03:20 Where are the hardware sprites?
+05:06 Mostly using software sprites
+05:35 Love, care, and attention
+06:16 Investigating the disk image
+08:22 Checking bitmap screen usage
+08:40 Text mode for the game, dynamic charsets
+10:03 Code debugging in Vice and ICU64
+13:01 Backup bitmap screen in memory
+15:29 Double buffered screens and charsets
+16:58 Finding code for software sprites
+24:25 Understanding the rendering logic
+25:30 Animation frames source data
+26:39 Software bitmap wobble scroll
+27:28 Game over text animation
+30:56 Summary of things found
