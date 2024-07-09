@@ -1,0 +1,22 @@
+Rampage
+
+https://youtu.be/OeAFjHreFOE
+
+00:11 Introduction
+01:09 Loading the disk
+01:51 Nice loading screen
+02:46 Next loading screen
+02:59 Game instructions screen
+03:10 Player selection
+03:19 Player use large sprite grids
+03:38 Hardware sprite limitations
+04:04 Other game objects use multiplexing
+06:19 Analysing the hardware sprite usage
+11:15 Destroying the buildings
+11:47 Tape version in ICU64
+12:48 Dynamic sprites
+16:01 Double buffered text screens
+16:41 Background drawing every frame
+17:09 Dynamic characters for bullets
+18:45 Finding player graphics data
+22:07 Thoughts on the rendering
