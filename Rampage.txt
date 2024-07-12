@@ -20,3 +20,34 @@ https://youtu.be/OeAFjHreFOE
 17:09 Dynamic characters for bullets
 18:45 Finding player graphics data
 22:07 Thoughts on the rendering
+
+
+
+
+9dfe calls the player calculate to buffer routine for three players
+84d5 is each player draw calc with X = 0,1,2
+
+3 6 9 c f are left right up down fire input bits for each of the players
+
+84df reads a state machine routine address...
+
+8a17 always stores 0 when no inputs pressed?
+
+
+
+8a18 can be modified to update the frame displayed when stationary!
+
+
+
+a 89e6 inc 8a18
+.89e9  lda 8a18
+.89ec  and #$3f
+.89ee  sta 8a18
+.89f1  jmp 8a17
+.89f4
+
+https://youtu.be/tvaZjbrEW_A
+
+00:11 Introduction
+00:24 Displaying all the player animation frames
+14:08 Removing the background
