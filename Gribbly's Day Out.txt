@@ -1,0 +1,30 @@
+Gribbly's Day Out
+https://www.c64-wiki.com/wiki/Gribbly%27s_Day_Out
+
+"D:\Ultimate tape archive\Ultimate_Tape_Archive_V4.5\Ultimate_Tape_Archive_V4.5\Gribbly's_Day_Out_(1985_Hewson_Consultants)_[206]\Gribbly's_Day_Out.tap"
+
+
+684d clears a block?
+
+53/54 = level data?
+
+
+458a = level setup? Clear?
+45ab = level object extract/plot?
+45b1 = level side populate?
+
+Paradroid scrolling routine: https://youtu.be/12Lr2eYTzMg?t=969
+
+
+https://youtu.be/sZyMa-Ec534
+00:11 Introduction
+01:11 Quick look at the tape version loader
+03:35 Game code start
+04:35 Game map data and scrolling
+06:05 Title screen, score panel, and game character sets
+06:54 Dynamic character set updates
+08:20 Dynamic sprites
+09:32 Closer look at the game map data
+10:55 Similar to Paradroid
+11:25 Extracting the game map using CharPad
+13:04 Game map initialisation code
