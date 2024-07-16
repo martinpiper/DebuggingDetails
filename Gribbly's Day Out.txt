@@ -17,6 +17,7 @@ Paradroid scrolling routine: https://youtu.be/12Lr2eYTzMg?t=969
 
 
 https://youtu.be/sZyMa-Ec534
+
 00:11 Introduction
 01:11 Quick look at the tape version loader
 03:35 Game code start
