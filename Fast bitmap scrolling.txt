@@ -1,0 +1,52 @@
+"C:\CCS64\MyOldE114Software\DignifiedSide2.d64"
+
+HSP/DMA delay
+https://csdb.dk/release/?id=231797
+
+Line ctunch
+https://csdb.dk/release/?id=2493
+
+
+AGSP
+https://csdb.dk/release/?id=2490
+"C:\temp\+h.hardware scr..prg"
+
+1a8e
+
+Shows the sprite pointers in the bitmap screen
+f 6000 7fff aa
+
+Enables just the bitmap data for the sprite pointers leaving the logo intact
+f 7fc0 7fff aa
+
+Show the entire screen scroll
+f 8000 9fff 12 34 56 78 9a bc
+
+a8e = Y pos
+ac6 = H pos
+
+
+
+Just horizontal: "C:\Users\marti\Downloads\VSP & IK+.t64"
+Just vertical: third part: "C:\CCS64\DEMOS\ROADEX1.D64"
+
+
+Example code: https://codebase64.org/doku.php?id=base:agsp_any_given_screen_position
+https://github.com/martinpiper/C64Public/blob/master/RasterTest/RasterTest2.a
+
+00:00 Introduction
+00:10 Bitmaps use a lot of memory
+00:23 Horizontal bitmap scroll
+04:48 Debugging the horizontal CPU intructions
+08:40 Finding the HSP/DMA delay trigger
+10:43 VIC chip bad lines, very very naughty lines...
+13:21 Tweaking 0 to 39 characters horizontally
+13:53 Vertical bitmap scroll
+17:18 Debugging the vertical CPU intructions
+23:15 Finding the line crunch trigger
+27:15 Comparing with a normal C64 screen
+28:43 Combine horizontal and vertical scrolling
+34:36 Bitmap tiled view
+35:13 Debugging the CPU instructions
+41:16 Line crunch then HSP/DMA delay
+42:02 Source code in the public repository
