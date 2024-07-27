@@ -1,11 +1,14 @@
+All three parts as one video: https://youtu.be/zLOKaoX4oAY
+
+
+
 "C:\CCS64\MyOldE114Software\DignifiedSide2.d64"
 
 HSP/DMA delay
 https://csdb.dk/release/?id=231797
 
-Line ctunch
+Line crunch
 https://csdb.dk/release/?id=2493
-
 
 AGSP
 https://csdb.dk/release/?id=2490
