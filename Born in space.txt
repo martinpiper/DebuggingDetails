@@ -1,0 +1,54 @@
+https://www.gamesthatwerent.com/gtw64/born-in-space/
+
+"C:\Users\marti\Downloads\Preview_Borninspace\born_in_space.d64"
+
+c:\work\C1541-Tweaks\c1541\Release\c1541.exe "C:\Users\marti\Downloads\Preview_Borninspace\born_in_space.d64" -recover C:\Temp\d64recover\file%d_%d.prg
+	Nothing
+
+The main scroll is using a line crunch and HSP/DMA delay
+Sprite 7 is using X position updates during the sprite stars display
+The boss is using bitmap, with some sprite overlays
+
+
+Watching the memory view showed linear reads in this area d500...
+f d500 d800 02
+Seems to stop player movement and just fire a large weapon?
+8fcf seems to be the routine to read this area of memory
+8fce seems to be a count
+$02e1 seems to be the joystick bits?
+
+(C:$8fde) a 8fcf
+.8fcf  lda #$35
+.8fd1  sta $01
+.8fd3  lda dc00
+.8fd6  sta 2e1
+.8fd9
+(C:$8fd9) f 8fd9 8feb ea
+
+
+h 0 ffff ad e1 02
+
+
+8f9a might be a better joystick read place
+8ff0 joystick processing
+
+This seems better, it reads the joystick and avoids the recorded joystick and jumps straight to the joystick processing
+> 8f9b 00 dc
+> 8fa5 ec 8f
+
+$02c2 = lives
+
+
+00:11 Introduction
+01:14 Check the two disk images
+05:50 Using C64DebugGUI to check the display
+08:00 Title screen - Uses sprites
+08:24 Intermission - Bitmap screen
+08:45 Game uses HSP/DMA Delay/line crunch
+12:50 Boss uses bitmap screen and sprite stars
+13:12 Sprite stars use X position updates
+16:50 Intermission screen also loads data
+17:35 Using ICU64 debugger
+18:00 Making this playable, instead of self playing
+35:30 Player lives cheat
+38:30 Sprite index pointers bug
