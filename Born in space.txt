@@ -1,4 +1,5 @@
 https://www.gamesthatwerent.com/gtw64/born-in-space/
+https://youtu.be/R1rOAwTY90E
 
 "C:\Users\marti\Downloads\Preview_Borninspace\born_in_space.d64"
 
@@ -50,5 +51,6 @@ $02c2 = lives
 16:50 Intermission screen also loads data
 17:35 Using ICU64 debugger
 18:00 Making this playable, instead of self playing
-35:30 Player lives cheat
+33:55 Games that Weren't website
+34:40 Player lives cheat
 38:30 Sprite index pointers bug
