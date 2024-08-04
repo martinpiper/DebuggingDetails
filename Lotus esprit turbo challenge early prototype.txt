@@ -1,0 +1,27 @@
+https://www.gamesthatwerent.com/2015/11/lotus-esprit-turbo-challenge-early-proto/
+https://commodoreformatarchive.com/power-pack-4-january-1991/
+https://www.lemon64.com/forum/viewtopic.php?t=35114
+https://archive.org/download/gbc-v18
+https://ia802207.us.archive.org/view_archive.php?archive=/9/items/gbc-v18/GBC_V18_01.iso
+https://archive.org/download/gbc-v18/GBC_V18_01.iso/Extras%2FCovertapes%2FC%2FCommodore_Format_PowerPack_04.zip
+
+(C:$4282) h 0 ffff ad 00 dc
+1408
+	1402?
+	1405?
+34d9
+4246
+	4232?
+(C:$4282) h 0 ffff ad 01 dc
+1445
+34ec
+4307
+
+
+
+Look for similar joystick bits handling code?
+h 0 ffff 29 04 d0
+
+Turn off music, makes it easier to study memory patterns
+> 203 60
+
