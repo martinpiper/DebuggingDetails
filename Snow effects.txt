@@ -1,0 +1,12 @@
+Snow effects
+
+https://www.youtube.com/watch?v=8RxzkriK3rs&lc=UgxCHHsg1YhTxEt8Ka14AaABAg
+
+
+Waveform Christmas Hit Disk
+https://csdb.dk/release/?id=171346
+Animates into the bitmap and uses colour (from the "screen" data) to animate the flake colours.
+
+
+https://github.com/martinpiper/C64Public/tree/master/ChristmasDemo
+Animates the character set and has static vertical strips.
