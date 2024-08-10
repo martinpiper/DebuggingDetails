@@ -1,4 +1,5 @@
 Snow effects
+https://youtu.be/0JYbGuFxPYs
 
 https://www.youtube.com/watch?v=8RxzkriK3rs&lc=UgxCHHsg1YhTxEt8Ka14AaABAg
 
@@ -10,3 +11,8 @@ Animates into the bitmap and uses colour (from the "screen" data) to animate the
 
 https://github.com/martinpiper/C64Public/tree/master/ChristmasDemo
 Animates the character set and has static vertical strips.
+
+
+00:08 Introduction
+00:36 Bitmap animation with sparkles
+03:40 Character set animation method
