@@ -24,3 +24,18 @@ The blocky nature of the sprites, with expansion and the horizontal colour bands
 The shape/swirl animations are decompressed hidden with a static transition screen.
 
 Switching off the various effects helps to show the different parts. :)
+
+
+
+00:07 Introduction
+00:46 Quick look at the demo
+01:28 Checking the video mode in the monitor
+02:00 Finding lots of screens and a couple of charsets
+03:45 Finding the colour RAM scroll routine
+05:20 Expanded sprites used for the text
+05:40 Just showing the animated patterns
+07:34 The animations counter scroll the Y pixel scroll
+08:30 Colour RAM displays chunky graphics, sprites and text for the other layers
+12:58 Intermission and animation decompression
+14:15 Sprite priority tweaked to show the obvious sprites
+
