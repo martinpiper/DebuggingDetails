@@ -1,0 +1,26 @@
+Concert by Performers
+https://csdb.dk/release/?id=151274
+
+https://youtu.be/UCftn4ZujDI
+
+"@saganandroid4175 Hi Martin- saw a demo called "Concert by Performers, Commodore 64 demo, 2016" and thought of you at 2:42 into it.  They have 2 minutes of effects that could do with some explanation."
+https://www.youtube.com/watch?v=eA98gwA3SR8&lc=Ugypq0unPbJUM0piSd54AaABAg
+
+Remove colour RAM scroll
+> 25cb ea ea ea
+
+
+Remove Y pixel scroll
+> 2489 ea ea ea
+
+
+
+Colour RAM scroll with Y pixel scroll
+Char screens + charsets counter rotate the Y pixel scroll
+Expanded sprites for other text
+
+
+The blocky nature of the sprites, with expansion and the horizontal colour bands, helps to confuse the eye with the colour RAM scroll text/graphics.
+The shape/swirl animations are decompressed hidden with a static transition screen.
+
+Switching off the various effects helps to show the different parts. :)

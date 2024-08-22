@@ -54,3 +54,18 @@ $02c2 = lives
 33:55 Games that Weren't website
 34:40 Player lives cheat
 38:30 Sprite index pointers bug
+
+
+Memory range before control change
+m 8f9b 8fa6
+>C:8f9b  e1 02 8d e1  02 a9 30 85  01 4c cf 8f
+End of decompression that stores that memory $0142, after the bouncing screen logo...
+	.C:0142   A9 37      LDA #$37
+	.C:0144   85 01      STA $01
+	.C:0146   58         CLI
+	.C:0147   4C 00 80   JMP $8000
+
+
+88a7 or 88ad or 88aa
+88aa?
+87d9?

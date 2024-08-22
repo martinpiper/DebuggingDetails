@@ -1,11 +1,12 @@
 ; Flying Shark Boot
 
 
-!source "../stdlib/stdlib.a"
+!source "stdlib/stdlib.a"
 !to "FlyingSharkBoot.prg", cbm
 !sal
 !sl "FlyingSharkBoot.map"
 !svl "FlyingSharkBoot.lbl"
+!pdb "FlyingSharkBoot.pdb"
 !cpu 6510
 !ct pet
 
