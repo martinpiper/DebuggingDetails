@@ -1,0 +1,9 @@
+BASIC Sprite multiplexing
+https://youtu.be/Uo6p9TRzxec
+
+I was looking at my old multiplexor and thought how it might be useful to expand its capabilities to include multicolour, priority, and expansion for each sprite.
+The best way to use the multiplexor is to use the source code and assemble an optimised version that meets specific requirements: https://github.com/martinpiper/C64Public/tree/master/SpriteMultiplexor
+
+Then I thought, why not add BASIC support for a pre-assembled version? So here it is: https://github.com/martinpiper/C64Public/blob/master/SpriteMultiplexor/BASICDemo.d64
+
+The BASIC code is commented and demonstrates the functionality: https://github.com/martinpiper/C64Public/blob/master/SpriteMultiplexor/BASICDemo.txt
