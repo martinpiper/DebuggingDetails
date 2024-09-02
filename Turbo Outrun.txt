@@ -1,0 +1,39 @@
+Turbo Outrun
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\t\turbo_out_run_s1[us_gold_1989](pal)(!).g64"
+
+break 1092
+l "c:\temp\good330.prg" 0
+Interesting protection code, returning the code that kills itself instead of the real game code :)
+
+
+
+Hi nybble first, then low nybble, for samples
+
+
+
+Part 1 and 3
+3f36 = timer units
+3f35 = timer tens
+> 3ea2 60
+
+Part 2
+> 3e85 60
+
+Part 4
+> 3ebc 60
+
+
+
+https://youtu.be/HcRXNUe7sp8
+00:11 Introduction
+00:38 Disk protection fails?!
+08:28 Bypass the protection
+09:31 Playing sound samples
+22:02 Title screen bouncing text
+25:34 Game view graphics
+35:36 Finding infinite time
+42:28 Roadside object data
+46:20 Engine, tyres, or turbo?
+27:50 Revisiting the palm trees
+49:48 Ending screen priority fix
+51:12 Course map complete
