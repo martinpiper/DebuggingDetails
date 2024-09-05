@@ -145,3 +145,24 @@ Need some space in memory...
 	Sets the UI window to green background
 > cf66 50 50 50
 	Sets the UI window to green pixels
+
+
+
+
+First room
+Values at 4ee1 4ee6 (<< = drawn)
+Top right, to bottom left...
+30	84	<<
+30	84	<<
+30	6e	<<
+30	84	<<
+30	84	<<
+30	84	<<
+1e	06	<<
+
+Coords read by 575f 576b
+> 5761	576d
+48	88
+40	80
+38	78
+30	70

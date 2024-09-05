@@ -11,13 +11,12 @@
 	sta .target + 2
 }
 
-; Jump table, avoids code updates :)
+!zn
 * = $640
 	sei
 	+DoHook $575f , hook575f
 	+DoHook $576b , hook576b
 	+DoHook $579f , hook579f
-	+DoHook $4f6f , hook4f6f
 	+DoHook $4ee1 , hook4ee1
 	+DoHook $4f92 , hook4f92
 	
@@ -38,11 +37,10 @@
 	cli
 	jmp $3606
 
-; f 5a07 5a14 ea
-; > 5a31 ea ea ea
-
+!zn
 xpos !by -1
 ypos !by -1
+pixelsWidth !by 0
 charWidth !by -1
 pixelsHeight !by -1
 type !by 0
@@ -67,15 +65,11 @@ hook579f
 	ldx $28
 	jmp $57a3
 
-hook4f6f
-	stx charWidth
-	lda $5607,x
-	jmp $4f72
-	
 hook4ee1
 	sta $38
 	sta pixelsHeight
 	lda $7f80,x
+	sta pixelsWidth
 	jmp $4ee6
 
 hook4f92
@@ -87,9 +81,7 @@ hook4f92
 	pha
 	
 	; Not optimal at all, but small code
-	lda charWidth
-	bmi .exitDraw
-	
+
 	; Convert
 	lda xpos
 	bmi .exitDraw
@@ -106,10 +98,19 @@ hook4f92
 
 	lda pixelsHeight
 	bmi .exitDraw
-	lsr
+;	lsr
+;	lsr
 	lsr
 	sta pixelsHeight
 	beq .exitDraw
+	
+	lda pixelsWidth
+	; Remove top bit?
+	and #$7f
+;	lsr
+;	lsr
+	beq .exitDraw
+	sta charWidth
 	
 	lda type
 	beq .exitDraw
@@ -148,10 +149,11 @@ hook4f92
 .exitDraw
 	
 	lda #-1
-	sta charWidth
 	sta xpos
 	sta ypos
 	sta pixelsHeight
+	lda #0
+	sta pixelsWidth
 	
 	pla
 	tay
