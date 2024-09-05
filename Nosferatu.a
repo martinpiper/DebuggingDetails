@@ -1,0 +1,195 @@
+; Nosferatu hooks
+; ..\c64\acme.exe -v9 --msvc -f cbm -o Nosferatu.prg -l Nosferatu.lbl Nosferatu.a
+; l "c:\work\debuggingdetails\nosferatu.prg" 0
+
+!macro DoHook .target , .hook {
+	lda #$4c
+	sta .target
+	lda #<.hook
+	sta .target + 1
+	lda #>.hook
+	sta .target + 2
+}
+
+; Jump table, avoids code updates :)
+* = $640
+	sei
+	+DoHook $575f , hook575f
+	+DoHook $576b , hook576b
+	+DoHook $579f , hook579f
+	+DoHook $4f6f , hook4f6f
+	+DoHook $4ee1 , hook4ee1
+	+DoHook $4f92 , hook4f92
+	
+	; Remove screen clears
+	ldx #($5a14 - $5a07)
+	lda #$ea	; nop
+.cl3
+	sta $5a07,x
+	dex
+	bpl .cl3
+
+	sta $5a31
+	sta $5a32
+	sta $5a33
+
+	ldx #$ff
+	txs
+	cli
+	jmp $3606
+
+; f 5a07 5a14 ea
+; > 5a31 ea ea ea
+
+xpos !by -1
+ypos !by -1
+charWidth !by -1
+pixelsHeight !by -1
+type !by 0
+
+xPosTemp !by 0
+
+hook575f
+	lda ($26),y
+	sta xpos
+	cmp #$ff
+	jmp $5763
+
+hook576b
+	lda ($26),y
+	sta ypos
+	sec
+	jmp $576e
+
+hook579f
+	lda ($26),y
+	sta type
+	ldx $28
+	jmp $57a3
+
+hook4f6f
+	stx charWidth
+	lda $5607,x
+	jmp $4f72
+	
+hook4ee1
+	sta $38
+	sta pixelsHeight
+	lda $7f80,x
+	jmp $4ee6
+
+hook4f92
+	php
+	pha
+	txa
+	pha
+	tya
+	pha
+	
+	; Not optimal at all, but small code
+	lda charWidth
+	bmi .exitDraw
+	
+	; Convert
+	lda xpos
+	bmi .exitDraw
+	lsr
+	lsr
+	sta xpos
+
+	lda ypos
+	bmi .exitDraw
+	lsr
+	lsr
+	lsr
+	sta ypos
+
+	lda pixelsHeight
+	bmi .exitDraw
+	lsr
+	lsr
+	sta pixelsHeight
+	beq .exitDraw
+	
+	lda type
+	beq .exitDraw
+	asl
+	asl
+	asl
+	asl
+	sta type
+
+.drawLoop
+	ldy ypos
+	jsr calcYpos
+	bcs .exitDrawRow
+
+	ldx xpos
+	stx xPosTemp
+
+	ldy charWidth
+.hl1
+	ldx xPosTemp
+	cpx #40
+	bcs .overDraw
+	lda type
+.sm1	sta $cc00,x
+.overDraw
+	inc xPosTemp
+	dey
+	bne .hl1
+
+.exitDrawRow
+	inc ypos
+	dec pixelsHeight
+	bne .drawLoop
+
+	
+.exitDraw
+	
+	lda #-1
+	sta charWidth
+	sta xpos
+	sta ypos
+	sta pixelsHeight
+	
+	pla
+	tay
+	pla
+	tax
+	pla
+	plp
+	jmp ($001e)
+
+
+
+; Entry: Y
+; Exit: CS = no draw, out of range
+calcYpos
+	lda #0
+	sta .sm1+1
+	lda #$cc
+	sta .sm1+2
+	
+	cpy #24
+	bcs .done
+	cpy #0
+	beq .doneOK
+	
+.cl2
+	lda .sm1+1
+	clc
+	adc #40
+	sta .sm1+1
+	bcc .cl1
+	inc .sm1+2
+.cl1
+	dey
+	bne .cl2
+	
+.doneOK
+	; Return
+	clc
+.done
+	rts
+

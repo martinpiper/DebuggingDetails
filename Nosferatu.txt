@@ -1,0 +1,147 @@
+Nosferatu
+"C:\Users\marti\Downloads\nosferatu\nosferatu +md_hf.prg"
+
+Hires bitmap at $e000
+Colour screen $cc00
+
+598b Copies 5 bytes from 400... to bitmap screen rows, from bottom of char row to top, for $38 pixels
+	Data in $400 always seems to be 5 bytes wide, arranged in pixel rows
+	But the copy to bitmap width can be sparse, it skips the unused bytes
+
+
+$5899 block draw
+	Called during room render and also when game updates objects
+	And the UI
+	$d000/$d100 lo/hi bitmap screen addresses for Y pixel row lookup
+$58 = num pixel rows to draw, copied into $38
+$57 = num horizontal pixels to draw
+	$59cb/$59d1 seems to be a jump table based on the number of horizontal pixels / 4
+		six routines?
+			594d	0 (rts)
+			58c8	1
+			58ee	2
+			591b	3
+			5950	4
+			598b	5
+
+
+$4f92 jmp indirect for composite loop
+$4ff2 looks like a routine to composite graphics into $400
+using $23/$24 as graphics mask
+$04/$05 as graphics data
+
+Before that $4ff2, it looks like $400 is cleared with an unrolled routine $562f
+
+
+
+
+$562d/$562f clear $400 area?
+	562d stores A to $4c, why?
+		Used for UI draw
+		5651 = sm jmp, called once, uses A as clear value
+	562f used for player draw
+	
+$26/$27???
+$58 = num pixel rows to draw, copied into $38
+$57 = num horizontal pixels to draw
+Can safely clear 400-5ff with 0 or ff before running the routine, it optimially clears the work area...
+Used in two places:
+	4b63 = 562d
+	4bc7 = 562d
+	4d7f = 562f = player draw
+
+
+
+
+$4ecb/$4ecf seems to calculate object data offsets into $04/$05/$37/$38 later used by $4ff2
+	A = object 0-127 so 128 objects max
+		7e00/7e80 = mask $04/$05
+		$7f00/$7f80 = $37/$38 data
+		Negative values are tested for, X flip
+		>= $1e
+	X = X coord
+		>= $0e
+	Y = Y coord
+		>= $10
+	Called two/three times for the UI draw: A X Y
+		0c 08 04
+		0b 00 00
+		Using r a = d shows part of a desk
+		Using r x = 3 second time shifts the "window" grapghic across a few pixels
+		Draws sun or moon first
+	Called at least four times for player draw?
+		A = 7d = floor
+	$4ed4 = address lookups
+	$4ecb used for background draw (uses X/Y)
+	$4ecf (skips X/Y) used for player draw
+		$4e09 uses only once, not for UI
+		Also seems to be used for objects that intersect the area to draw
+
+ 
+
+
+$4dc5 seems to be an object lookup?
+	Called 11 times in the first room?
+	5 byte structure? ($2a)
+	$96/$97 lo/hi object start?
+		$b60 seems to be an object link list start in the first room?
+	0/1 lo/hi next object : 0 = end of link list
+$4dd5 then a specific object draw, using a 8 byte structure?
+	>> This seems to be the entry point of the draw object link list loop
+	$1634 = player data, end of link list
+	
+
+
+
+$72ec = player position update?
+	$7316 entry?
+
+
+
+
+Player draw logic...
+4d7f clears $400 work area using 562f
+
+
+
+
+What calls $4ecb and where can screen X/Y and object type be found?
+4b74
+	UI
+4bd2
+	UI
+4bdb
+	UI
+4c37
+4c6e
+57a5
+	575f 576b 579f
+	579f before regs get updated
+	58 times
+5819
+	Draws floor
+	5811 580a 5817
+	$4a = x
+	$4b = y
+	65 times
+
+		
+
+Where can character or pixel width be found?
+	$4f6f X reg = chars width, before jmp () at $4f92
+	$38??? $4ee1 store?
+	
+
+
+$4f92 is the draw indirect jmp
+What we need is a routine that updates the colour screen based on object type and the X/Y width/height values
+Need some space in memory...
+
+
+
+
+
+> cf66 5 5 5
+	Sets the UI window to green background
+> cf66 50 50 50
+	Sets the UI window to green pixels
