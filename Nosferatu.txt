@@ -166,3 +166,9 @@ Coords read by 575f 576b
 40	80
 38	78
 30	70
+
+
+
+
+$574f = start of screen object draw
+	$d25 = start of list
