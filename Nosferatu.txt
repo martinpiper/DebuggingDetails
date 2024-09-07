@@ -1,6 +1,9 @@
 Nosferatu
 "C:\Users\marti\Downloads\nosferatu\nosferatu +md_hf.prg"
 
+https://youtu.be/sb8n4DNRaPU
+
+
 Hires bitmap at $e000
 Colour screen $cc00
 
