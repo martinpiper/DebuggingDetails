@@ -1,0 +1,104 @@
+https://codetapper.com/amiga/diary-of-a-game/menace/part-1-system-control/
+
+"C:\Users\marti\Downloads\WinUAE5300_x64\winuae64.exe"
+
+Amiga 500
+Period correct: Kickstart 1.3 and Workbench 1.3.3
+https://en.wikipedia.org/wiki/Workbench_(AmigaOS)#Workbench_1.x
+
+
+https://archive.org/download/verifiedbiosfiles/OGA%20BIOS/Amiga/
+
+https://archive.org/details/commodore-amiga-operating-systems-workbench
+
+
+"C:\Users\marti\Downloads\commodore-amiga-operating-systems-workbench\Workbench v1.3 rev 34.21 (1988)(Commodore)(A500-A2000)(NO)(Disk 1 of 2)(Workbench).zip"
+"C:\Users\marti\Downloads\commodore-amiga-operating-systems-workbench\Workbench v1.3 rev 34.20 (1988)(Commodore)(A500-A2000)(DK)(Disk 2 of 2)(Extras).zip"
+
+These need Kickstart 2.04:
+"C:\Users\marti\Downloads\commodore-amiga-operating-systems-workbench\Workbench v2.1 rev 38.35 (1992)(Commodore)(M10)(Disk 1 of 5)(Install).zip"
+"C:\Users\marti\Downloads\commodore-amiga-operating-systems-workbench\Workbench v2.1 rev 38.35 (1992)(Commodore)(M10)(Disk 2 of 5)(Workbench)[m files added].zip"
+"C:\Users\marti\Downloads\commodore-amiga-operating-systems-workbench\Workbench v2.1 rev 38.35 (1992)(Commodore)(M10)(Disk 3 of 5)(Extras)[a].zip"
+"C:\Users\marti\Downloads\commodore-amiga-operating-systems-workbench\Workbench v2.1 rev 38.35 (1992)(Commodore)(M10)(Disk 4 of 5)(Locale)[a2].zip"
+"C:\Users\marti\Downloads\commodore-amiga-operating-systems-workbench\Workbench v2.1 rev 38.35 (1992)(Commodore)(M10)(Disk 5 of 5)(Fonts).zip"
+
+
+copy DF0: DH0: clone all
+copy DF1: DH0: clone all
+
+
+
+All ADF? :)
+https://archive.org/details/CommodoreAmigaApplicationsADF
+https://archive.org/download/CommodoreAmigaApplicationsADF
+
+
+Eject
+Reset
+Special->Cleanup
+Snapshot
+
+
+
+Directory Opus
+https://ia803206.us.archive.org/view_archive.php?archive=/20/items/CommodoreAmigaApplicationsADF/Directory%20Opus%20v5.5%20%281996-08-20%29%28GP%20Software%29%28Disk%201%20of%202%29%28Install%29%5BHD%5D.zip
+https://ia803206.us.archive.org/view_archive.php?archive=/20/items/CommodoreAmigaApplicationsADF/Directory%20Opus%20v5.5%20%281996-08-20%29%28GP%20Software%29%28Disk%202%20of%202%29%28Extras%29%5BHD%5D.zip
+
+
+Devpac2.15
+https://ia903206.us.archive.org/view_archive.php?archive=/20/items/CommodoreAmigaApplicationsADF/Devpac%20v2.15%20%281990%29%28HiSoft%29%28Disk%201%20of%202%29%5Ba%5D.zip
+https://ia803206.us.archive.org/view_archive.php?archive=/20/items/CommodoreAmigaApplicationsADF/Devpac%20v2.15%20%281990%29%28HiSoft%29%28Disk%202%20of%202%29.zip
+
+copy df0:include.cbm dh0:devpac all
+cd dh0:devpac
+copy all of c/monam2 c/genim2 c/genam2 c/blink to current directory
+
+genam2 :davejones/scroll.s
+
+With harddrive: C:\temp\AmigaHD
+DH0
+System
+
+
+Devpac3
+https://archive.org/details/Devpac_v3.14_1994-12-16_HiSoft
+"C:\Users\marti\Downloads\Devpac_v3.14_1994-12-16_HiSoft.adf"
+https://aminet.net/package/dev/asm/incupd
+https://www.planetemu.net/index.php?section=roms&dat=375
+
+
+Amiga Format cover disks index: https://amr.abime.net/coverdisk_index_4
+
+Coverdisk #39a for Devpac
+https://archive.org/details/amigaformat039disks_1992-10
+"C:\Users\marti\Downloads\af039a.adf"
+
+https://github.com/deplinenoise/amiga-sdk/tree/master/sdkinclude
+
+Amiga Format disks
+https://amr.abime.net/issue_163_pages
+Pages 63-68
+Issue 7      February 1990
+https://archive.org/details/amigaformat007disk_1990-02
+"C:\Users\marti\Downloads\af007.adf"
+
+https://amr.abime.net/issue_164_pages
+https://archive.org/details/amigaformat008disk_1990-03
+"C:\Users\marti\Downloads\af008.adf"
+
+https://amr.abime.net/issue_165_pages
+https://archive.org/details/amigaformat009disk_1990-04
+"C:\Users\marti\Downloads\af009.adf"
+
+https://amr.abime.net/issue_166_pages
+No source...
+
+https://amr.abime.net/issue_167_pages
+https://archive.org/details/amigaformat011disk_1990-06
+"C:\Users\marti\Downloads\af011.adf"
+
+https://amr.abime.net/issue_168_pages
+
+https://amr.abime.net/issue_169_pages
+https://archive.org/details/amigaformat013disk_1990-08
+"C:\Users\marti\Downloads\af013.adf"
