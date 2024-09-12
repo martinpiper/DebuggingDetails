@@ -1,0 +1,22 @@
+
+ IFND    EXEC_TYPES_I
+ INCLUDE "exec/types.i"
+ ENDC    !EXEC_TYPES_I
+ IFND    EXEC_PORTS_I
+ INCLUDE "exec/ports.i"
+ ENDC    !EXEC_PORTS_I
+ IFND    LIBRARIES_DOS_I
+ INCLUDE "libraries/dos.i"
+ ENDC    !LIBRARIES_DOS_I
+ STRUCTURE WBStartup,0
+    STRUCT      sm_Message,MN_SIZE
+    APTR        sm_Process
+    BPTR        sm_Segment
+    LONG        sm_NumArgs
+    APTR        sm_ToolWindow
+    APTR        sm_ArgList
+    LABEL       sm_SIZEOF
+ STRUCTURE WBArg,0
+    BPTR        wa_Lock
+    APTR        wa_Name
+    LABEL       wa_SIZEOF

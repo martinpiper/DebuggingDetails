@@ -1,0 +1,14 @@
+##base _MathIeeeSingBasBase
+##bias 30
+##public
+IEEESPFix(float)(D0)
+IEEESPFlt(integer)(D0)
+IEEESPCmp(leftFloat,rightFloat)(D0,D1)
+IEEESPTst(float)(D0)
+IEEESPAbs(float)(D0)
+IEEESPNeg(float)(D0)
+IEEESPAdd(leftFloat,rightFloat)(D0,D1)
+IEEESPSub(leftFloat,rightFloat)(D0,D1)
+IEEESPMul(leftFloat,rightFloat)(D0,D1)
+IEEESPDiv(leftFloat,rightFloat)(D0,D1)
+##end

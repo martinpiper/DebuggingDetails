@@ -1,0 +1,20 @@
+DEFINT P-Z
+DIM P(2500)
+CLS
+LINE(0,0)-(120,120),,BF
+ASPECT = .1
+    WHILE ASPECT<20
+       CIRCLE(60,60),55,0,,,ASPECT
+       ASPECT = ASPECT*1.4
+    WEND
+GET (0,0)-(127,127),P
+CheckMouse:
+   IF MOUSE(0)=0 THEN CheckMouse
+   IF ABS(X-MOUSE(1)) > 2 THEN MovePicture
+   IF ABS(Y-MOUSE(2)) < 3 THEN CheckMouse
+MovePicture:
+   PUT(X,Y),P
+   X=MOUSE(1): Y=MOUSE(2)
+   PUT(X,Y),P
+   GOTO CheckMouse
+ 

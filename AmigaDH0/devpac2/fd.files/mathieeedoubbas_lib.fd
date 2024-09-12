@@ -1,0 +1,21 @@
+##base _MathIeeeDoubBasBase
+##bias 30
+##public
+IEEEDPFix(integer,integer)(D0,D1)
+IEEEDPFlt(integer)(D0)
+IEEEDPCmp(integer,integer,integer,integer)(D0,D1,D2,D3)
+IEEEDPTst(integer,integer)(D0,D1)
+IEEEDPAbs(integer,integer)(D0,D1)
+IEEEDPNeg(integer,integer)(D0,D1)
+IEEEDPAdd(integer,integer,integer,integer)(D0,D1,D2,D3)
+IEEEDPSub(integer,integer,integer,integer)(D0,D1,D2,D3)
+IEEEDPMul(integer,integer,integer,integer)(D0,D1,D2,D3)
+IEEEDPDiv(integer,integer,integer,integer)(D0,D1,D2,D3)
+*--------------------------------------------------------------------
+*
+*  New functions added for release 1.2
+*
+*--------------------------------------------------------------------
+IEEEDPFloor(integer,integer)(D0,D1)
+IEEEDPCeil(integer,integer)(D0,D1)
+##end

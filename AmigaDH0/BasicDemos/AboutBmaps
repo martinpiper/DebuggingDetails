@@ -1,0 +1,83 @@
+LIST
+'
+'BMAPS  ---  C. Scheppner   CBM  02/88
+'
+'  AmigaBasic requires .bmap files
+'to call system library functions
+'from within an AmigaBasic program.
+'
+'  The BasicDemos directory contains 
+'exec, dos, and graphics .bmap files
+'which are required by some of the
+'demos in that drawer.  
+'
+'   The .bmaps were created from
+'some of the FD (function description)
+'files in the FD drawer on this disk.
+'Bmaps for other system libraries can
+'be created with the ConvertFD program
+'in the BasicDemos drawer.
+'
+'  The names of FD files are
+'     libraryname_lib.fd
+'  The names of bmaps must be
+'     libraryname.bmap
+'
+'  So, to create additional .bmap
+'files, run the ConvertFD program.
+'For example, to create a layers.bmap:
+'
+'When prompted for name of fd file,
+'enter    :FD1.3/layers_lib.fd
+'When prompted for bmap filename
+'enter    layers.bmap
+'
+'
+'PLACEMENT OF BMAPS
+'
+'  When you use the LIBRARY statement,
+'AmigaBasic looks for a .bmap file
+'for that library.  It will look in two
+'places for the .bmap:
+'
+'   1. The libs: directory
+'      (Usually the libs directory of the
+'      workbench disk you booted with.)
+'
+'   2. The directory AmigaBasic is
+'      cd'd to.
+'      When you enter AmigaBasic, this is
+'      the directory (drawer) containing
+'      the icon you double clicked.
+'      You can cd to a different directory
+'      with the CHDIR command.
+'
+'   To run the demos the use bmaps in
+'in the BasicDemos drawer,
+'EITHER doubleclick the demo's icon
+'OR   - doubleclick AmigaBasic
+'     - type  CHDIR "df1:BasicDemos" <RETURN>
+'         in the Output window
+'     - Open the desired demo
+'     - Start the demo
+'
+'
+'CONFLICTING ROUTINES / KEYWORDS
+'
+'  ConvertFD prepends an 'x' to
+'any Amiga system routine name that
+'conflicts with an AmigaBasic keyword.
+'
+'  The known conficting routine
+'names can be found in data statements
+'at the end of ConvertFD.
+'
+'  Using these .bmaps, the conflicting
+'system routines may be declared
+'and called by prepending an 'x' to
+'the routine name. (ex. xRead)
+'All other system routines are
+'declared/called by their original
+'names.
+'
+

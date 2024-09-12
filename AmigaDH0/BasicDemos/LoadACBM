@@ -1,0 +1,390 @@
+REM - LoadACBM
+REM -  by Carolyn Scheppner  CBM  04/86
+
+REM -  Modified for PAL/NTSC  07/87
+REM -  NOTE:  Only PAL ACBMs will be
+REM -    displayed in a PAL height
+REM -    screen.  PAL ACBM's contain
+REM -    a PAL screenheight in their
+REM -    BMHD pageHeight field
+
+REM - This program loads an ACBM file
+REM -  (Amiga Contiguous BitMap)
+REM -  into a custom screen/window
+REM -  using DOS library calls
+REM - 
+REM - Note that the only special chunk
+REM -  handled by this loader is the
+REM -  CCRT Graphicraft color cycling
+REM -  chunk.  The loader is an IFF
+REM -  chunk-oriented loader and
+REM -  can be easily modified to
+REM -  handle additional chunks.
+
+REM - Requires exec, graphics and dos
+REM -  .bmaps (Use new ConvertFD)
+REM
+
+REM - Format of ACBM file:
+REM -    LONG   "FORM"
+REM -    LONG   size of rest of file
+REM -    LONG   "ACBM" (form type)
+REM 
+REM -    LONG   "BMHD" (std IFF BitMap header)
+REM -    LONG   size of BMHD chunk = 20
+REM -    UWORD  w (bitmap width in pixels)
+REM -    UWORD  h (bitmap height)
+REM -    WORD   x (nw corner) = 0
+REM -    WORD   y (nw corner) = 0
+REM -    UBYTE  nPlanes
+REM -    UBYTE  masking = 0
+REM -    UBYTE  compression = 0
+REM -    UBYTE  pad1 = 0
+REM -    UWORD  transparentColor = 0
+REM -    UBYTE  xAspect (pixel) = 10
+REM -    UBYTE  yAspect (pixel) = 11
+REM -    WORD   pageWidth (screen width in pixels)    
+REM -    WORD   pageHeight (screen height in pixels)
+REM 
+REM -    LONG   "CMAP" (std IFF ColorMap chunk)
+REM -    LONG   size of CMAP chunk
+REM -    UBYTE  Sets of 3 UBYTES (red, green, blue)
+REM -           (2^nPlanes sets)
+REM -           (rgb values LEFT justified in each UBYTE)
+REM
+REM -    LONG   "CAMG" (Amiga ViewPort Modes)
+REM -    LONG   size of CAMG chunk
+REM -    LONG   ViewModes
+REM
+REM -    LONG   "CCRT"  (Graphicraft color cycle info)
+REM -    WORD   direction (1,-1, or 0 = none)
+REM -    UBYTE  start  (low cycle reg)
+REM -    UBYTE  end    (high cycle reg)
+REM -    LONG   seconds (cycle time)
+REM -    LONG   microseconds (cycle time)
+REM -    WORD   pad = 0
+REM
+REM -    LONG   "ABIT"  (Amiga BitPlanes)
+REM -    LONG   size of ABIT chunk
+REM -           BitPlanes 0 thru nPlanes - 1
+REM -          (each is h * (w/8) bytes)
+
+
+Main:
+
+PRINT "LoadACBM - ACBM pic file loader"
+PRINT
+PRINT " This program loads and displays an ACBM pic file."
+PRINT "ACBM pic files can be loaded more quickly than ILBMs."
+PRINT "IFF ILBM pic files can be converted to ACBM format"
+PRINT "with the LoadILBM-SaveACBM program."
+PRINT
+
+DIM bPlane&(5), cTabWork%(32), cTabSave%(32)
+
+REM - Functions from dos.library                   
+DECLARE FUNCTION xOpen&  LIBRARY
+DECLARE FUNCTION xRead&  LIBRARY
+DECLARE FUNCTION xWrite& LIBRARY
+REM - xClose returns no value
+
+REM - Functions from exec.library
+DECLARE FUNCTION AllocMem&() LIBRARY
+REM - FreeMem returns no value
+
+PRINT:PRINT "Looking for bmaps ... ";
+LIBRARY "dos.library"
+LIBRARY "exec.library"
+LIBRARY "graphics.library"
+PRINT "found them."
+
+PRINT:PRINT "ENTER FILESPEC:"
+PRINT "( Note: You can create an ACBM file with LoadILBM-SaveACBM )"
+PRINT
+GetNames:
+INPUT "   ACBM filespec";ACBMname$
+IF (ACBMname$ = "") GOTO Mcleanup2
+PRINT
+
+REM - Load the ACBM pic
+loadError$ = ""
+GOSUB LoadACBM
+IF loadError$ <> "" THEN GOTO Mcleanup
+
+REM - Demo Graphicraft color cycling
+IF foundCCRT AND ccrtDir% THEN
+   REM - Save colors
+   FOR kk = 0 TO nColors% -1
+      cTabSave%(kk) = PEEKW(colorTab&+(kk*2))   
+      cTabWork%(kk) = cTabSave%(kk)
+   NEXT
+   
+   REM - Cycle colors
+   FOR kk = 0 TO 80
+      IF ccrtDir% = 1 THEN
+         GOSUB Fcycle
+      ELSE   
+         GOSUB Bcycle
+      END IF
+
+      CALL LoadRGB4&(sViewPort&,VARPTR(cTabWork%(0)),nColors%)
+      REM - Delays approximated
+      FOR de1 = 0 TO ccrtSecs& * 3000
+         FOR de2 = 0 TO ccrtMics& / 500
+         NEXT
+      NEXT
+   NEXT
+
+   REM - Restore colors
+   CALL LoadRGB4&(sViewPort&,VARPTR(cTabSave%(0)),nColors%)
+END IF
+
+Mcleanup:
+FOR de = 1 TO 20000:NEXT
+WINDOW CLOSE 2
+SCREEN CLOSE 2
+
+Mcleanup2:
+LIBRARY CLOSE
+IF loadError$ <> "" THEN PRINT loadError$
+END
+
+
+Bcycle:  'Backward color cycle
+cTemp% = cTabWork%(ccrtEnd%)
+FOR jj = ccrtEnd%-1 TO ccrtStart% STEP -1
+   cTabWork%(jj+1) = cTabWork%(jj)
+NEXT
+cTabWork%(ccrtStart%) = cTemp%
+RETURN
+
+Fcycle:  'Forward color cycle
+cTemp% = cTabWork%(ccrtStart%)
+FOR jj = ccrtStart%+1 TO ccrtEnd%
+   cTabWork%(jj-1) = cTabWork%(jj)
+NEXT
+cTabWork%(ccrtEnd%) = cTemp%
+RETURN
+
+
+LoadACBM:
+REM - Requires the following variables
+REM - to have been initialized:
+REM -    ACBMname$ (ACBM filespec)
+
+REM - init variables
+f$ = ACBMname$
+fHandle& = 0
+mybuf& = 0
+foundBMHD = 0
+foundCMAP = 0
+foundCamg = 0
+foundCCRT = 0
+foundABIT = 0
+
+REM - From include/libraries/dos.h
+REM - MODE_NEWFILE = 1006 
+REM - MODE_OLDFILE = 1005
+
+filename$ = f$ + CHR$(0)
+fHandle& = xOpen&(SADD(filename$),1005)
+IF fHandle& = 0 THEN
+   loadError$ = "Can't open/find pic file"
+   GOTO Lcleanup
+END IF
+
+
+REM - Alloc ram for work buffers
+ClearPublic& = 65537&
+mybufsize& = 360
+mybuf& = AllocMem&(mybufsize&,ClearPublic&)
+IF mybuf& = 0 THEN
+   loadError$ = "Can't alloc buffer"
+   GOTO Lcleanup
+END IF
+
+inbuf& = mybuf&
+cbuf& = mybuf& + 120
+ctab& = mybuf& + 240
+
+
+REM - Should read  FORMnnnnACBM
+rLen& = xRead&(fHandle&,inbuf&,12)
+tt$ = ""
+FOR kk = 8 TO 11
+   tt% = PEEK(inbuf& + kk)
+   tt$ = tt$ + CHR$(tt%)
+NEXT
+
+IF tt$ <> "ACBM" THEN 
+   loadError$ = "Not an ACBM pic file"
+   GOTO Lcleanup
+END IF
+
+REM - Read ACBM chunks
+
+ChunkLoop:
+REM - Get Chunk name/length
+ rLen& = xRead&(fHandle&,inbuf&,8)
+ icLen& = PEEKL(inbuf& + 4)
+ tt$ = ""
+ FOR kk = 0 TO 3
+    tt% = PEEK(inbuf& + kk)
+    tt$ = tt$ + CHR$(tt%)
+ NEXT   
+    
+IF tt$ = "BMHD" THEN  'BitMap header 
+   foundBMHD = 1
+   rLen& = xRead&(fHandle&,inbuf&,icLen&)
+   iWidth%  = PEEKW(inbuf&)
+   iHeight% = PEEKW(inbuf& + 2)
+   iDepth%  = PEEK(inbuf& + 8)  
+   iCompr%  = PEEK(inbuf& + 10)
+   scrWidth%  = PEEKW(inbuf& + 16)
+   scrHeight% = PEEKW(inbuf& + 18)
+
+   iRowBytes% = iWidth% /8
+   scrRowBytes% = scrWidth% / 8
+   nColors%  = 2^(iDepth%)
+
+   REM - Enough free ram to display ?
+   AvailRam& = FRE(-1)
+   NeededRam& = ((scrWidth%/8)*scrHeight%*(iDepth%+1))+5000
+   IF AvailRam& < NeededRam& THEN
+      loadError$ = "Not enough free ram."
+      GOTO Lcleanup
+   END IF
+
+   hires& = &H8000
+   lace&  = &H4
+   kk = 1
+   IF foundCamg THEN
+      IF (camgModes& AND hires&) THEN kk = kk+1
+      IF (camgModes& AND lace&)  THEN kk = kk+2
+   ELSE   
+      IF scrWidth% >= 640 THEN kk = kk + 1
+      IF scrHeight% >= 400 THEN kk = kk + 2
+   END IF
+   
+   SCREEN 2,scrWidth%,scrHeight%,iDepth%,kk
+   WINDOW 2,"LoadACBM",,7,2
+
+   REM - Get addresses of structures
+   GOSUB GetScrAddrs
+
+   REM - Black out screen
+   CALL LoadRGB4&(sViewPort&,ctab&,nColors%)
+
+
+ELSEIF tt$ = "CMAP" THEN  'ColorMap
+   foundCMAP = 1
+   rLen& = xRead&(fHandle&,cbuf&,icLen&)
+
+   REM - Build Color Table
+   FOR kk = 0 TO nColors% - 1
+      red% = PEEK(cbuf&+(kk*3))
+      gre% = PEEK(cbuf&+(kk*3)+1)
+      blu% = PEEK(cbuf&+(kk*3)+2)
+      regTemp% = (red%*16)+(gre%)+(blu%/16)
+      POKEW(ctab&+(2*kk)),regTemp%
+   NEXT
+
+
+ELSEIF tt$ = "CAMG" THEN 'Amiga ViewPort Modes
+   foundCamg = 1
+   rLen& = xRead&(fHandle&,inbuf&,icLen&)
+   camgModes& = PEEKL(inbuf&)
+
+
+ELSEIF tt$ = "CCRT" THEN 'Graphicraft color cycle info
+   foundCCRT = 1
+   rLen& = xRead&(fHandle&,inbuf&,icLen&)
+   ccrtDir%    = PEEKW(inbuf&)
+   ccrtStart%  = PEEK(inbuf& + 2)
+   ccrtEnd%    = PEEK(inbuf& + 3)
+   ccrtSecs&   = PEEKL(inbuf& + 4)
+   ccrtMics&   = PEEKL(inbuf& + 8)
+
+
+ELSEIF tt$ = "ABIT" THEN  'Contiguous BitMap 
+   foundABIT = 1
+
+   REM - This only handles full size BitMaps, not brushes
+   REM - Very fast - reads in entire BitPlanes
+   plSize& = (scrWidth%/8) * scrHeight%
+   FOR pp = 0 TO iDepth% -1
+      rLen& = xRead&(fHandle&,bPlane&(pp),plSize&)   
+   NEXT
+
+
+ELSE 
+   REM - Reading unknown chunk  
+   FOR kk = 1 TO icLen&
+      rLen& = xRead&(fHandle&,inbuf&,1)
+   NEXT
+   REM - If odd length, read 1 more byte
+   IF (icLen& OR 1) = icLen& THEN 
+      rLen& = xRead&(fHandle&,inbuf&,1)
+   END IF
+      
+END IF
+
+
+REM - Done if got all chunks 
+IF foundBMHD AND foundCMAP AND foundABIT THEN
+   GOTO GoodLoad
+END IF
+
+REM - Good read, get next chunk
+IF rLen& > 0 THEN GOTO ChunkLoop
+
+IF rLen& < 0 THEN  'Read error
+   loadError$ = "Read error"
+   GOTO Lcleanup
+END IF   
+
+REM - rLen& = 0 means EOF
+IF (foundBMHD=0) OR (foundABIT=0) OR (foundCMAP=0) THEN
+   loadError$ = "Needed ILBM chunks not found"
+   GOTO Lcleanup
+END IF
+
+
+GoodLoad:
+loadError$ =""
+
+REM  Load proper Colors
+IF foundCMAP THEN 
+   CALL LoadRGB4&(sViewPort&,ctab&,nColors%)
+END IF
+
+Lcleanup:
+IF fHandle& <> 0 THEN CALL xClose&(fHandle&)
+IF mybuf& <> 0 THEN CALL FreeMem&(mybuf&,mybufsize&)
+
+RETURN
+
+
+GetScrAddrs:
+REM - Get addresses of screen structures
+   sWindow&   = WINDOW(7)
+   sScreen&   = PEEKL(sWindow& + 46)
+   sViewPort& = sScreen& + 44
+   sRastPort& = sScreen& + 84
+   sColorMap& = PEEKL(sViewPort& + 4)
+   colorTab&  = PEEKL(sColorMap& + 4)
+   sBitMap&   = PEEKL(sRastPort& + 4)
+
+   REM - Get screen parameters
+   scrWidth%  = PEEKW(sScreen& + 12)
+   scrHeight% = PEEKW(sScreen& + 14)
+   scrDepth%  = PEEK(sBitMap& + 5)
+   nColors%   = 2^scrDepth%
+
+   REM - Get addresses of Bit Planes 
+   FOR kk = 0 TO scrDepth% - 1
+      bPlane&(kk) = PEEKL(sBitMap&+8+(kk*4))
+   NEXT
+RETURN
+
+

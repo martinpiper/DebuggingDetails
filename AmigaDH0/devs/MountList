@@ -1,0 +1,115 @@
+/* MountList for V1.3 */
+
+/*  Mount Entry for the new Console Handler */
+
+NEWCON: 
+    Handler = L:Newcon-Handler
+    Priority = 5
+    StackSize = 1000
+#
+
+/* This is an example of a non-filing system mount using a handler written
+   in C.
+*/
+ 
+SPEAK:     
+    Handler = L:Speak-Handler
+    Stacksize = 6000
+    Priority = 5
+    GlobVec = -1
+#
+
+/*  This is an example of an alternative type of non-filing device mount,
+    used to mount the non-buffered serial handler
+*/
+
+AUX:
+    Handler = L:Aux-Handler
+    Stacksize = 1000
+    Priority = 5
+#
+/*  This is a non-filing system device */
+
+PIPE:      
+    Handler = L:Pipe-Handler
+    Stacksize = 6000
+    Priority = 5
+    GlobVec = -1
+#
+
+/* This is an example of a mount list entry for using the recoverable 
+   ram disk.  Depending on the amount of memory you wish to devote to
+   it, you may want to change the HighCyl value.
+*/
+
+RAD:       Device = ramdrive.device
+           Unit   = 0
+           Flags  = 0
+           Surfaces  = 2
+           BlocksPerTrack = 11
+           Reserved = 2
+           Interleave = 0
+           LowCyl = 0  ;  HighCyl = 21
+           Buffers = 5
+           BufMemType = 1
+#
+
+/* Mount a 5.25" disk drive to be mounted as DF2: */
+
+DF2:       Device = trackdisk.device
+           Unit   = 2
+           Flags  = 1
+           Surfaces  = 2
+           BlocksPerTrack = 11
+           Reserved = 2
+           Interleave = 0
+           LowCyl = 0  ;  HighCyl = 39
+           Buffers = 20
+           BufMemType = 3
+#
+
+/* An example mount entry using the fast file system with a partition
+   of the hard disk using the 2090 disk controller.  PREP has been
+   used to create the first partition (up to cylinder 20).  The second
+   partition is MOUNTed, using the following entry:
+   NOTE: Some hard disk drivers require more stack than specified here.
+   Some may required less.
+   (The hard disk is not included; this is only an example.)
+*/
+
+FAST:
+    Device = hddisk.device
+    FileSystem = l:FastFileSystem
+    Unit   = 1
+    Flags  = 0
+    Surfaces  = 4
+    BlocksPerTrack = 17
+    Reserved = 2
+    Interleave = 0
+    LowCyl = 21  ;  HighCyl = 800
+    Buffers = 30
+    GlobVec = -1
+    BufMemType = 1
+    Mount = 1
+    DosType = 0x444F5301
+    StackSize = 4000
+#
+
+/* Let's say you have an A2000 with an internal drive, and an external
+   drive, and you want to refer to the external drive as DF1: as well
+   as DF2:   Well, this MountList entry will do it for you.  This technique
+   can be extended to provide you with a drive A: and B: if you really
+   want.
+*/
+
+DF1:       Device = trackdisk.device
+           Unit   = 2
+           Flags  = 1
+           Surfaces  = 2
+           BlocksPerTrack = 11
+           Reserved = 2
+           Interleave = 0
+           LowCyl = 0  ;  HighCyl = 79
+           Buffers = 20
+           BufMemType = 3
+#

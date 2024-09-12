@@ -1,0 +1,23 @@
+	IFND	EXEC_DEVICES_I
+EXEC_DEVICES_I	SET	1
+	IFND	EXEC_LIBRARIES_I
+	INCLUDE	"exec/libraries.i"
+	ENDC
+	IFND	EXEC_PORTS_I
+	INCLUDE	"exec/ports.i"
+	ENDC
+	rsreset
+DD	rs.b	LIB_SIZE
+DD_SIZE	rs.w	0
+	rsreset
+UNIT	rs.b	MP_SIZE
+UNIT_FLAGS	rs.b	1
+UNIT_pad	rs.b	1
+UNIT_OPENCNT	rs.w	1
+UNIT_SIZE	rs.w	0
+UNITB_ACTIVE	equ	0
+UNITF_ACTIVE	equ	1<<0
+UNITB_INTASK	equ	1
+UNITF_INTASK	equ	1<<1
+	ENDC
+

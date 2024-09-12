@@ -1,0 +1,28 @@
+; Startup sequence for Hard Disk users...checks for hard disk, then
+; transfers control if it is present. (The script assumes DH0:)
+; TO USE: copy your normal startup-sequence files (Startup-Sequence,
+; and StartupII to the S: directory of your hard disk.
+; Then rename your normal Startup-Sequence file
+; as Startup-Sequence.f in the S: directory of the floppy, just in case.
+; Now replace the Startup-Sequence file on the floppy with this file.
+;
+setpatch
+SYS:System/FastMemFirst
+binddrivers
+assign >NIL: DH0: exists
+IF NOT WARN
+; hard disk is present
+assign sys: dh0:
+assign c: SYS:c
+assign L: SYS:l
+assign FONTS: SYS:fonts
+assign S: SYS:s
+assign DEVS: SYS:devs
+assign LIBS: SYS:libs
+makedir ram:tr
+assign t: ram:tr
+execute s:Startup-Sequence
+ELSE
+; no hard disk
+execute s:Startup-Sequence.f
+ENDIF

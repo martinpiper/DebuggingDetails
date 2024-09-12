@@ -1,0 +1,141 @@
+Devpac Amiga 2		Release 2.14
+==============		============
+
+Although individual program version numbers may vary, the
+version number that should be written on your registration
+card should be 2.14. When requiring technical support or
+reporting bugs, please be sure to also quote the version
+number of the individual program in question.
+
+Lattice C users should read the LatticeInfo file on this disk.
+The ARP library has been updated since version 2.13.
+
+We have added many new features to Devpac Amiga since version
+2.08, detailed below:
+
+Editor
+======
+Shift-Amiga-A assembles without the options requestor.
+
+Shift-Amiga-L loads a file without the ARP requestor for the
+benefit of slow hard-disk users.
+
+Assembler
+=========
+Various bugs have been fixed, including multi-line macro
+calls, quoted section names and BSS sections. In addition
+it is now possible to pass quoted filenames to GenIm2.
+
+Expressions of the form lab1-lab2 are now allowed when lab1
+and lab2 are both in another section (which must be the same
+section).
+
+When using Word- or Long-sized indirection, addresses are checked
+to be even, for example MOVE.L 5,A6 will give an error. This may be
+disabled if required (e.g. 68020 users) using OPT E-
+
+The register list syntax produced in MOVEM lists from MonAm
+is now accepted by GenAm.
+
+The | character is now accepted as a bitwise OR operator (for
+all you C programmers!)
+
+Symbols set using REG may now be used in expressions, with a
+warning. Their value is the same as that used in the MOVEM op.
+
+If generating executable, absolute code you may specify ORG.W
+which will force all program references to be short-word.
+
+The RORG directive is now supported for compatibility.
+
+There are several new optimisations that the assembler can
+perform, using OPT O. Additional types are:
+	3	Short Word Addressing
+References to absolute addresses in the range 0-7FFF and
+FFFF8000 to FFFFFFFF will be optimised.
+	4	MOVEQ optimising
+Statements of the form MOVE.L <expr>,Dn will be optimised
+to MOVEQ if <expr> is -128 to 127 inclusive.
+	5	Quick Optimising
+Statements of the form ADD # and SUB # will be optimised
+to ADDQ / SUBQ if possible.
+	6	Warning of short branches
+Not strictly an optimisation, OPT OW6+ in combination with
+OP O1+ will give warnings on forward branches that can be
+made short so you may optimise them yourself.
+The warning messages produced by each optimisation may be
+individually controlled, using OPT OWx+ / OPT OWx- where
+'x' is the optimising number (shown above), e.g. OPT OW3+
+
+There is a new option which can be used to detect typing
+errors, OPT i. With this on, any indirect, absolute reference
+(other than location 4) will give the error '# probably
+missing'. For example, the line
+	and.b $df,d1
+will give an error as and.b #$df,d1 is really intended. This
+can be overidden on a line-by-line basis (e.g. for hardware
+register access) by specifying the expression within brackets
+and using .W or .L, for example move.l (_ciabase).L,d0
+
+When using the stand-alone version of the assembler it is
+possible to define labels on the command-line using the
+-e option, which should be followed by one or more
+assignments, separated by commas or spaces. Such
+definitions are parsed as if they were the second line in
+the source (i.e. after any options). For example,
+	genim2 test -l -e TYPE=4,OUTPUT=1
+
+The '@' character is now allowed in symbols, except when
+followed by a digit from 0-7 when it is taken as the start
+of an octal number. This is for Lattice C 5.0 users.
+
+Shell 1.3 Users: GenIm2 may be made resident. GenAm2/MonAm2
+must not be made resident as they are not re-entrant.
+
+Debugger
+========
+Various bugs have been fixed, including disassembling certain
+BTST instructions, the register window display, 68020/030
+compatibility, Ctrl-T on a breakpoint, symbol character
+significance, and cross-referencing.
+
+All memory is now checked before it is read to ensure it exists.
+Previously any reads of hardware registers (@C00000) or accidental
+reads because of wrap-around could cause nasty crashes. Invalid memory 
+is displayed as **
+
+The Alt-O command can be repeated by pressing space after it shows 
+the numbers.
+
+The default printer is now nothing, previously it was PRT:
+
+68020/030 Users: please note the instruction cache is turned
+off while MonAm is loaded to prevent nasty interactions with
+the debugger. The cache is restored to its original state when
+the debugger terminates. Disabling the cache will produce a
+performance degradation for which we can only apologise. Please
+also note that the Tutorial in section 1.11 is not valid for
+these processors because they allow the odd-access that is used
+in the example.
+
+Disk Details
+============
+
+In order to make space on Disk 1, the following files and
+directories have been deleted:
+	Utilities	all
+	Fonts		all except Topaz
+	System		some
+You can find these files on your original Workbench disk that
+came with your machine.
+
+When using GenAm2 and MonAm2 on PAL machines with external RAM,
+you may sometimes get *two* mouse pointers; one will be the
+normal Intuition pointer, the other will be the custom pointer
+associated with the program you are using. Do not be alarmed -
+this seems to be a harmless bug in Intuition.
+
+The gb keymap has been updated so that the Help key works on A500s.
+
+Last changed: 21 June 89
+

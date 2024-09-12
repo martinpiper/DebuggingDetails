@@ -1,6 +1,8 @@
-https://codetapper.com/amiga/diary-of-a-game/menace/part-1-system-control/
-
+https://www.winuae.net/
 "C:\Users\marti\Downloads\WinUAE5300_x64\winuae64.exe"
+
+http://amiga-dev.wikidot.com/tool:winuae
+http://oscomp.hu/depot/amiga_memory_map.html
 
 Amiga 500
 Period correct: Kickstart 1.3 and Workbench 1.3.3
@@ -12,8 +14,10 @@ https://archive.org/download/verifiedbiosfiles/OGA%20BIOS/Amiga/
 https://archive.org/details/commodore-amiga-operating-systems-workbench
 
 
-"C:\Users\marti\Downloads\commodore-amiga-operating-systems-workbench\Workbench v1.3 rev 34.21 (1988)(Commodore)(A500-A2000)(NO)(Disk 1 of 2)(Workbench).zip"
-"C:\Users\marti\Downloads\commodore-amiga-operating-systems-workbench\Workbench v1.3 rev 34.20 (1988)(Commodore)(A500-A2000)(DK)(Disk 2 of 2)(Extras).zip"
+https://ia802200.us.archive.org/view_archive.php?archive=/30/items/commodore-amiga-operating-systems-workbench/Workbench%20v1.3%20rev%2034.20%20%281988%29%28Commodore%29%28A500-A2000%29%28GB%29%28Disk%201%20of%202%29%28Workbench%29.zip
+https://ia802200.us.archive.org/view_archive.php?archive=/30/items/commodore-amiga-operating-systems-workbench/Workbench%20v1.3%20rev%2034.20%20%281988%29%28Commodore%29%28A500-A2000%29%28GB%29%28Disk%202%20of%202%29%28Extras%29.zip
+"C:\Users\marti\Downloads\Workbench v1.3 rev 34.20 (1988)(Commodore)(A500-A2000)(GB)(Disk 1 of 2)(Workbench).adf"
+"C:\Users\marti\Downloads\Workbench v1.3 rev 34.20 (1988)(Commodore)(A500-A2000)(GB)(Disk 2 of 2)(Extras).adf"
 
 These need Kickstart 2.04:
 "C:\Users\marti\Downloads\commodore-amiga-operating-systems-workbench\Workbench v2.1 rev 38.35 (1992)(Commodore)(M10)(Disk 1 of 5)(Install).zip"
@@ -27,6 +31,7 @@ copy DF0: DH0: clone all
 copy DF1: DH0: clone all
 
 
+https://codetapper.com/amiga/diary-of-a-game/menace/part-1-system-control/
 
 All ADF? :)
 https://archive.org/details/CommodoreAmigaApplicationsADF
@@ -41,13 +46,25 @@ Snapshot
 
 
 Directory Opus
+Need kickstart 2.04
 https://ia803206.us.archive.org/view_archive.php?archive=/20/items/CommodoreAmigaApplicationsADF/Directory%20Opus%20v5.5%20%281996-08-20%29%28GP%20Software%29%28Disk%201%20of%202%29%28Install%29%5BHD%5D.zip
 https://ia803206.us.archive.org/view_archive.php?archive=/20/items/CommodoreAmigaApplicationsADF/Directory%20Opus%20v5.5%20%281996-08-20%29%28GP%20Software%29%28Disk%202%20of%202%29%28Extras%29%5BHD%5D.zip
+"C:\Users\marti\Downloads\Directory Opus v5.5 (1996-08-20)(GP Software)(Disk 1 of 2)(Install)[HD].adf"
+"C:\Users\marti\Downloads\Directory Opus v5.5 (1996-08-20)(GP Software)(Disk 2 of 2)(Extras)[HD].adf"
+https://ia903206.us.archive.org/view_archive.php?archive=/20/items/CommodoreAmigaApplicationsADF/Directory%20Opus%20v3.29%20%281991-10-07%29%28Left%20Side%20Software%29.zip
+"C:\Users\marti\Downloads\Directory Opus v3.29 (1991-10-07)(Left Side Software).adf"
 
 
-Devpac2.15
-https://ia903206.us.archive.org/view_archive.php?archive=/20/items/CommodoreAmigaApplicationsADF/Devpac%20v2.15%20%281990%29%28HiSoft%29%28Disk%201%20of%202%29%5Ba%5D.zip
-https://ia803206.us.archive.org/view_archive.php?archive=/20/items/CommodoreAmigaApplicationsADF/Devpac%20v2.15%20%281990%29%28HiSoft%29%28Disk%202%20of%202%29.zip
+PowerPacker
+https://ia903206.us.archive.org/view_archive.php?archive=/20/items/CommodoreAmigaApplicationsADF/PowerPacker%20Professional%20v3.0b%20-%20Newsflash%20PowerUtilities%20%281990-12-24%29%28United%20Graphic%20Artists%29.zip
+"C:\Users\marti\Downloads\PowerPacker Professional v3.0b - Newsflash PowerUtilities (1990-12-24)(United Graphic Artists).adf"
+
+
+Devpac2.14
+https://ia803206.us.archive.org/view_archive.php?archive=/20/items/CommodoreAmigaApplicationsADF/Devpac%20v2.14%20%281989%29%28HiSoft%29%28Disk%201%20of%202%29.zip
+https://ia803206.us.archive.org/view_archive.php?archive=/20/items/CommodoreAmigaApplicationsADF/Devpac%20v2.14%20%281989%29%28HiSoft%29%28Disk%202%20of%202%29.zip
+"C:\Users\marti\Downloads\Devpac v2.14 (1989)(HiSoft)(Disk 1 of 2).adf"
+"C:\Users\marti\Downloads\Devpac v2.14 (1989)(HiSoft)(Disk 2 of 2).adf"
 
 copy df0:include.cbm dh0:devpac all
 cd dh0:devpac
@@ -102,3 +119,13 @@ https://amr.abime.net/issue_168_pages
 https://amr.abime.net/issue_169_pages
 https://archive.org/details/amigaformat013disk_1990-08
 "C:\Users\marti\Downloads\af013.adf"
+
+
+
+https://en.wikipedia.org/wiki/Amiga_Hunk
+
+f 1564
+f 7f868
+m 1558
+7f888
+L c:\temp\AmigaHD\Temp\bin20000 1ffe0

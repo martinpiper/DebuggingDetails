@@ -1,0 +1,39 @@
+.key ""
+.bra {
+.ket }
+assign from{$$}: "" ;remember where we came from
+resident c:copy	add pure ;leave out a disk swap
+resident c:dir add pure ;leave out another disk swap
+resident c:echo add pure
+resident c:setenv add pure
+failat 21
+lab y
+lab yes
+echo "*Ec            *E[4mPrinter Install Program*N*N*E[0mPrinters Available:*N"
+cd "Extras 1.3:devs/printers"
+IF error
+skip err
+ENDIF
+dir
+echo "*NWhich printer ? (press RETURN to exit)" noline
+setenv >NIL: q{$$} ?
+IF $q{$$} EQ ""
+skip err
+ENDIF
+echo >>env:q{$$} " to devs:printers"
+echo "Now copying your printer choice to devs:printers."
+copy <env:q{$$} >NIL: ?
+IF ERROR
+echo "Error during copy.  Do you want to try again ? " noline
+skip >NIL: back ?
+ELSE
+echo "Now choose this printer using Preferences."
+ENDIF
+lab err
+endskip
+cd from{$$}:
+assign from{$$}:
+resident copy remove
+resident dir remove
+resident echo remove
+resident setenv remove

@@ -1,0 +1,185 @@
+'Program: ConvertFd - created Aug 9, 1985
+'This program converts .fd files, like 'graphics_lib.fd' to
+' .bmap format files, like 'graphics.bmap', so BASIC
+' programs can access libraries of machine language routines
+' by name via the LIBRARY statement.
+'
+' Modified  01/86 by Carolyn Scheppner  CBM
+'   Prepends an x to all function names which
+'    conflict with AmigaBasic keywords.
+'    See data statements at end of program for
+'    known conflicts.  To call these functions,
+'    prepend an x  (example  xRead).
+'   Saves the .bmap file in current or specified
+'    directory (previously saved in LIBS:).
+'    For your program to access the .bmap via
+'    LIBRARY, it must be in the current dir
+'    or the LIBS: dir.
+'   The name of a .bmap file must match its
+'    library's name.  The libraryname is the
+'    part of the .fd file name before the _.
+'    (example   dos.bmap from dos_lib.fd)
+
+
+  DEFINT a-Z    'by default, all variables ares integer
+
+  REM ******** for conflicting tokens ********
+  READ cnt       'count of conflicting tokens
+  DIM con$(cnt)
+  FOR k = 0 TO cnt-1: READ con$(k): NEXT
+  REM ****************************************
+
+  INPUT "Enter name of .fd file to read > ",fdFilename$
+  OPEN fdFilename$ FOR INPUT AS #1
+  INPUT "Enter name of .bmap file to produce > ",bmapFilename$
+  OPEN bmapFilename$ FOR OUTPUT AS #2
+  WHILE NOT EOF(1)
+    GetLine
+    IF char$ = "#" THEN
+      'lines which begin with "#" are command lines
+      GOSUB GotCommand
+    ELSEIF char$ = "*" THEN
+      'lines which begin with "*" are comment lines
+    ELSEIF char$ = CHR$(10) OR char$ = CHR$(13) THEN
+      'blank line
+    ELSE
+      'all other lines define a function in the library
+      GOSUB GotFunction
+    END IF
+  WEND
+  CLOSE
+  END
+
+GotCommand:
+  GetChar  'skip 1st "#"
+  GetChar  'skip 2nd "#"
+  GetToken
+  IF token$ = "bias" THEN
+    GetNum
+    offset = -num
+  END IF
+ ram: RETURN
+
+GotFunction:
+  GetToken  'token$=function's name
+
+  REM **** prepend conflicting tokens with 'x' ****
+  k$ = token$
+  FOR k = 0 TO cnt-1
+     IF k$ = con$(k) THEN token$ = "x" + token$ 
+  NEXT   
+  REM **********************************************
+
+  funcOffset=offset
+  offset=offset-6
+  parms$=""
+  SkipTill "(": IF char$="" THEN BadFileFormat
+  SkipTill ")": IF char$="" THEN BadFileFormat
+  GetChar
+  IF char$<>"" THEN
+    SkipTill "(": IF char$="" THEN BadFileFormat
+    WHILE char$ <> ")"
+      GetChar 'skip ( or , or /
+      IF char$<>")" THEN
+        GOSUB GetRegister
+        IF register=0 THEN BadFileFormat
+        IF register=-1 THEN
+          PRINT "Warning: Function ";token$;" not included because it"
+          PRINT " needs a parameter passed in a register BASIC cannot"
+          PRINT " conform to."
+          PRINT
+          RETURN
+        END IF
+        parms$ = parms$+CHR$(register)
+         'tells BASIC which register to put this parm into
+      END IF
+    WEND
+  END IF
+  AddEntry token$,funcOffset
+  PRINT #2,parms$;   'tells BASIC what registers to pass parms in
+  PRINT #2,CHR$(0);  'marks end of function entry
+  RETURN
+
+BadFileFormat:
+  PRINT "Error: ";fdFilename$;" has a format error"
+  PRINT "In line:";lineNum;":";buf$
+  PRINT "In column:";column
+  CLOSE
+  STOP
+  
+
+'map {d0,d1,d2,d3,d4,d5,d6,d7,a0,a1,a2,a3,a4} to {1,..,13}
+GetRegister:
+  uchar$=UCASE$(char$)
+  IF uchar$="D" THEN
+    register=1
+  ELSEIF uchar$="A" THEN
+    register = 9
+  ELSE
+    register=0  'error
+    RETURN
+  END IF
+  GetChar  'skip a or d
+  i=ASC(char$)-48
+  IF i<0 OR i>7 THEN register=0: RETURN  'error
+  GetChar  'skip digit
+  register=register+i
+  IF register>13 THEN register=-1  'error
+  RETURN
+
+SUB AddEntry(nam$, liboffset%) STATIC
+  highByte = PEEK(VARPTR(liboffset%))
+  lowByte = PEEK(VARPTR(liboffset%)+1)
+  PRINT #2,nam$; CHR$(0); CHR$(highByte); CHR$(lowByte);
+  END SUB
+
+SUB GetLine STATIC
+  SHARED buf$,column,lineNum
+  LINE INPUT #1,buf$
+  column = 0
+  GetChar
+  lineNum = lineNum+1
+  END SUB
+
+SUB GetNum STATIC
+  SHARED num,token$
+  GetToken
+  num = VAL(token$)
+  END SUB
+
+SUB GetToken STATIC
+  SHARED buf$,char$,token$
+  SkipWhiteSpace
+  token$=""
+  uchar$=UCASE$(char$)
+  WHILE ((uchar$>="A") AND (uchar$<="Z")) OR ((uchar$>="0") AND (uchar$<="9")) OR (uchar$="-")
+    token$=token$+char$
+    GetChar
+    uchar$ = UCASE$(char$)
+  WEND
+  END SUB
+
+SUB SkipTill(stopChar$) STATIC
+  SHARED char$
+  WHILE (char$ <> stopChar$) AND (char$ <> "")
+    GetChar
+  WEND
+  END SUB
+
+SUB SkipWhiteSpace STATIC
+  SHARED char$
+  WHILE (char$=" ") OR (char$=CHR$(9))
+    GetChar
+  WEND
+  END SUB
+
+SUB GetChar STATIC
+  SHARED column,char$,buf$
+  column = column + 1
+  char$ = MID$(buf$,column,1)
+  END SUB
+       
+REM **** conficting token count and tokens ****                
+DATA 11                
+DATA abs, Close, Exit, Input, Open, Output
+DATA Read, tan, Translate, Wait, Write

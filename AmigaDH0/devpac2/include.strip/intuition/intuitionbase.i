@@ -1,0 +1,19 @@
+
+ IFND  INTUITION_INTUITIONBASE_I
+INTUITION_INTUITIONBASE_I SET  1
+ IFND EXEC_TYPES_I
+ INCLUDE "exec/types.i"
+ ENDC
+ IFND EXEC_LIBRARIES_I
+ INCLUDE "exec/libraries.i"
+ ENDC
+ IFND    GRAPHICS_VIEW_I
+ INCLUDE "graphics/view.i"
+ ENDC
+ STRUCTURE IntuitionBase,0
+ STRUCT  ib_LibNode,LIB_SIZE
+ STRUCT  ib_ViewLord,v_SIZEOF
+ APTR    ib_ActiveWindow
+ APTR    ib_ActiveScreen
+ APTR    ib_FirstScreen
+ ENDC

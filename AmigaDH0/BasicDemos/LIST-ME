@@ -1,0 +1,181 @@
+' 
+'            HOW TO RUN Amiga BASIC DEMONSTRATION PROGRAMS
+'            =============================================
+' 
+' 
+' For special instructions on how to deal with a 256k Amiga see the 
+' end of this document.
+' 
+'         1a. If you have 2 disk drives insert the Workbench diskette
+'                in the internal drive and the Extras diskette in the
+'                external drive.  Boot the system (<Ctrl><Amiga><Amiga>).
+'         1b. If you have a 1 drive system insert the Workbench 
+'                diskette and boot the system  (<Ctrl><Amiga><Amiga>).
+'         2. Open the Extras diskette, then the BasicDemos Drawer.
+'         3. Select and open the demo of your choice.  The information
+'                below will then be useful.
+' 
+' DEMO   How to interact with:
+' ======= =============================================================
+' SPEECH -- On a 1 drive system Basic will ask for the Workbench 
+'        diskette in order to access the Translator and Narrator
+'        devices.  Once loaded The demo will display and speak 
+'        instructions.
+'        
+'        There are 6 "slider" devices that control Pitch, Inflection,
+'        Rate, Voice, Tune, and Volume.  To the left side is "low",
+'        to the right is "high".  Note that Voice has only 2 positions,
+'        male and female.  See the manual (SAY command) for additional
+'        information.
+' 
+'        To exit select the close gadget in the upper left hand corner.
+' 
+'
+' MUSIC -- Displays a screen with lines in it as it plays a tune.  If
+'        you resize the window the lines will soon start to follow the 
+'        new boarders.  (You may see a little leftover line from time
+'        to time.)
+' 
+'        To exit select the close gadget in the upper left hand corner.
+' 
+'
+' LIBRARY -- This demo prints some sample text in different type styles.
+'        To do this it uses calls to DOS and Graphics libraries.
+' 
+'        To exit select the close gadget in the upper left hand corner
+'        or type "system".
+' 
+'
+' SCREEN -- This demo requires 512k (or more).  If you do not have 512k you
+'        can exit by typing "system<RETURN>".
+'        
+'        To exit select the close gadget in the upper left hand corner
+'        or type "system<RETURN>".
+' 
+'
+' DEMO -- With 256k this demo is decidedly less interesting (than with
+'        512k) but still runs.  The 256k version just puts up one 
+'        window and bounces some small balls around.  If 512k is 
+'        available the demo puts up 4 windows and does something
+'        different in each.
+' 
+'        To exit this demo choose "Stop" from the run menu, then "Quit
+'        from the project menu.
+' 
+'
+' PICTURE -- This demo is described in detail in the tutorial portion of
+'        the manual.  It creates a "sphere" in the upper left hand part
+'        of the screen, then will move it to where ever you click the
+'        mouse.  You can also drag the mouse and move it that way.
+' 
+'        To exit select the close gadget in the upper left hand corner.
+' 
+'
+' PICTURE2 -- This demo is identical to Picture1 and provided as a backup
+'        of Picture.  See the tutorial section in the manual for 
+'        additional information.
+' 
+'
+' OBJEDIT -- This is an OBJect EDITor.  You can edit objects (BOBs and 
+'        sprites) for later use in your own animation.  This program
+'        is also documented in the manual.  On a 256k system the
+'        "paint" option is not supported.  This is because paint
+'        can take a lot of memory to execute.
+' 
+'        To exit this program use the second mouse (menu) button
+'        and choose Project-Quit.
+'
+' 
+' TERMINAL -- On a 1 drive system Basic will ask for the Workbench 
+'        diskette in order to access the Serial Device driver. This 
+'        "demo" will communicate with a terminal at 9600 baud.  It
+'        is a very simple program, try listing it.
+' 
+'        To exit select the close gadget in the upper left hand corner.
+' 
+'
+' SCREENPRINT -- This program draws random string designs and allows
+'        The user to dump the screen to a supported graphic printer. 
+'        
+'        To exit press "Q" (Quit). You can not quit during a graphic dump.
+'
+'
+' BITPLANES -- This demo finds the addresses of the BitPlanes (screen ram)
+'              of its screen.  It calculates and prints the addresses
+'              of screen related structures, and variables from those
+'              structures (such as the RGB color table values).
+'
+'        To exit, click the left mouse button.
+' 
+'
+' CONVERTFD -- This "demo" is used to translate name.FD files into 
+'        name.bmap files so that Amiga BASIC can access libraries
+'        of machine language routines by name, via the LIBRARY
+'        statement.  The 1.2 Amiga fd files are in the Extras:fd1.2
+'        directory.  Do not call system library routines without
+'        understanding the setup required and the results of the
+'        routines.  There are technical books available which
+'        explain the use of the system library routines.
+'
+'        To exit this demo choose "Stop" from the run menu, then "Quit
+'        from the project menu.
+' 
+'
+' GRAPHICS.BMAP --
+' EXEC.BMAP --
+' DOS.BMAP --
+' BALL -- These 4 data files are used by other demo programs.  They
+'        are not demos in and of themselves.
+'
+'
+' IFF DEMOS --
+'
+' Note:  These demos all require the .bmap files in the BasicDemos
+'        directory.  BasicDemos must be the current directory when
+'        these programs are run.  If you start a program by double
+'        clicking its icon, its drawer automatically becomes the
+'        current directory.  But if you LOAD these programs from
+'        within AmigaBasic, you must set the current directory
+'        yourself.  Do this with the CHDIR command.
+'        ( Example:  chdir "Extras:BasicDemos" ) 
+'         
+'
+'    LOADILBM-SAVEACBM --- This demo loads the IFF ILBM picture file
+'        called "Heart.ILBM" and demos color cycling.  It also gives
+'        you the option of saving the ILBM file in ACBM format
+'        for faster loading by AmigaBasic (with LOADACBM).
+'        A Graphicraft pic such as Heart.ILBM will not load much
+'        faster as an ACBM but a compacted (DPaint, Aegis) pic
+'        can be loaded much more quickly as an ACBM.
+'        
+'    LOADACBM --- Loads an ACBM pic file such as those created with
+'        the above program. 
+'
+'    SAVEILBM --- Draws a demo screen and saves it as an IFF ILBM file.
+'        The ILBM file can be loaded into IFF graphics packages such
+'        as Graphicraft, Deluxe Paint, and Aegis Images.     
+'    
+'    HEART.ILBM --- A Graphicraft IFF ILBM picture file which is 
+'        loaded by the LOADILBM-SAVEACBM demo.
+'        
+' 
+' Special Instructions for People with 256k Systems:
+' --------------------------------------------------
+' 
+' If you are using a 256k Amiga memory will be very tight for some of
+' these demos, this makes the following steps necessary:
+' 
+'         1. Power off your Amiga.
+'         2. Remove any external disk drives (floppy and hard disks).
+'                Buffers are allocated when the the Amiga notices that
+'                these drives are present.  This can allocate a 
+'                significant amount of memory.
+'         3. Power on your Amiga and boot using KickStart and Workbench.
+'         4. When the Workbench icon appears and the drive light goes 
+'                out eject the Workbench diskette.
+'         5. Insert the Extras diskette and open (double click) its icon.
+'         6. Open the BasicDemos drawer.
+'         7. Close the Extras window.  Closing windows frees memory.
+'         8. Drag the demo of interest outside the BasicDemos window.
+'         9. Close the BasicDemos window.  Closing windows frees memory.
+'        10. Open (double click) the demo Icon you have moved.

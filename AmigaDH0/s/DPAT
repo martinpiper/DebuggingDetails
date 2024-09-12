@@ -1,0 +1,24 @@
+.key com/a,pat/a,dir/a,opt1,opt2,opt3,opt4
+failat 21
+echo >ENV:qw<$$> "<dir>" first=256
+IF $qw<$$> EQ ":"
+  list >t:q<$$> <pat> lformat="<com> *"%s%s*" *"<dir>%s*" <opt1> <opt2> <opt3> <opt4>"
+  skip doit
+ENDIF
+IF $qw<$$> EQ "/"
+  list >t:q<$$> <pat> lformat="<com> *"%s%s*" *"<dir>%s*" <opt1> <opt2> <opt3> <opt4>"
+  skip doit
+ENDIF
+IF EXISTS <dir>
+  list >t:q<$$> <pat> lformat="<com> *"%s%s*" *"<dir>/%s*" <opt1> <opt2> <opt3> <OPT4>"
+ELSE
+  list >t:q<$$> <pat> lformat="<com> *"%s%s*" *"<dir>*" <opt1> <opt2> <opt3> <OPT4>"
+ENDIF
+lab doit
+IF NOT FAIL
+  execute t:q<$$>
+ELSE
+echo "<pat> not found"
+ENDIF
+failat 10
+;do wildcards for double arg command

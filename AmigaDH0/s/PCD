@@ -1,0 +1,11 @@
+.key dir
+IF "<dir>" EQ ""
+assign ofrom<$$>: ""
+cd from<$$>:
+assign from<$$>: ofrom<$$>:
+assign ofrom<$$>:
+ELSE
+assign from<$$>: ""
+cd <dir>
+ENDIF
+; this is a CD script that remembers the previous directory

@@ -1,0 +1,761 @@
+**about
+This function displays some information about the program, including
+the current version number, copyright information, and how to contact
+technical support.^
+**iconify
+This closes the Directory Opus screen, frees as much memory as possible, and
+opens a small window on the Workbench screen.
+
+This allows you to have Directory Opus constantly available, but using the
+minimum amount of memory possible. Iconifying can save as much as 180K,
+depending on the screen size and number of colours you have configured.
+
+The iconified window can be configured as a 12 or 24 hour clock, no clock, or
+no window at all. In the last case, the only way to re-enter Directory Opus is
+with the use of the hot keys. Otherwise, to re-enter Directory Opus from the
+iconified window, activate the window with the left mouse button and press the
+right mouse button (or use the hot keys).^
+**quit
+This function exits Directory Opus. If the configuration has been changed
+since it was last saved, you are given the option of saving it, losing the
+changes, or remaining in Directory Opus.^
+**configure
+This will either load the configuration program ConfigOpus into memory and
+run it, or if it is already in memory, invoke it. Consult the manual for
+information on the many configuration items.^
+*arc list
+This function allows you to automatically list archives created by the
+programs Arc, Zoo and LHArc. The type of archive is recognised automatically.
+
+To list an archive, select the file (or files) and click this gadget with
+the left mouse button.
+
+Note that this gadget actually calls the AUTO function (see manual), and
+therefore uses the user-defined filetypes to manipulate the archives. This
+means that you can add filetypes for other archive types.^
+*arc ext
+This function allows you to automatically extract files from archives created
+by the programs Arc, Zoo and LHArc. The type of archive is recognised
+automatically.
+
+To extract files from an archive, open the directory you wish the extracted
+files to be written to in the inactive window, select the file (or files) and
+click this gadget with the right mouse button.
+
+Note that this gadget actually calls the AUTO2 function (see manual), and
+therefore uses the user-defined filetypes to manipulate the archives. This
+means that you can add filetypes for other archive types.^
+**archive
+This function allows you to create and add files to archives. The default
+configuration allows the usage of Arc, Zoo and LHArc to create archives. You
+may modify these, or add up to three more archive types.
+
+Select the archiver to use in the Archive section of Functions, in the
+configuration.
+
+To add files to an archive, open the directory you wish the archive to be
+written to in the inactive window, select the file or directory (or files and
+directories), and click this gadget. You will be asked for the name of the
+archive to be created or added to.
+
+Note that Arc, unlike Zoo and LHArc, does not allow you to
+archive directories.^
+**all
+This function selects all files and directories in the active directory
+window.^
+**none
+This function unselects all files and directories in the active directory
+window.^
+**toggle
+This function reverses the state of all files and directories in the active
+directory (ie, all selected entries are deselected, and vice versa).^
+**parent
+This function reads the parent directory of the active directory window.^
+**root
+This function reads the root directory of the active directory window.^
+**saveconfig
+This function saves the configuration to the file it was read from initially.
+When first run, Directory Opus tries to read the configuration from a file
+called DirectoryOpus.CFG. It first looks in the current directory, and then
+in the S: directory.^
+**lastsaved
+This resets the configuration to the last-saved settings. If the configuration
+has been changed, you are asked for confirmation before this is done.^
+**defaults
+This resets the configuration to the hard-coded default settings. If the
+configuration has been changed, you are asked if you wish to save it first.^
+**date
+This function allows you to set the system time and date. You may wish to do
+this if you do not have a battery backed clock connected.^
+**cd
+This function allows you to set the current working directory for Directory
+Opus. This is the directory that is read if you press return on an empty
+directory gadget.^
+**errorhelp
+This gives you more information about AmigaDOS error messages and codes than
+is generally available. When selected, you are asked for the error code. Once
+this is entered, you are shown the standard error message as well as a
+description of the error.^
+**format
+This allows you to format a new disk. All new disks need to be formatted
+before the computer can write to them.
+
+When this is selected, a requester appears with several gadgets. You may
+select any or all of the drive gadgets DF0:, DF1:, DF2: and DF3:. Each drive
+gadget has its own string gadget, into which you can enter the name you wish
+to give the formatted disk.
+
+Verify allows you to turn verify on or off. If verify is turned off, the
+format process will be much faster, but you will not be made aware of any
+errors that occur.
+
+If Quick is selected, disks will just be initialised (wiped). This provides
+an extremely fast way to erase old disks. This will not work on new disks,
+however; only on disks that have previously been formatted.
+
+If No icons is selected, Trashcan.info and Trashcan directory will not be
+created on the disk.
+
+If you select FFS, the disk will be formatted to use the Fast Filing System.
+Although you can select FFS under Kickstart 1.3, you will only be able to read
+FFS-formatted disks under Kickstart 2.0 or greater.^
+**diskcopy
+This allows you to copy one disk to one or more destinations. It makes an
+exact copy of the original disk. It will not copy any protected software, or
+non-AmigaDOS format disks.
+
+When this function is chosen, a requester appears with several gadgets.
+Select a source disk from one of the gadget labelled "From", and select one
+or more destination disks from the gadgets labelled "To".
+
+If Verify is selected, the copy will be verified after writing each track,
+to make sure it copied successfully.^
+**install
+This function allows you to make a disk bootable. All bootable disks have
+special information written on the first sector of the disk. Without this, the
+disk will not boot.
+
+Select the drives you wish to install from the gadgets DF0:, DF1:, DF2: and
+DF3:.
+
+If the Check gadget is highlighted, the disks will not be installed, but the
+existing bootblocks will be checked against a standard AmigaDOS bootblock.
+If a bootblock proves to be non-standard, you should check it with a virus
+killer, in case it has been infected by a virus.^
+**relabel
+This allows you to change the name (label) of the disk that is open in the
+active directory window.^
+**search
+This function allows you to search all selected files for a specified string,
+which can optionally contain wildcards. If a match is found, you are told
+which file contains the string, and given the option to enter the text viewer
+and read the file. If you opt to do this, a search for the string is
+automatically initiated once the file has been read by the text viewer.
+
+If any directories are selected, all the files within those directories are
+also searched.^
+**protect
+This function allows you to modify the protection bits of the selected files
+and directories in the active directory window. If any directories are
+selected, you are asked whether you wish the files within them to be protected
+as well.
+
+For each entry, you are presented with a requester displaying the protection
+bits currently set for that entry. The protection bits are H (hidden), S
+(script), P (pure), A (archived), R (readable), W (writeable), E (executable)
+and D (deleteable).
+
+To toggle bits on or off, click on the appropriate gadgets, or press the
+appropriate keys.
+
+To set the protection bits of all selected entries you should select the
+All gadget from the protection requester; choosing Okay will set the
+protection bits a file at a time.^
+**printdir
+This function prints the contents of the active directory window (to the
+PRT: device). You may elect which information to print, including file sizes,
+protection bits, dates and comments.^
+**print
+This function will print all selected files. It is actually a powerful print
+formatter. There are several configuration items in the print requester.
+
+Page length is the length of each page, in lines. Left and Right margin allow
+you to specify the position of the margins, in character positions. Tab is the
+number of spaces a tab character is equivalent to. Title allows you to specify
+a title that will be used in the header and footer instead of the filename.
+Output allows you to specify where you want the output of the print process
+to go to.
+
+The Title, Date and Page # gadgets allow you to specify whether headers and/or
+footers will be printed, and what information they will contain.
+
+The three gadgets that initally say Normal allow you to set the typestyle
+for the header, footer, and all other text.
+
+The gadget at the bottom marked Draft allows you to specify whether all text
+is printed in draft mode or NLQ mode, headers and footers are printed in draft
+mode with the rest of the text in NLQ, or headers and footers in NLQ with the
+rest of the text in draft.
+
+The gadget next to this one determines whether or not the last page of the
+file to be printed is followed by a formfeed character, ejecting it.^
+**hunt
+This function allows you to search through all selected directories and their
+sub-directories for a specified file, or for a group of files specified by
+wildcard. If the specified files are found, the directory containing them will
+be read, and the files will be selected.^
+**encrypt
+This function allows you to keep important data secret by encrypting files
+with an entered password. All selected files in the active directory window
+will be encrypted, and the encrypted files will be written to the destination
+window. If the password starts with a - (minus) character, the file will be
+decrypted instead.^
+**datestamp
+This function allows you to change the datestamp of the selected files and
+directories in the active directory window. If any directories are selected,
+you are asked whether the files within them are to have their datestamps
+modified also.
+
+For each entry, you are presented with a requester. If you wish the file
+to have its datestamp set to the current date and time, simply press return.
+Otherwise, enter the desired date and time.
+
+To set the datestamp of all selected entries you should select the All gadget
+from the datestamp requester; choosing Okay or pressing return will set the
+datestamps a file at a time.^
+**comment
+This function allows you to change the comment, or filenote, of the selected
+files and directories in the active directory window. If any directories are
+selected, you are asked whether you wish the files within them are to have
+their comments modified also.
+
+For each entry, you are presented with a requester containing the current
+comment attached to that entry. To change the comment, simple edit it and
+press return. To keep the same comment, press return without editing.
+
+To set the comment of all selected entries you should select the All gadget
+from the comment requester; choosing Okay or pressing return will set the
+comments a file at a time.^
+**assign
+This allows you to assign a logical device to the directory open in the
+active directory window. This means that a simple name such as FOO: can be
+assigned to a long and complicated pathname such as
+DH0:projects/work/programs/1989/may/foo/.^
+**addicon
+This will add icons to all selected files and directories in the active
+directory window. Directory Opus automatically senses what sort of file it
+is (drawer, project or tool) and will add the appropriate icon. You may
+specify your own icons in the configuration, if the default icons are
+not suitable. You may also specify the default tool to be used for project
+icons (this is not used if you have specified your own project icon).^
+**addbuffers
+This allows you to add cache buffers to the drive currently open in the
+active directory window. Each cache buffer takes approximately 512 byte
+of memory. Cache buffers speed up disk access considerably, especially for
+floppy drives. Some hard drives may not be sped up by cache buffers, and RAM
+drives and some hard drives may actually be slowed down.^
+**makedir
+This function allows you to create a directory in the active directory window.^
+**delete
+This function deletes all selected files and directories in the active
+directory window. CAREFUL! If a directory is not empty, you will be asked for
+confirmation before it is deleted. You may turn this checking off in the
+configuration.^
+**copy
+This function copies all selected files and directories in the active
+directory window to the inactive directory window, keeping the same names.^
+**clone
+This function makes an identical copy of selected files and directories, in
+the same directory, but with different names.^
+**rename
+This allows you to rename all selected files and directories. You may use a
+* to specify a pattern. If no *'s are used, you are asked for a new name for
+each individual file.
+
+To add a prefix or a suffix (or both) to all selected entries, use a * in the
+second string gadget. For example, to add HIRES as a prefix and .pic as a
+suffix to all selected entries, enter HIRES*.pic.
+
+To change a prefix or a suffix (or both) of all selected entries, use a * in
+the top string gadget. For example, to change HIRES to MEDRES as a prefix,
+and .pic to .iff as a suffix, enter HIRES*.pic in the top string gadget, and
+MEDRES*.iff in the bottom string gadget.^
+**move
+This allows you to move all selected files and directories from the active
+directory window to the inactive window. The file or directory will be
+copied to the destination, and the original will be deleted.^
+**nnmove
+This allows you to move all selected files and directories from the active
+directory window to the inactive window, giving each file a new name. The file
+or directory will be copied to the destination under the new name, and the
+original will be deleted.^
+**run
+This function runs each selected file in turn. You are prompted for any
+arguments before each file is run. The file is run using the flags specified
+in the Default run section of Functions, in the configuration.
+If this function is selected and no files are selected, a CLI (or shell) will
+be created.^
+**execute
+This function executes each selected file in turn (it assumes that they are
+all batch files).^
+**play
+This function allows you to play IFF 8SVX sampled sounds and other files.
+To stop a sound while it is playing, press the left mouse button.
+If you have a copy of the STOPUS.LIBRARY in your LIBS: directory, this
+function will also play SoundTracker files.^
+**playst
+This function allows you to play SoundTracker/NoiseTracker modules. It will
+treat ALL selected files as modules, which means the filenames do not have
+to begin with mod.^
+**stopst
+This function will stop a SoundTracker module that is currently playing.
+It can be restarted with the contst function.^
+**contst
+This function will continue playing a SoundTracker/NoiseTracker module that
+has been stopped by the stopst function. You need STOPUS.LIBRARY for this
+function to work.^
+**show
+This function will show each selected file in turn, if the file is an
+IFF ILBM picture, an icon, or a font. If it is an icon that is being shown,
+the alternate imagery (if any) can be displayed by pressing return.
+To leave a picture, press the left mouse button. If the picture has colour
+cycling defined, you can start and stop cycling with the TAB key. To print
+the picture, press the P key.^
+**read
+This function allows you to read a text file using the mouse.
+
+To auto-scroll the file, press the left mouse button. The direction and speed
+can be specified by the Y-position of the mouse. You can also use the cursor
+keys and the arrow gadgets to move around in the file.
+
+To jump to a specified line, click on the number immediately after Lines.
+To jump to a specified percentage, click on the percentage display.
+
+To move up or down a page, click on the U or D gadget, or press that key. To
+move to the top or bottom, click on T or B, or press that key.
+
+To search for a string, press S or click on the S gadget. To continue a
+search, press N. To print the current page, press C. To print the whole file,
+press P. To exit, click on the X gadget, or press ESCape, X or Q.
+
+Note that this function does not display ANSI control sequences or tab
+characters; you must use the ANSIREAD function for that.^
+**ansiread
+This function operates in exactly the same way as the READ function, except
+that it displays ANSI control sequences (colours and typestyles) properly,
+and also handles tab characters correctly.^
+**hexread
+This function allows you to hex read a binary file. The file is displayed in
+hexadecimal, with 16 bytes per line. The text viewer operates the same way as
+when the file is being viewed as ASCII.^
+**smartread
+This function will check each file for binary characters and read them as
+hex if any are found, or ASCII if not. If any ANSI control sequences are
+found, it will invoke the ANSI text viewer.^
+**getdevices
+This function displays a list of all devices, volumes and assigned directories
+present in the system. You may then read these devices in by double-clicking
+on them. You can also select entire devices for use with the hunt and search
+functions.^
+**select
+This allows you to select files and directories in the active directory
+window using wildcards. All standard wildcards are supported (*,~,? etc..)
+as well as the AmigaDOS wildcards #? and ?. Consult the manual for more
+information on using wildcards.^
+**arexx
+This allows you to launch an ARexx script or execute an ARexx command from
+within Directory Opus. See the manual for more information on ARexx.^
+**dirtree
+This function generates a list of all sub-directores in the directory
+displayed in the active window, in tree format. You may instantly read any
+sub-directory by double-clicking on its entry in the tree, rather than
+travelling there along via all the prior directories.^
+**nncopy
+This function copies all selected files and directories in the active
+directory window to the inactive directory window, and allows you to specify
+a new name for each file/directory.^
+**lplay
+This function allows you to play IFF 8SVX sampled sounds and other files.
+Each sound is played continuously; to advance to the next sound, you must
+press the left mouse button.
+If you have a copy of the public domain STREPLAY.LIBRARY in your LIBS:
+directory, this function will also play SoundTracker files.^
+**byte
+This performs two functions. It firstly calculates whether the selected
+entries would fit in the destination directory, should they be copied there.
+Secondly, it will sum the sizes of all files in all selected directories, and
+display the result as the size of the directory itself.^
+**unbyte
+This will remove the size displayed for all selected directories. You may
+wish to do this if you know the size of the directory has changed. You can
+then reselect the directory and use the byte function to get an accurate size.^
+**reselect
+This function will reselect all entries that were selected before the last
+operation was initiated. The entries are reselected only if they still exist,
+and even if the buffer containing them is not displayed currently.^
+**rescan
+This function will re-read the directory open in the active directory window.
+This has the same effect as activating the directory string gadget, and
+pressing RETURN without changing the path name.^
+**bufferlist
+This function displays a list of all the directories contained in Directory
+Opus' internal buffers. You may then double-click on one of the displayed
+buffers to jump to that buffer immediately, rather than clicking the arrows
+to cycle through the buffers one by one.^
+**clearbuffers
+This function will clear the contents of all buffers other than the two that
+are currently displayed. All used memory will be deallocated; this is a good
+way to free up memory quickly if you have lots of used buffers and are
+running low.^
+**diskinfo
+This function displays some information about the disk the active directory
+resides on, including space used and free, datestamp and number of
+errors on the disk.^
+**version
+This function displays in the status bar the current versions of Kickstart,
+Workbench and Directory Opus.^
+**drivegadgets
+These are the drive gadgets. Selecting these reads the given device or path
+into the active directory window.^
+*edit
+This will invoke an editor to edit the selected files. This is not a built-in
+function, but is a gadget configured to call an editor called c:Editor. You
+may (and probably will) change this in the configuration.^
+*new file
+This will invoke an editor in the same was as the EDIT gadget will. However,
+this function allows you to create a new file with the editor, and will
+ask you for a filename.^
+*!103
+Not enough memory
+
+Probable cause:
+Not enough memory in your Amiga to carry out the operation.
+
+Recovery suggestion:
+Close any unneeded windows and applications, then reissue the command.
+If it still doesn't work, try rebooting. It may be that you have enough
+memory but it has become fragmented. It is possible that you may need to
+add more RAM to your system.^
+*!104
+Process table full
+
+Probable cause:
+There is a limit to the number of possible processes.
+
+Recovery suggestion:
+Stop one or more tasks.^
+*!114
+Bad template
+
+Probable cause:
+Incorrect command line.
+
+Recovery suggestion:
+Consult the documentation for the correct command format.^
+*!115
+Bad number
+
+Probable cause:
+The program was expecting a numeric argument.
+
+Recovery suggestion:
+Consult the documentation for the correct command format.^
+*!116
+Required argument missing
+
+Probable cause:
+Incorrect command line.
+
+Recovery suggestion:
+Consult the documentation for the correct command format.^
+*!117
+Argument after "=" missing
+
+Probable cause:
+Incorrect command line.
+
+Recovery suggestion:
+Consult the documentation for the correct command format.^
+*!118
+Too many arguments
+
+Probable cause:
+Incorrect command line.
+
+Recovery suggestion:
+Consult the documentation for the correct command format.^
+*!119
+Unmatched quotes
+
+Probable cause:
+Incorrect command line.
+
+Recovery suggestion:
+Consult the documentation for the correct command format.^
+*!120
+Argument line invalid or too long
+
+Probable cause:
+Your command line is incorrect or contains too many arguments.
+
+Recovery suggestion:
+Consult the documentation for the correct command format.^
+*!121
+File is not executable
+
+Probable cause:
+You misspelled the command name, or the file may not be a loadable
+(program or script) file.
+
+Recovery suggestion:
+Retype the filename and make sure that the file is a program file.
+Remember, to execute a script, either the s bit must be set or the EXECUTE
+command must be used.^
+*!122
+Invalid resident library
+
+Probable cause:
+You are trying to use commands with a previous version of AmigaDOS; for
+example, Version 2.0 commands with Version 1.3 Kickstart.
+
+Recovery suggestion:
+Reboot with the current version of AmigaDOS.^
+*!202
+Object is in use
+
+Probable cause:
+The specified file or directory is already being used by another
+application. If an application is reading a file, no other program can
+write to it, and vice versa.
+
+Recovery suggestion:
+Stop the other application that is using the file or directory, and
+reissue the command.^
+*!203
+Object already exists
+
+Probable cause:
+The name that you specified already belongs to another file or directory.
+
+Recovery suggestion:
+Use another name, or delete the existing file or directory, and replace it.^
+*!204
+Directory not found
+
+Probable cause:
+AmigaDOS cannot find the directory you specified. You may have made
+a typing or spelling error.
+
+Recovery suggestion:
+Check the directory name and reissue the command.^
+*!205
+Object not found
+
+Probable cause:
+AmigaDOS cannot find the file or device you specified. You may have
+made a typing or spelling error.
+
+Recovery suggestion:
+Check the filename or the device name and reissue the command.^
+*!206
+Invalid window description
+
+Probable cause:
+This error occurs when specifying a window size for the Output Window, a
+Shell, ED or ICONX window. You may have made the window too big or too
+small, or you may have ommitted an argument. This error also occurs with
+the NEWSHELL command, if you supply a device name that is not a window.
+
+Recovery suggestion:
+Reissue the window specification.^
+*!209
+Packet request type unknown
+
+Probable cause:
+You have asked a device handler to attempt an operation it cannot do.
+For example, the console handler cannot rename anything.
+
+Recovery suggestion:
+Check the request code passed to device handlers for the appropriate
+response.^
+*!210
+Object name invalid
+
+Probable cause:
+There is an invalid character in the filename or the filename is too long.
+Remember, filenames cannot be longer than 30 characters and cannot contain
+control characters.
+
+Recovery suggestion:
+Retype the name, being sure not to use any invalid characters, or
+exceed the maximum length.^
+*!211
+Invalid object lock
+
+Probable cause:
+You have used something that is not a valid lock.
+
+Recovery suggestion:
+Check that your code only passes valid locks to AmigaDOS calls that
+expect locks.^
+*!212
+Object not of required type
+
+Probable cause:
+You may have specified a filename for an operation that requires a
+directory name, or vice versa.
+
+Recovery suggestion:
+Consult the documentation for the correct command format.^
+*!213
+Disk not validated
+
+Probable cause:
+If you have just inserted a disk, the disk validation process may still
+be in progress. It is also possible that the disk is corrupt.
+
+Recovery suggestion:
+If you've just inserted the disk, wait for the validation process to
+finish. This may take less than a minute for a floppy disk or up to several
+minutes for a hard disk. If the disk is corrupt, it cannot be validated.
+In this case, try to retrieve the disk's files and copy them to another
+disk. You may have to use DISKDOCTOR.^
+*!214
+Disk is write-protected
+
+Probable cause:
+The plastic tab is in the write-protect position.
+
+Recovery suggestion:
+If you're certain you want to write to that particular disk, remove the
+disk, move the tab, and reinsert the disk. Otherwise, use a different disk.^
+*!215
+Rename across devices attempted
+
+Probable cause:
+RENAME only changes a filename on the same volume. You can use RENAME
+to move a file from one directory to another, but you cannot move files
+from one volume to another.
+
+Recovery suggestion:
+Use the MOVE command instead. Alternatively, use COPY to copy the file to
+the destination volume, and delete it from the source volume if desired.^
+*!216
+Directory not empty
+
+Probable cause:
+This error occurs if you attempt to delete a directory that contains
+files or subdirectories.
+
+Recovery suggestion:
+If you are sure you want to delete the complete directory, use the ALL
+option of DELETE.^
+*!217
+Too many levels
+
+Probable cause:
+You've exceeded the limit of 15 soft links.
+
+Recovery suggestion:
+Reduce the number of soft links.^
+*!218
+Device (or volume) not mounted
+
+Probable cause:
+If the device is a floppy disk, it has not been inserted in a drive.
+If it is another type of device, it has not been mounted with the MOUNT
+command. It is also possible that you have made a typing error when
+specifying the device name.
+
+Recovery suggestion:
+Insert the correct floppy disk, check the spelling of the device name,
+mount the device, or revise your MountList file.^
+*!219
+Seek error
+
+Probable cause:
+You have attempted to call SEEK with invalid arguments.
+
+Recovery suggestion:
+Make sure that you only SEEK within the file. You cannot SEEK outside the
+bounds of the file.^
+*!220
+Comment is too long
+
+Probable cause:
+Your filenote has exceeded the maximum number of chatacters (79).
+
+Recovery suggestion:
+Use a shorter comment.^
+*!221
+Disk is full
+
+Probable cause:
+There is not enough room on the disk to perform the requested operation.
+
+Recovery suggestion:
+Delete some unnecessary files or directories, or use a different disk.^
+*!222
+Object is protected from deletion
+
+Probable cause:
+The d (deletable) protection bit of the file or directory is clear.
+
+Recovery suggestion:
+If you are certain that you want to delete the file or directory, use
+PROTECT to set the d bit.^
+*!223
+File is write protected
+
+Probable cause:
+The w (writeable) protection bit of the file is clear.
+
+Recovery suggestion:
+If you are certain that you want to overwrite the file, use PROTECT to
+set the w bit.^
+*!224
+File is read protected
+
+Probable cause:
+The r (readable) protection bit of the file is clear.
+
+Recovery suggestion:
+Use PROTECT to set the r bit of the file.^
+*!225
+Not a valid DOS disk
+
+Probable cause:
+The disk in the drive is not an AmigaDOS disk, it has not been formatted,
+or it is corrupt.
+
+Recovery suggestion:
+Check to make sure you are using the correct disk. If you know the disk
+worked before, use DISKDOCTOR or another disk recovery program to salvage
+its files. If the disk has not been formatted, use FORMAT to do so.^
+*!226
+No disk in drive
+
+Probable cause:
+The disk is not properly inserted in the specified drive.
+
+Recovery suggestion:
+Insert the appropriate disk in the specified drive.^
+*!232
+No more entries in directory
+
+Probable cause:
+This indicates that the AmigaDOS call EXNEXT has no more entries in the
+directory you are examining.
+
+Recovery suggestion:
+Stop calling EXNEXT.^
+*!233
+Object is soft link
+
+Probable cause:
+You tried to perform an operation on a soft link that should only be
+performed on a file or directory.
+
+Recovery suggestion:
+AmigaDOS uses the Action_Read_Link packet to resolve the soft link and
+retries the operation.^
