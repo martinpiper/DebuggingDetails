@@ -72,7 +72,7 @@ copy all of c/monam2 c/genim2 c/genam2 c/blink to current directory
 
 genam2 :davejones/scroll.s
 
-With harddrive: C:\temp\AmigaHD
+With harddrive using folder: c:\work\DebuggingDetails\AmigaDH0
 DH0
 System
 
