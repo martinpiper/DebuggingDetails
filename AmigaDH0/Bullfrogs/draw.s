@@ -41,7 +41,7 @@ _draw_blocks
 		dbra	d3,.loop_x			;subtract 1 from columns and loop
 		move.w	#0,d0				;move to left side
 		add.w	#1,d1				;and increase y position
-;	dbra	d4,.loop_y				;sub 1 from rows and loop
+	dbra	d4,.loop_y				;sub 1 from rows and loop
 	rts	
 ********************************************************************************
 ;very simple interface for tutorial
