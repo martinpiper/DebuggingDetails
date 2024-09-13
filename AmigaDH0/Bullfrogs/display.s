@@ -10,6 +10,7 @@ _display
 
 	jsr		_wait_vbi				; wait for a vertical blank
 	jsr		_clear_screen
+;	jsr		_init					; initiate man.
 
 ;	move.w	#$707,(COLOR).l
 	jsr		_draw_all				; draw all the sprites and things
