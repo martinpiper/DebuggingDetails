@@ -1,0 +1,230 @@
+	IFD	AMIGADOS
+
+*	AMIGA	KEYS
+
+KB_ESC			EQU	$75
+KB_1			EQU	$fd
+KB_2			EQU	$fb
+KB_3			EQU	$f9
+KB_4			EQU	$f7
+KB_5			EQU	$f5
+KB_6			EQU	$f3
+KB_7			EQU	$f1
+KB_8			EQU	$ef
+KB_9			EQU	$ed
+KB_0			EQU	$eb
+KB_MINUS		EQU	$e9
+KB_EQUAL		EQU	$e7
+KB_BACKSPACE	EQU	$7d
+KB_TAB			EQU	$7b
+KB_Q			EQU	$df
+KB_W			EQU	$dd
+KB_E			EQU	$db
+KB_R			EQU	$d9
+KB_T			EQU	$d7
+KB_Y			EQU	$d5
+KB_U			EQU	$d3
+KB_I			EQU	$d1
+KB_O			EQU	$cf
+KB_P			EQU	$cd
+KB_LSBRACKET	EQU	$cb
+KB_RSBRACKET	EQU	$c9
+KB_RETURN		EQU	$77
+KB_CONTROL		EQU						$00
+KB_A			EQU	$bf
+KB_S			EQU	$bd
+KB_D			EQU	$bb
+KB_F			EQU	$b9
+KB_G			EQU	$b7
+KB_H			EQU	$b5
+KB_J			EQU	$b3
+KB_K			EQU	$b1
+KB_L			EQU	$af
+KB_COLON		EQU	$ad
+KB_QUOTE		EQU	$ab
+KB_HASH			EQU	$ab
+KB_LSHIFT		EQU						$00
+KB_Z			EQU	$9d
+KB_X			EQU	$9b
+KB_C			EQU	$99
+KB_V			EQU	$97
+KB_B			EQU	$95
+KB_N			EQU	$93
+KB_M			EQU	$91
+KB_COMMA		EQU	$8f
+KB_DOT			EQU	$8d
+KB_SLASH		EQU	$8b
+KB_RSHIFT		EQU						$00
+
+KB_ALT			EQU						$00
+KB_LALT			EQU						$00
+KB_RALT			EQU						$00
+KB_SPACE		EQU						$00
+KB_CAPS			EQU						$00
+KB_LAMIGA		EQU						$00
+KB_RAMIGA		EQU						$00
+
+KF_1			EQU	$5f
+KF_2			EQU	$5d
+KF_3			EQU	$5b
+KF_4			EQU	$59
+KF_5			EQU	$57
+KF_6			EQU	$55
+KF_7			EQU	$53
+KF_8			EQU	$51
+KF_9			EQU	$4f
+KF_10			EQU	$4d
+
+KC_CLRHOME		EQU						$5f	same as help
+KC_UP			EQU						$4c
+KP_MINUS		EQU						$4a
+KC_LEFT			EQU						$4f
+KC_RIGHT		EQU						$4e
+KP_PLUS			EQU						$0
+KC_DOWN			EQU						$4d
+KC_INSERT		EQU						$46	same as delete
+
+KB_DELETE		EQU						$46
+
+KB_BACKSLASH	EQU						$0d
+;KC_UNDO		EQU						$61
+KC_HELP			EQU						$5f
+KP_LBRACKET		EQU						$0
+KP_RBRACKET		EQU						$0
+KP_SLASH		EQU						$0
+KP_SPLAT		EQU						$0
+KP_7			EQU						$3d
+KP_8			EQU						$3e
+KP_9			EQU						$3f
+KP_4			EQU						$2d
+KP_5			EQU						$2e
+KP_6			EQU						$2f
+KP_1			EQU						$1d
+KP_2			EQU						$1e
+KP_3			EQU						$1f
+KP_0			EQU						$0f
+KP_DOT			EQU						$3c
+KP_ENTER		EQU						$43
+
+	ELSEIF
+
+KB_ESC			EQU	$1
+KB_1			EQU	$2
+KB_2			EQU	$3
+KB_3			EQU	$4
+KB_4			EQU	$5
+KB_5			EQU	$6
+KB_6			EQU	$7
+KB_7			EQU	$8
+KB_8			EQU	$9
+KB_9			EQU	$a
+KB_0			EQU	$b
+KB_MINUS		EQU	$c
+KB_EQUAL		EQU	$d
+KB_BACKSPACE	EQU	$e
+KB_TAB			EQU	$f
+KB_Q			EQU	$10
+KB_W			EQU	$11
+KB_E			EQU	$12
+KB_R			EQU	$13
+KB_T			EQU	$14
+KB_Y			EQU	$15
+KB_U			EQU	$16
+KB_I			EQU	$17
+KB_O			EQU	$18
+KB_P			EQU	$19
+KB_LSBRACKET	EQU	$1a
+KB_RSBRACKET	EQU	$1b
+KB_RETURN		EQU	$1c
+KB_CONTROL		EQU	$1d
+KB_A			EQU	$1e
+KB_S			EQU	$1f
+KB_D			EQU	$20
+KB_F			EQU	$21
+KB_G			EQU	$22
+KB_H			EQU	$23
+KB_J			EQU	$24
+KB_K			EQU	$25
+KB_L			EQU	$26
+KB_COLON		EQU	$27
+KB_QUOTE		EQU	$28
+KB_QUOTE2		EQU	$29
+KB_LSHIFT		EQU	$2a
+KB_HASH			EQU	$2b
+KB_Z			EQU	$2c
+KB_X			EQU	$2d
+KB_C			EQU	$2e
+KB_V			EQU	$2f
+KB_B			EQU	$30
+KB_N			EQU	$31
+KB_M			EQU	$32
+KB_COMMA		EQU	$33
+KB_DOT			EQU	$34
+KB_SLASH		EQU	$35
+KB_RSHIFT		EQU	$36
+;				EQU	$37
+KB_ALT			EQU	$38
+KB_SPACE		EQU	$39
+KB_CAPS			EQU	$3a
+
+KF_1			EQU	$3b
+KF_2			EQU	$3c
+KF_3			EQU	$3d
+KF_4			EQU	$3e
+KF_5			EQU	$3f
+KF_6			EQU	$40
+KF_7			EQU	$41
+KF_8			EQU	$42
+KF_9			EQU	$43
+KF_10			EQU	$44
+;					$45
+;					$46
+KC_CLRHOME		EQU	$47
+KC_UP			EQU	$48
+;					$49
+KP_MINUS		EQU	$4a
+KC_LEFT			EQU	$4b
+;					$4c
+KC_RIGHT		EQU	$4d
+KP_PLUS			EQU	$4e
+;					$4f
+KC_DOWN			EQU	$50
+;					$51
+KC_INSERT		EQU	$52
+
+KB_DELETE		EQU	$53
+;					$54
+;					$55
+;					$56
+;					$57
+;					$58
+;					$59
+;					$5a
+;					$5b
+;					$5c
+;					$5d
+;					$5e
+;					$5f
+KB_BACKSLASH	EQU	$60
+KC_UNDO			EQU	$61
+KC_HELP			EQU	$62
+KP_LBRACKET		EQU	$63
+KP_RBRACKET		EQU	$64
+KP_SLASH		EQU	$65
+KP_SPLAT		EQU	$66
+KP_7			EQU	$67
+KP_8			EQU	$68
+KP_9			EQU	$69
+KP_4			EQU	$6a
+KP_5			EQU	$6b
+KP_6			EQU	$6c
+KP_1			EQU	$6d
+KP_2			EQU	$6e
+KP_3			EQU	$6f
+KP_0			EQU	$70
+KP_DOT			EQU	$71
+KP_ENTER		EQU	$72
+
+	ENDC
+
+*

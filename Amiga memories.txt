@@ -84,6 +84,8 @@ https://aminet.net/package/dev/asm/incupd
 https://www.planetemu.net/index.php?section=roms&dat=375
 
 
+
+Menace sample code, Dave Jones' locker...
 Amiga Format cover disks index: https://amr.abime.net/coverdisk_index_4
 
 Coverdisk #39a for Devpac
@@ -129,3 +131,15 @@ f 7f868
 m 1558
 7f888
 L c:\temp\AmigaHD\Temp\bin20000 1ffe0
+
+
+
+
+Bullfrog's programming tutorial code
+https://amr.abime.net/issue_196
+https://archive.org/details/amigaformat040disks_1992-11
+"C:\Users\marti\Downloads\af040b (1).adf"
+
+https://amr.abime.net/issue_197
+https://archive.org/details/amigaformat041disks_1992-12
+"C:\Users\marti\Downloads\af041b (1).adf"

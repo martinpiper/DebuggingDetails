@@ -1,0 +1,135 @@
+********************************************************************************
+*				   oo					          oo						   *
+*				 \(  )/      Bullfrog Demo      \(  )/						   *
+*				 ^ ^^ ^ 		Month 2 	    ^ ^^ ^						   *
+*				  All code and text by Scott Johnston						   *
+********************************************************************************
+
+Welcome back.  If you managed to follow last months article then well done.  If
+not go back and do so.  This month we will tie the movement of our sprite into
+the joystick.  If you run demo then you will find that the man now runs left
+and right with momentum.  The exit key has changed to Q because when escape was
+pressed you got the repeat of your last input.  The program work?  Great.  
+Your going make him run up and down the screen as well.
+
+If you look inside of move.s you will notice a couple of new things.  At the top
+of the file is a small list of equates.  These are used to control the graphics
+for our man and the speed at which he accelerates and moves.  Try changing the 
+two equates for the speeds.  The man should move differently depending on the
+numbers you put in.  If you change the animation equates the man could start
+doing strange things.  Another example of equates can be found in draw.s on
+the two asr.w lines, with the word FOUR.  Much easier to understand than placing
+a 2 on the line.  Anyway back to move.s.
+
+After this we have the subroutine _move_all.  Last month we placed all our code
+here, but this month we will place our code into new subroutines which _move_all
+calls.
+
+Our man now has 5 variables.  These are as follows:-
+
+	man_x		where abouts he is horizontally on the screen.
+	man_y		where abouts he is vertically on the screen.
+	man_vx		the speed and direction in which he is travelling horizontally.
+	man_vy		the speed and direction in which he is travelling vertically.
+	man_frame	the current frame of animation that is displayed.
+
+Inside the first of our new routines _man_x is the code to read the joystick,
+and move the man left and right.  Study this.  Now if you copy this and place it
+into _man_y, change the variable names to their Y counterparts and the change
+the lines
+
+		cmp.w	#300*4,d1	to	cmp.w	#176*4,d1
+and		move.w	#300*4,d1	to	move.w	#176*4,d1
+and place an  asr.w	#FOUR,d1 into draw.s at line 14.
+
+
+We should, fingers crossed, have momentum on the Y axis.  Try it.  Did it work?
+If not go back and study the code some more.  You probably made a small mistake
+some where along the line.  Right, now change the names of the dotlabels, those
+that start with '.', to what they are actually doing.  Good, now did you under-
+stand that code, if so that see if you can change it so that instead of the man
+stopping when he reaches the edge of the screen, he bounces off.  Basically you
+change four commands from a move.w to a neg.w.
+
+If you did not understand it, never fear because I will now try and explain what
+it is doing.
+
+To start with we pick up the velocity of the man, and the direction in which
+the joystick is being moved.  The joystick will be a 1 if the joystick is going
+right, 0 if it not moving and -1 if it is going left.  We then multiply the
+joystick direction by the acceleration and add it to our current velocity.  Now
+the velocity needs to be checked to make sure that we are not going faster than
+we want in either direction.  I start off by checking in the right direction,
+and if it is scale it down to the maximum speed.  Then check off the other side
+and again scale it down if we need to.  Ok thats the velocity just about done.
+
+We now get our current x position and add the velocity to it.  Check the new
+x position with the left hand side of the screen, and if we have gone off then
+move us back onto the screen and stop the velocity.  Test the other side of the
+screen, and again stop the velocity and move us back on if we have gone off.
+
+The final piece of code we have in this routine is the slow down.  This checks 
+to see if we are moving the joystick, if we are then we dont want to slow the
+man down.  After this we find out in which direction we are moving.  If we are
+going left we want to increase our velocity to slow it down.  Sounds strange but
+the maximum left speed is in fact -16, or whatever you change MAX_SPEED to.  If
+we are going right we want to decrease our speed.  The reason we subtract 2 then
+add a 1 to our velocity is so that we dont have to branch past the going left
+section.
+
+Follow that OK.  Wade through the code in _man_anim and see if you can work out
+what is going on.
+
+You will have noticed that there are loads of other files which we never really
+touch.  The only ones we have used so far are move.s demo.s and draw.s.  If you
+have looked at demo.s then you will see that loads of things are included from
+here.  Most of these files are for various set ups, ie read the joystick.  Other
+are called from various places inside our code, for example the sprite draw
+section.  One of the more important of these files is display.s.
+
+If you have a look inside of display then you will see the main loop of our
+program.  It starts off by waiting for the vbi.  The vbi, or vertical blank
+interrupt, happens every 50th of a second, and is the time in which the video
+beam is travelling from the bottom of the screen, back upto the top.
+
+We then clear the screen, this is so we dont have the previous screen display
+at the same time.  Clearing the screen is not always the quickest way of
+doing things, for example you could remove the sprites, and then redraw them.
+
+Draw all calls the routines inside of draw.s, and this is where we draw every
+thing, the man the blocks the objects, everything.
+
+We then swap the screens.  We are using a system called double buffering.  This
+is where we see one thing on the screen, whilst we are drawing the next scene
+on another screen.  The screens then swap places, and we draw the next scene
+(scene 3) on the first screen.  Swap places again and so on.  This prevents
+the graphics from flickering when they are drawen.
+
+We then go on to the movement routines, and here we move everything, advance
+the animation counters, detect for collision, can kill off the hero if we can.
+
+Check for a key press, if it hasnt been pressed, then loop around and do it all
+over again.   Otherwise exit from here, turn everything back to normal, and
+terminate the program.
+
+Thats just about it for this month.  Next month we will start to make our small
+program into a platform game.  This includes the need for gravity.  See if you
+can change the routine for man_y so that gravity plays a part.  Good Luck.
+
+The Animation of the Man.
+
+We what the man to look like he is actually going the way he is facing.  There
+are several ways in which we can do this.  The way I have done this to pick up
+the current frame of our man.  Then have a look at the mans velocity, if this
+is a zero that means our man is not moving, therefore we want to display the 
+man facing towards the screen.  If on the other hand the number was negative
+then the man is running to the left.  We have four four frames of animation
+for our man in both directions, so we need to check that the current frame
+does not exceed the allowed frames, or that if it does we set it back to an
+allowed frame.
+
+New Commands
+
+Neg.w	d0.
+This reverses all the bits in d0.  This is very helpful when you wish to change
+the signs of numbers.  For example 5 becomes -5, and -9 will become 9.
