@@ -6,21 +6,37 @@ PLANESIZE	=	SCREEN_WIDTH*SCREEN_HEIGHT
 _display
 	movem.l	d0-d7/a0-a6,-(sp)
 	jsr		_set_up_disc
+_intro
+	jsr		_intro_screen
 .repeat
 
-	jsr		_wait_vbi				; wait for a vertical blank
-	jsr		_clear_screen
-;	jsr		_init					; initiate man.
+;	jsr		_wait_vbi				; wait for a vertical blank
 
-;	move.w	#$707,(COLOR).l
+;	jsr		_clear_screen
+	jsr		_q_redraw
+
+	jsr		_init					; initiate man.
+
 	jsr		_draw_all				; draw all the sprites and things
-
+.wait1
+	move.w	$dff004,d0
+	btst	#0,d0
+	bne.s	.wait1
+.wait2
+	move.w	$dff004,d0
+	btst	#0,d0
+	beq.s	.wait2
 	jsr		_swap_screens			; display the screen
 
 	jsr		_move_all				; move all the sprites and things
-
-	cmp.b	#KB_Q,_iinkey			; have we pressed the quit key?
+	cmp.w	#NO_LIVES,game_over
+	blt.s	.still_going
+		jsr		_end_game
+		jmp		_intro
+.still_going
+	cmp.b	#KB_Q,_iinkey			; have we pressed the Q key?
 	bne		.repeat					; no then loop around
+
 .the_end							; Oh we have then lets exit
 	movem.l	(sp)+,d0-d7/a0-a6
 	rts
@@ -69,22 +85,27 @@ _abs						; turn number to absolute
 ******************************************************************************
 
 _q_redraw			;needs a0 as data to copy
+
+	BLIT_NASTY
+	lea		_background,a0
 	move.l	_w_screen,a1
-	move.l	#32000/40/4-1,d7
-.copy_loop
-	movem.l	(a0)+,a2-a4/d0-d6
-	movem.l	a2-a4/d0-d6,(a1)
-	lea		40(a1),a1
-	movem.l	(a0)+,a2-a4/d0-d6
-	movem.l	a2-a4/d0-d6,(a1)
-	lea		40(a1),a1
-	movem.l	(a0)+,a2-a4/d0-d6
-	movem.l	a2-a4/d0-d6,(a1)
-	lea		40(a1),a1
-	movem.l	(a0)+,a2-a4/d0-d6
-	movem.l	a2-a4/d0-d6,(a1)
-	lea		40(a1),a1
-	dbra	d7,.copy_loop
+	move.w	#SCREEN_HEIGHT*4<<6+(SCREEN_WIDTH/2),d1
+;	lea		HARDWARE_REGS,a6
+
+	wait_blit
+
+	move.l	a0,BLTAPT
+	move.l	a1,BLTDPT
+	move.l	#$FFFFFFFF,BLTAFWM
+	move.w	#0,BLTAMOD
+	move.w	#0,BLTDMOD
+	move.w	#$09F0,BLTCON0
+	move.w	#0,BLTCON1
+	move.w	d1,BLTSIZE
+;
+	wait_blit
+	BLIT_NICE
+;
 	rts
 
 ******************************************************************************

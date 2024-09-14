@@ -1,8 +1,8 @@
-;MUSIC_ON_OR_OFF =	0
+MUSIC_ON_OR_OFF =	0
 FUNC_MAIN		= 	1
 TESTING			=	1
 USE_JOYSTICK	=	1
-;USE_MOUSE		=	0
+USE_MOUSE		=	0
 
 	IFD		USE_MOUSE
 MSPRITE_HEIGHT	=	16
@@ -1040,6 +1040,6 @@ _Seek
 	ENDC
 ***********************************************************
 _pointer_data
-	dcb.b	114,0
+	incbin	data/pointer.dat
 	dc.l	0
-;;;;
+;;;;;

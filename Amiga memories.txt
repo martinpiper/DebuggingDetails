@@ -144,6 +144,15 @@ https://amr.abime.net/issue_197
 https://archive.org/details/amigaformat041disks_1992-12
 "C:\Users\marti\Downloads\af041b (1).adf"
 
+https://amr.abime.net/issue_198_pages
+https://archive.org/details/amigaformat042disks_1993-01
+"C:\Users\marti\Downloads\af042b.adf"
+
+https://amr.abime.net/issue_199_pages
+https://archive.org/details/amigaformat043disks_1993-02
+"C:\Users\marti\Downloads\af043a.adf"
+
+
 
 df0:/c/lha -a e df0:bull2.lha RAM:
 and df0:bulldata.lha

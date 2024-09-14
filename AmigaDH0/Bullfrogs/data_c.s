@@ -15,15 +15,82 @@ man_vx		dc.w	0
 man_vy		dc.w	0
 	xref _pressed_fire
 _pressed_fire	dc.w	0
+	xref new_level
+new_level		dc.w	0
+	xref current_level
+current_level	dc.w	0
+	xref map_pointer
+map_pointer		dc.l	0
+	xref to_collect
+to_collect		dc.w	0
+	xref fallen
+fallen		dc.w	0
+	xref died
+died		dc.w	0
+	xref game_over
+game_over	dc.w	0
+	xref score
+score		dc.w	0
+	xref delay
+delay		dc.w	0
+	xref total_levels
+total_levels	dc.w	0
+high_score		dc.w	1000
+_score_text		dc.b	'SCORE:       .',0
+
 	even
 ;All graphics data here please.
 _man
 	incbin	data/man.dat
+	even
 _blocks
 	incbin	data/block.dat
 	even
-_map_data
-	IFND	LEVEL
+_collect
+	incbin	data/collect.dat
+	even
+_bad
+	incbin	data/bad.dat
+	even
+_font
+	incbin	data/font.dat
+_background
+	incbin	data/background.dat
+_logo
+	incbin	data/frog_logo.dat
+	even
+
+_map0
+	dc.b	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+	dc.b	1,2,3,2,3,2,3,2,3,2,3,2,3,2,2,3,3,3,3,4
+	dc.b	0,0,1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+	dc.b	0,0,0,0,1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+	dc.b	0,0,0,0,0,0,1,4,0,0,0,0,0,0,0,0,0,0,0,0
+	dc.b	0,0,0,0,0,0,0,0,1,4,0,0,0,0,0,0,0,0,0,0
+	dc.b	0,0,0,0,0,0,0,0,0,0,1,4,0,0,0,0,0,0,0,0
+	dc.b	0,0,0,0,0,0,0,0,0,0,0,0,1,4,0,0,0,0,0,0
+	dc.b	0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,4,0,0,0,0
+	dc.b	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,4,0,0
+	dc.b	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,4
+	dc.b	1,2,3,2,3,2,3,2,3,2,3,2,3,2,2,3,3,2,3,4
+	dc.b	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+
+_map1
+	dc.b	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+	dc.b	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+	dc.b	0,0,0,0,0,0,0,1,2,3,2,3,4,0,0,0,0,0,0,0
+	dc.b	0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0
+	dc.b	0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0
+	dc.b	0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0
+	dc.b	0,0,0,0,5,0,0,0,0,5,0,0,0,0,0,5,0,0,0,0
+	dc.b	0,0,0,0,0,1,2,3,3,2,2,3,3,2,4,0,0,0,0,0
+	dc.b	0,0,0,0,0,0,0,0,0,1,4,0,0,0,0,0,0,0,0,0
+	dc.b	0,0,0,0,0,0,0,0,0,1,4,0,0,0,0,0,0,0,0,0
+	dc.b	0,0,0,0,0,0,0,0,1,2,3,4,0,0,0,0,0,0,0,0
+	dc.b	1,2,3,2,3,2,3,2,3,2,3,2,3,2,2,3,3,2,3,4
+	dc.b	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+
+_map2
 	dc.b	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 	dc.b	2,3,2,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,3
 	dc.b	0,0,0,0,0,1,4,0,0,0,0,0,0,0,0,0,0,5,0,0
@@ -36,8 +103,9 @@ _map_data
 	dc.b	0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0
 	dc.b	0,0,0,1,4,0,0,0,0,1,3,4,0,0,0,0,0,0,0,0
 	dc.b	1,3,2,2,3,3,3,3,3,2,4,1,3,3,2,3,3,3,2,4
-	ENDC
-	IFD		LEVEL
+	dc.b	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+
+_map3
 	dc.b	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 	dc.b	2,3,2,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,4
 	dc.b	0,0,0,0,0,1,4,0,0,0,0,0,0,0,0,0,0,5,0,0
@@ -50,8 +118,19 @@ _map_data
 	dc.b	0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0
 	dc.b	0,0,0,0,0,0,0,0,0,1,2,4,0,0,0,0,0,0,0,0
 	dc.b	1,2,4,0,0,1,3,2,3,4,5,1,3,3,2,3,3,3,2,4
+	dc.b	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+
+	even
+_objects
+	ds.w	OBJ_SIZE*MAX_OBJECTS
+_bad_guys
+	ds.w	BAD_SIZE*MAX_BADDIES
+	even
+
+
+mt_data
+	IFD	MUSIC_ON_OR_OFF
+	incbin	"data/mod.populous groove"
 	ENDC
-
-
-
-
+	even
+	dc.l	0
