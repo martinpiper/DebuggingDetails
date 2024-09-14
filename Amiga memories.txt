@@ -147,3 +147,299 @@ https://archive.org/details/amigaformat041disks_1992-12
 
 df0:/c/lha -a e df0:bull2.lha RAM:
 and df0:bulldata.lha
+
+
+
+Exec 1.2 disassembly: https://wandel.ca/homepage/execdis/exec_disassembly.txt
+
+http://wiki.amigaspirit.hu/index.php/Amiga_Machine_Language_(Chapter_8)
+
+From DH0:temp/small.s which has to be large enough for powerpacker to load the output. Hence the padding dc.b strings.
+
+"C:\work\DebuggingDetails\AmigaDH0\Temp\smallpacked" disassembly up to the data hunk...
+>d 20000 f8
+00020000 0000 03f3                or.b #$f3,d0
+00020004 0000 0000                or.b #$00,d0
+00020008 0000 0002                or.b #$02,d0
+0002000c 0000 0000                or.b #$00,d0
+00020010 0000 0001                or.b #$01,d0
+00020014 0000 0089                or.b #$89,d0
+00020018 0000 032a                or.b #$2a,d0
+0002001c 0000 03e9                or.b #$e9,d0
+00020020 0000 0089                or.b #$89,d0
+00020024 487a 0178                pea.l (pc,$0178) == $0002019e
+00020028 48e7 fffe                movem.l d0-d7/a0-a6,-(a7)
+0002002c 49fa fff2                lea.l (pc,$fff2) == $00020020,a4
+00020030 2054                     movea.l (a4) [45ed0042],a0
+00020032 d1c8                     adda.l a0,a0
+00020034 d1c8                     adda.l a0,a0
+00020036 5848                     addaq.w #$04,a0
+00020038 2648                     movea.l a0,a3
+0002003a 504b                     addaq.w #$08,a3
+0002003c 2c78 0004                movea.l $0004.w [00c00276],a6
+00020040 2f08                     move.l a0,-(a7) [00fc0f94]
+00020042 d1fc 0000 00dc           adda.l #$000000dc,a0
+00020048 6100 0156                bsr.w #$0156 == $000201a0
+0002004c 2057                     movea.l (a7),a0
+0002004e 5148                     subaq.w #$08,a0
+00020050 2610                     move.l (a0) [00c00410],d3
+00020052 d688                     add.l a0,d3
+00020054 504b                     addaq.w #$08,a3
+00020056 2e1b                     move.l (a3)+ [00000000],d7
+00020058 504b                     addaq.w #$08,a3
+0002005a 206e 0114                movea.l (a6,$0114) == $00c0038a [00c031da],a0		; _LVOFindName
+0002005e 2028 00ac                move.l (a0,$00ac) == $00c004b8 [00000000],d0
+00020062 670a                     beq.b #$0a == $0002006e (F)
+00020064 e588                     lsl.l #$02,d0
+00020066 2040                     movea.l d0,a0
+00020068 4294                     clr.l (a4) [45ed0042]
+0002006a 49e8 003c                lea.l (a0,$003c) == $00c00448,a4
+0002006e 2c07                     move.l d7,d6
+00020070 e58e                     lsl.l #$02,d6
+00020072 45f3 6800                lea.l (a3,d6.l,$00) == $80c00410,a2
+00020076 9bcd                     suba.l a5,a5
+00020078 7c00                     moveq #$00,d6
+0002007a 7a00                     moveq #$00,d5
+0002007c 281a                     move.l (a2)+ [48e70082],d4
+0002007e 0c44 03ec                cmp.w #$03ec,d4
+00020082 6610                     bne.b #$10 == $00020094 (T)
+00020084 3546 fffc                move.w d6,(a2,-$0004) == $00fdff4c [4e75]
+00020088 201a                     move.l (a2)+ [48e70082],d0
+0002008a 67f0                     beq.b #$f0 == $0002007c (F)
+0002008c 584a                     addaq.w #$04,a2
+0002008e e588                     lsl.l #$02,d0
+00020090 d5c0                     adda.l d0,a2
+00020092 60f4                     bra.b #$f4 == $00020088 (T)
+00020094 0c44 03f2                cmp.w #$03f2,d4
+00020098 6700 008c                beq.w #$008c == $00020126 (F)
+0002009c 4a05                     tst.b d5
+0002009e 6702                     beq.b #$02 == $000200a2 (F)
+000200a0 5286                     addq.l #$01,d6
+000200a2 7a01                     moveq #$01,d5
+000200a4 201b                     move.l (a3)+ [00000000],d0
+000200a6 5480                     addq.l #$02,d0
+000200a8 7201                     moveq #$01,d1
+000200aa 4841                     swap.w d1
+000200ac 0800 001e                btst.l #$001e,d0
+000200b0 6702                     beq.b #$02 == $000200b4 (F)
+000200b2 5401                     addq.b #$02,d1
+000200b4 e588                     lsl.l #$02,d0
+000200b6 2400                     move.l d0,d2
+000200b8 4eae ff3a                jsr (a6,-$00c6) == $00c001b0	;	 _LVOAllocMem
+000200bc 4a80                     tst.l d0
+000200be 6700 00c0                beq.w #$00c0 == $00020180 (F)
+000200c2 2240                     movea.l d0,a1
+000200c4 22c2                     move.l d2,(a1)+ [00c0041e]
+000200c6 2009                     move.l a1,d0
+000200c8 e488                     lsr.l #$02,d0
+000200ca 2880                     move.l d0,(a4) [45ed0042]
+000200cc 2849                     movea.l a1,a4
+000200ce 5849                     addaq.w #$04,a1
+000200d0 200d                     move.l a5,d0
+000200d2 6602                     bne.b #$02 == $000200d6 (T)
+000200d4 2a49                     movea.l a1,a5
+000200d6 201a                     move.l (a2)+ [48e70082],d0
+000200d8 67a2                     beq.b #$a2 == $0002007c (F)
+000200da 2f0a                     move.l a2,-(a7) [00fc0f94]
+000200dc 0c44 03eb                cmp.w #$03eb,d4
+000200e0 6736                     beq.b #$36 == $00020118 (F)
+000200e2 2400                     move.l d0,d2
+000200e4 e58a                     lsl.l #$02,d2
+000200e6 41f2 2800                lea.l (a2,d2.l,$00) == $40fdff50,a0
+000200ea 2203                     move.l d3,d1
+000200ec 9288                     sub.l a0,d1
+000200ee e489                     lsr.l #$02,d1
+000200f0 22da                     move.l (a2)+ [48e70082],(a1)+ [00c0041e]
+000200f2 5380                     subq.l #$01,d0
+000200f4 66fa                     bne.b #$fa == $000200f0 (T)
+000200f6 2457                     movea.l (a7),a2
+000200f8 0c42 1000                cmp.w #$1000,d2
+000200fc 651c                     bcs.b #$1c == $0002011a (F)
+000200fe 24d8                     move.l (a0)+ [00c00410],(a2)+ [48e70082]
+00020100 5381                     subq.l #$01,d1
+00020102 66fa                     bne.b #$fa == $000200fe (T)
+00020104 2457                     movea.l (a7),a2
+00020106 2003                     move.l d3,d0
+00020108 9682                     sub.l d2,d3
+0002010a 5e83                     addq.l #$07,d3
+0002010c 0203 00f8                and.b #$f8,d3
+00020110 2243                     movea.l d3,a1
+00020112 9083                     sub.l d3,d0
+00020114 4eae ff2e                jsr (a6,-$00d2) == $00c001a4	; _LVOFreeMem
+00020118 7400                     moveq #$00,d2
+0002011a 2502                     move.l d2,-(a2) [4e750000]
+0002011c 588a                     addaq.l #$04,a2
+0002011e d5c2                     adda.l d2,a2
+00020120 588f                     addaq.l #$04,a7
+00020122 6000 ff58                bra.w #$ff58 == $0002007c (T)
+00020126 7a00                     moveq #$00,d5
+00020128 5286                     addq.l #$01,d6
+0002012a be86                     cmp.l d6,d7
+0002012c 6200 ff4e                bhi.w #$ff4e == $0002007c (T)
+00020130 3546 fffc                move.w d6,(a2,-$0004) == $00fdff4c [4e75]
+00020134 2f4d 0040                move.l a5,(a7,$0040) == $00c80040
+00020138 221b                     move.l (a3)+ [00000000],d1
+0002013a 0c41 03ec                cmp.w #$03ec,d1
+0002013e 6630                     bne.b #$30 == $00020170 (T)
+00020140 4841                     swap.w d1
+00020142 6118                     bsr.b #$18 == $0002015c
+00020144 2409                     move.l a1,d2
+00020146 201b                     move.l (a3)+ [00000000],d0
+00020148 67ee                     beq.b #$ee == $00020138 (F)
+0002014a 221b                     move.l (a3)+ [00000000],d1
+0002014c 610e                     bsr.b #$0e == $0002015c
+0002014e 2209                     move.l a1,d1
+00020150 2442                     movea.l d2,a2
+00020152 d5db                     adda.l (a3)+ [00000000],a2
+00020154 d392                     add.l d1,(a2) [48e70082]
+00020156 5380                     subq.l #$01,d0
+00020158 66f4                     bne.b #$f4 == $0002014e (T)
+0002015a 60ea                     bra.b #$ea == $00020146 (T)
+0002015c 224d                     movea.l a5,a1
+0002015e 5989                     subaq.l #$04,a1
+00020160 5341                     subq.w #$01,d1
+00020162 6508                     bcs.b #$08 == $0002016c (F)
+00020164 2251                     movea.l (a1) [00c0041e],a1
+00020166 d3c9                     adda.l a1,a1
+00020168 d3c9                     adda.l a1,a1
+0002016a 60f4                     bra.b #$f4 == $00020160 (T)
+0002016c 5889                     addaq.l #$04,a1
+0002016e 4e75                     rts  == $ffffffff
+00020170 0c41 03f2                cmp.w #$03f2,d1
+00020174 6704                     beq.b #$04 == $0002017a (F)
+00020176 d7db                     adda.l (a3)+ [00000000],a3
+00020178 7200                     moveq #$00,d1
+0002017a 4841                     swap.w d1
+0002017c 4a41                     tst.w d1
+0002017e 67b8                     beq.b #$b8 == $00020138 (F)
+00020180 225f                     movea.l (a7)+,a1
+00020182 5189                     subaq.l #$08,a1
+00020184 2003                     move.l d3,d0
+00020186 9089                     sub.l a1,d0
+00020188 4eae ff2e                jsr (a6,-$00d2) == $00c001a4	; _LVOFreeMem
+0002018c 41fa fe92                lea.l (pc,$fe92) == $00020020,a0
+00020190 4a90                     tst.l (a0) [00c00410]
+00020192 6606                     bne.b #$06 == $0002019a (T)
+00020194 2008                     move.l a0,d0
+00020196 e488                     lsr.l #$02,d0
+00020198 2880                     move.l d0,(a4) [45ed0042]
+0002019a 4cdf 7fff                movem.l (a7)+,d0-d7/a0-a6
+0002019e 4e75                     rts  == $ffffffff
+000201a0 4bfa 009e                lea.l (pc,$009e) == $00020240,a5
+000201a4 7c03                     moveq #$03,d6
+000201a6 7801                     moveq #$01,d4
+000201a8 7e07                     moveq #$07,d7
+000201aa 7a01                     moveq #$01,d5
+000201ac 244b                     movea.l a3,a2
+000201ae 2220                     move.l -(a0) [f9a80400],d1
+000201b0 4a01                     tst.b d1
+000201b2 6706                     beq.b #$06 == $000201ba (F)
+000201b4 6128                     bsr.b #$28 == $000201de
+000201b6 9284                     sub.l d4,d1
+000201b8 e2ad                     lsr.l d1,d5
+000201ba e089                     lsr.l #$08,d1
+000201bc d7c1                     adda.l d1,a3
+000201be 611e                     bsr.b #$1e == $000201de
+000201c0 653e                     bcs.b #$3e == $00020200 (F)
+000201c2 7400                     moveq #$00,d2
+000201c4 3004                     move.w d4,d0
+000201c6 6124                     bsr.b #$24 == $000201ec
+000201c8 d441                     add.w d1,d2
+000201ca b246                     cmp.w d6,d1
+000201cc 67f6                     beq.b #$f6 == $000201c4 (F)
+000201ce 7007                     moveq #$07,d0
+000201d0 611a                     bsr.b #$1a == $000201ec
+000201d2 1701                     move.b d1,-(a3) [10]
+000201d4 51ca fff8                dbf.w d2,#$fff8 == $000201ce (F)
+000201d8 b5cb                     cmpa.l a3,a2
+000201da 6524                     bcs.b #$24 == $00020200 (F)
+000201dc 4e75                     rts  == $ffffffff
+000201de e8ad                     lsr.l d4,d5
+000201e0 6702                     beq.b #$02 == $000201e4 (F)
+000201e2 4e75                     rts  == $ffffffff
+000201e4 2a20                     move.l -(a0) [f9a80400],d5
+000201e6 e8b5                     roxr.l d4,d5
+000201e8 4e75                     rts  == $ffffffff
+000201ea 9044                     sub.w d4,d0
+000201ec 7200                     moveq #$00,d1
+000201ee e8ad                     lsr.l d4,d5
+000201f0 6708                     beq.b #$08 == $000201fa (F)
+000201f2 e9b1                     roxl.l d4,d1
+000201f4 51c8 fff8                dbf.w d0,#$fff8 == $000201ee (F)
+000201f8 4e75                     rts  == $ffffffff
+000201fa 2a20                     move.l -(a0) [f9a80400],d5
+000201fc e8b5                     roxr.l d4,d5
+000201fe 60f2                     bra.b #$f2 == $000201f2 (T)
+00020200 3004                     move.w d4,d0
+00020202 61e8                     bsr.b #$e8 == $000201ec
+00020204 7000                     moveq #$00,d0
+00020206 1035 1000                move.b (a5,d1.w,$00) == $00c041e0 [00],d0
+0002020a 3401                     move.w d1,d2
+0002020c b446                     cmp.w d6,d2
+0002020e 6616                     bne.b #$16 == $00020226 (T)
+00020210 61cc                     bsr.b #$cc == $000201de
+00020212 6502                     bcs.b #$02 == $00020216 (F)
+00020214 7007                     moveq #$07,d0
+00020216 61d2                     bsr.b #$d2 == $000201ea
+00020218 3601                     move.w d1,d3
+0002021a 7002                     moveq #$02,d0
+0002021c 61ce                     bsr.b #$ce == $000201ec
+0002021e d441                     add.w d1,d2
+00020220 b247                     cmp.w d7,d1
+00020222 67f6                     beq.b #$f6 == $0002021a (F)
+00020224 6004                     bra.b #$04 == $0002022a (T)
+00020226 61c2                     bsr.b #$c2 == $000201ea
+00020228 3601                     move.w d1,d3
+0002022a d444                     add.w d4,d2
+0002022c 1733 3000                move.b (a3,d3.w,$00) == $00c062db [48],-(a3) [10]
+00020230 51ca fffa                dbf.w d2,#$fffa == $0002022c (F)
+00020234 33cb 00df f1a2           move.w a3,$00dff1a2
+0002023a b5cb                     cmpa.l a3,a2
+0002023c 6580                     bcs.b #$80 == $000201be (F)
+0002023e 4e75                     rts  == $ffffffff
+00020240 090a 0b0b                movep.w (a2,$0b0b) == $00fe0a5b,d4
+00020244 4e46                     trap #$06
+00020246 8082                     or.l d2,d0
+00020248 0000 03f2                or.b #$f2,d0
+0002024c 0000 03ea                or.b #$ea,d0
+00020250 0000 0037                or.b #$37,d0
+00020254 ec16                     roxr.b #$06,d6
+00020256 785c                     moveq #$5c,d4
+00020258 1c00                     move.b d0,d6
+
+
+1c3d8
+
+Finding the smallpacked start address...
+After reset and run once
+s AC670AE5882040429449E8003C2C07
+C2158D
+f C2148D C2159D
+>f C2148D C2159D
+VPOS: 096 ($060) HPOS: 221 ($0dd) COP: $00015044
+  D0 00000001   D1 00C20DD0   D2 00000FA0   D3 00000FA8
+  D4 00000001   D5 0000003E   D6 0030831B   D7 00308328
+  A0 00C20DD0   A1 00C20EE0   A2 00C06318   A3 00C2154C
+  A4 00C233C8   A5 00FF4134   A6 00FF4128   A7 00C233C4
+USP  00C233C4 ISP  00C80000
+SR=0000 T=00 S=0 M=0 X=0 N=0 Z=0 V=0 C=0 IM=0 STP=0
+Prefetch 487a (PEA) 0178 (BCHG) Chip latch 00000178
+00c21550 487a 0178                pea.l (pc,$0178) == $00c216ca
+Next PC: 00c21554
+>H
+ 0 181/096 00ff4916 2211                     move.l (a1) [00308553],d1
+ 0 187/096 00ff4918 e581                     asl.l #$02,d1
+ 0 189/096 00ff491a 2641                     movea.l d1,a3
+ 0 191/096 00ff491c 2229 0008                move.l (a1,$0008) == $00c20ee8 [00308374],d1
+ 0 199/096 00ff4920 e581                     asl.l #$02,d1
+ 0 201/096 00ff4922 2041                     movea.l d1,a0
+ 0 203/096 00ff4924 2029 000c                move.l (a1,$000c) == $00c20eec [00000001],d0
+ 0 211/096 00ff4928 2e4c                     movea.l a4,a7
+ 0 213/096 00ff492a 4eab 0004                jsr (a3,$0004) == $00c21550
+ 0 221/096 00c21550 487a 0178                pea.l (pc,$0178) == $00c216ca
+>
+
+
+
+Code example and debugger example for _LVOOpenLibrary (a6) etc
+https://gist.github.com/emoon/f4cc058dd2a23c6cb9bce16b2548339a
