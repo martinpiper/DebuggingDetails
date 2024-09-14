@@ -750,3 +750,7 @@ https://gist.github.com/emoon/f4cc058dd2a23c6cb9bce16b2548339a
 
 
 Nice reference list of functions: https://amigasourcecodepreservation.gitlab.io/total-amiga-assembler/
+
+
+
+Developer docs: http://amigadev.elowar.com/read/ADCD_2.1/Hardware_Manual_guide/node0000.html
