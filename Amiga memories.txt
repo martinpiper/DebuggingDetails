@@ -440,6 +440,313 @@ Next PC: 00c21554
 >
 
 
+More general purpose trap execute of smallpacked. This traps the ROM task run...: f 00ff492a
+
+
+>r
+VPOS: 090 ($05a) HPOS: 129 ($081) COP: $00015044
+  D0 00000001   D1 00C20D40   D2 00000FA0   D3 00000FA8
+  D4 00000001   D5 0000003E   D6 003082F7   D7 00308304
+  A0 00C20D40   A1 00C20E50   A2 00C06318   A3 00C19E8C
+  A4 00C23108   A5 00FF4134   A6 00FF4128   A7 00C23104
+USP  00C23104 ISP  00C80000
+SR=0000 T=00 S=0 M=0 X=0 N=0 Z=0 V=0 C=0 IM=0 STP=0
+Prefetch 487a (PEA) 0178 (BCHG) Chip latch 00000178
+00c19e90 487a 0178                pea.l (pc,$0178) == $00c1a00a
+Next PC: 00c19e94
+>H
+ 0 089/090 00ff4916 2211                     move.l (a1) [003067a3],d1
+ 0 095/090 00ff4918 e581                     asl.l #$02,d1
+ 0 097/090 00ff491a 2641                     movea.l d1,a3
+ 0 099/090 00ff491c 2229 0008                move.l (a1,$0008) == $00c20e58 [00308350],d1
+ 0 107/090 00ff4920 e581                     asl.l #$02,d1
+ 0 109/090 00ff4922 2041                     movea.l d1,a0
+ 0 111/090 00ff4924 2029 000c                move.l (a1,$000c) == $00c20e5c [00000001],d0
+ 0 119/090 00ff4928 2e4c                     movea.l a4,a7
+ 0 121/090 00ff492a 4eab 0004                jsr (a3,$0004) == $00c19e90
+ 0 129/090 00c19e90 487a 0178                pea.l (pc,$0178) == $00c1a00a
+
+00C19E6C 4A41 67B8 225F 5189 2003 9089 4EAE FF2E  JAg."_Q. ...N...
+00C19E7C 41FA FE92 4A90 6606 006C 60E8 0000 022C  A...J.f..l`....,
+00C19E8C 0030 852F 487A 0178 48E7 FFFE 49FA FFF2  .0./Hz.xH...I...
+00C19E9C 2054 D1C8 D1C8 5848 2648 504B 2C78 0004   T....XH&HPK,x..
+00C19EAC 2F08 D1FC 0000 00DC 6100 0156 2057 5148  /.......a..V WQH
+00C19EBC 2610 D688 504B 2E1B 504B 206E 0114 2028  &...PK..PK n.. (
+00C19ECC 00AC 670A E588 2040 4294 49E8 003C 2C07  ..g... @B.I..<,.
+00C19EDC E58E 45F3 6800 9BCD 7C00 7A00 281A 0C44  ..E.h...|.z.(..D
+00C19EEC 03EC 6610 3546 FFFC 201A 67F0 584A E588  ..f.5F.. .g.XJ..
+00C19EFC D5C0 60F4 0C44 03F2 6700 008C 4A05 6702  ..`..D..g...J.g.
+00C19F0C 5286 7A01 201B 5480 7201 4841 0800 001E  R.z. .T.r.HA....
+00C19F1C 6702 5401 E588 2400 4EAE FF3A 4A80 6700  g.T...$.N..:J.g.
+00C19F2C 00C0 2240 22C2 2009 E488 2880 2849 5849  .."@". ...(.(IXI
+00C19F3C 200D 6602 2A49 201A 67A2 2F0A 0C44 03EB   .f.*I .g./..D..
+00C19F4C 6736 2400 E58A 41F2 2800 2203 9288 E489  g6$...A.(.".....
+00C19F5C 22DA 5380 66FA 2457 0C42 1000 651C 24D8  ".S.f.$W.B..e.$.
+00C19F6C 5381 66FA 2457 2003 9682 5E83 0203 00F8  S.f.$W ...^.....
+00C19F7C 2243 9083 4EAE FF2E 7400 2502 588A D5C2  "C..N...t.%.X...
+00C19F8C 588F 6000 FF58 7A00 5286 BE86 6200 FF4E  X.`..Xz.R...b..N
+00C19F9C 3546 FFFC 2F4D 0040 221B 0C41 03EC 6630  5F../M.@"..A..f0
+
+00c19e90 487a 0178                pea.l (pc,$0178) == $00c1a00a
+00c19e94 48e7 fffe                movem.l d0-d7/a0-a6,-(a7)
+00c19e98 49fa fff2                lea.l (pc,$fff2) == $00c19e8c,a4
+00c19e9c 2054                     movea.l (a4) [00000fa0],a0
+00c19e9e d1c8                     adda.l a0,a0
+00c19ea0 d1c8                     adda.l a0,a0
+00c19ea2 5848                     addaq.w #$04,a0
+00c19ea4 2648                     movea.l a0,a3
+00c19ea6 504b                     addaq.w #$08,a3
+00c19ea8 2c78 0004                movea.l $0004.w [00c00276],a6
+00c19eac 2f08                     move.l a0,-(a7) [0001c3d8]
+00c19eae d1fc 0000 00dc           adda.l #$000000dc,a0
+00c19eb4 6100 0156                bsr.w #$0156 == $00c1a00c
+00c19eb8 2057                     movea.l (a7) [00ff492e],a0
+00c19eba 5148                     subaq.w #$08,a0
+00c19ebc 2610                     move.l (a0) [0a30312b],d3
+00c19ebe d688                     add.l a0,d3
+00c19ec0 504b                     addaq.w #$08,a3
+00c19ec2 2e1b                     move.l (a3)+ [0030852f],d7
+00c19ec4 504b                     addaq.w #$08,a3
+00c19ec6 206e 0114                movea.l (a6,$0114) == $00ff423c [54040884],a0			; _LVOFindName
+00c19eca 2028 00ac                move.l (a0,$00ac) == $00c20dec [abababab],d0
+00c19ece 670a                     beq.b #$0a == $00c19eda (F)
+00c19ed0 e588                     lsl.l #$02,d0
+00c19ed2 2040                     movea.l d0,a0
+00c19ed4 4294                     clr.l (a4) [00000fa0]
+00c19ed6 49e8 003c                lea.l (a0,$003c) == $00c20d7c,a4
+00c19eda 2c07                     move.l d7,d6
+00c19edc e58e                     lsl.l #$02,d6
+00c19ede 45f3 6800                lea.l (a3,d6.l,$00) == $00f22183,a2
+00c19ee2 9bcd                     suba.l a5,a5
+00c19ee4 7c00                     moveq #$00,d6
+00c19ee6 7a00                     moveq #$00,d5
+00c19ee8 281a                     move.l (a2)+ [00000096],d4
+00c19eea 0c44 03ec                cmp.w #$03ec,d4
+00c19eee 6610                     bne.b #$10 == $00c19f00 (T)
+00c19ef0 3546 fffc                move.w d6,(a2,-$0004) == $00c06314 [00ff]
+00c19ef4 201a                     move.l (a2)+ [00000096],d0
+00c19ef6 67f0                     beq.b #$f0 == $00c19ee8 (F)
+00c19ef8 584a                     addaq.w #$04,a2
+00c19efa e588                     lsl.l #$02,d0
+00c19efc d5c0                     adda.l d0,a2
+00c19efe 60f4                     bra.b #$f4 == $00c19ef4 (T)
+00c19f00 0c44 03f2                cmp.w #$03f2,d4
+00c19f04 6700 008c                beq.w #$008c == $00c19f92 (F)
+00c19f08 4a05                     tst.b d5
+00c19f0a 6702                     beq.b #$02 == $00c19f0e (F)
+00c19f0c 5286                     addq.l #$01,d6
+00c19f0e 7a01                     moveq #$01,d5
+00c19f10 201b                     move.l (a3)+ [0030852f],d0
+00c19f12 5480                     addq.l #$02,d0
+00c19f14 7201                     moveq #$01,d1
+00c19f16 4841                     swap.w d1
+00c19f18 0800 001e                btst.l #$001e,d0
+00c19f1c 6702                     beq.b #$02 == $00c19f20 (F)
+00c19f1e 5401                     addq.b #$02,d1
+00c19f20 e588                     lsl.l #$02,d0
+00c19f22 2400                     move.l d0,d2
+00c19f24 4eae ff3a                jsr (a6,-$00c6) == $00ff4062			;	 _LVOAllocMem
+00c19f28 4a80                     tst.l d0
+00c19f2a 6700 00c0                beq.w #$00c0 == $00c19fec (F)
+00c19f2e 2240                     movea.l d0,a1
+00c19f30 22c2                     move.l d2,(a1)+ [003067a3]
+00c19f32 2009                     move.l a1,d0
+00c19f34 e488                     lsr.l #$02,d0
+00c19f36 2880                     move.l d0,(a4) [00000fa0]
+00c19f38 2849                     movea.l a1,a4
+00c19f3a 5849                     addaq.w #$04,a1
+00c19f3c 200d                     move.l a5,d0
+00c19f3e 6602                     bne.b #$02 == $00c19f42 (T)
+00c19f40 2a49                     movea.l a1,a5
+00c19f42 201a                     move.l (a2)+ [00000096],d0
+00c19f44 67a2                     beq.b #$a2 == $00c19ee8 (F)
+00c19f46 2f0a                     move.l a2,-(a7) [0001c3d8]
+00c19f48 0c44 03eb                cmp.w #$03eb,d4
+00c19f4c 6736                     beq.b #$36 == $00c19f84 (F)
+00c19f4e 2400                     move.l d0,d2
+00c19f50 e58a                     lsl.l #$02,d2
+00c19f52 41f2 2800                lea.l (a2,d2.l,$00) == $00c072b8,a0
+00c19f56 2203                     move.l d3,d1
+00c19f58 9288                     sub.l a0,d1
+00c19f5a e489                     lsr.l #$02,d1
+00c19f5c 22da                     move.l (a2)+ [00000096],(a1)+ [003067a3]
+00c19f5e 5380                     subq.l #$01,d0
+00c19f60 66fa                     bne.b #$fa == $00c19f5c (T)
+00c19f62 2457                     movea.l (a7) [00ff492e],a2
+00c19f64 0c42 1000                cmp.w #$1000,d2
+00c19f68 651c                     bcs.b #$1c == $00c19f86 (F)
+00c19f6a 24d8                     move.l (a0)+ [0a30312b],(a2)+ [00000096]
+00c19f6c 5381                     subq.l #$01,d1
+00c19f6e 66fa                     bne.b #$fa == $00c19f6a (T)
+00c19f70 2457                     movea.l (a7) [00ff492e],a2
+00c19f72 2003                     move.l d3,d0
+00c19f74 9682                     sub.l d2,d3
+00c19f76 5e83                     addq.l #$07,d3
+00c19f78 0203 00f8                and.b #$f8,d3
+00c19f7c 2243                     movea.l d3,a1
+00c19f7e 9083                     sub.l d3,d0
+00c19f80 4eae ff2e                jsr (a6,-$00d2) == $00ff4056			; _LVOFreeMem
+00c19f84 7400                     moveq #$00,d2
+00c19f86 2502                     move.l d2,-(a2) [00ff589c]
+00c19f88 588a                     addaq.l #$04,a2
+00c19f8a d5c2                     adda.l d2,a2
+00c19f8c 588f                     addaq.l #$04,a7
+00c19f8e 6000 ff58                bra.w #$ff58 == $00c19ee8 (T)
+00c19f92 7a00                     moveq #$00,d5
+00c19f94 5286                     addq.l #$01,d6
+00c19f96 be86                     cmp.l d6,d7
+00c19f98 6200 ff4e                bhi.w #$ff4e == $00c19ee8 (T)
+00c19f9c 3546 fffc                move.w d6,(a2,-$0004) == $00c06314 [00ff]
+00c19fa0 2f4d 0040                move.l a5,(a7,$0040) == $00c23144 [00000000]
+00c19fa4 221b                     move.l (a3)+ [0030852f],d1
+00c19fa6 0c41 03ec                cmp.w #$03ec,d1
+00c19faa 6630                     bne.b #$30 == $00c19fdc (T)
+00c19fac 4841                     swap.w d1
+00c19fae 6118                     bsr.b #$18 == $00c19fc8
+00c19fb0 2409                     move.l a1,d2
+00c19fb2 201b                     move.l (a3)+ [0030852f],d0
+00c19fb4 67ee                     beq.b #$ee == $00c19fa4 (F)
+00c19fb6 221b                     move.l (a3)+ [0030852f],d1
+00c19fb8 610e                     bsr.b #$0e == $00c19fc8
+00c19fba 2209                     move.l a1,d1
+00c19fbc 2442                     movea.l d2,a2
+00c19fbe d5db                     adda.l (a3)+ [0030852f],a2
+00c19fc0 d392                     add.l d1,(a2) [00000096]
+00c19fc2 5380                     subq.l #$01,d0
+00c19fc4 66f4                     bne.b #$f4 == $00c19fba (T)
+00c19fc6 60ea                     bra.b #$ea == $00c19fb2 (T)
+00c19fc8 224d                     movea.l a5,a1
+00c19fca 5989                     subaq.l #$04,a1
+00c19fcc 5341                     subq.w #$01,d1
+00c19fce 6508                     bcs.b #$08 == $00c19fd8 (F)
+00c19fd0 2251                     movea.l (a1) [003067a3],a1
+00c19fd2 d3c9                     adda.l a1,a1
+00c19fd4 d3c9                     adda.l a1,a1
+00c19fd6 60f4                     bra.b #$f4 == $00c19fcc (T)
+00c19fd8 5889                     addaq.l #$04,a1
+00c19fda 4e75                     rts  == $00ff492e
+00c19fdc 0c41 03f2                cmp.w #$03f2,d1
+00c19fe0 6704                     beq.b #$04 == $00c19fe6 (F)
+00c19fe2 d7db                     adda.l (a3)+ [0030852f],a3
+00c19fe4 7200                     moveq #$00,d1
+00c19fe6 4841                     swap.w d1
+00c19fe8 4a41                     tst.w d1
+00c19fea 67b8                     beq.b #$b8 == $00c19fa4 (F)
+00c19fec 225f                     movea.l (a7)+ [00ff492e],a1
+00c19fee 5189                     subaq.l #$08,a1
+00c19ff0 2003                     move.l d3,d0
+00c19ff2 9089                     sub.l a1,d0
+00c19ff4 4eae ff2e                jsr (a6,-$00d2) == $00ff4056			; _LVOFreeMem
+00c19ff8 41fa fe92                lea.l (pc,$fe92) == $00c19e8c,a0
+00c19ffc 4a90                     tst.l (a0) [0a30312b]
+00c19ffe 6606                     bne.b #$06 == $00c1a006 (T)
+00c1a000 2008                     move.l a0,d0
+00c1a002 e488                     lsr.l #$02,d0
+00c1a004 2880                     move.l d0,(a4) [00000fa0]
+00c1a006 4cdf 7fff                movem.l (a7)+,d0-d7/a0-a6
+00c1a00a 4e75                     rts  == $00ff492e
+00c1a00c 4bfa 009e                lea.l (pc,$009e) == $00c1a0ac,a5
+00c1a010 7c03                     moveq #$03,d6
+00c1a012 7801                     moveq #$01,d4
+00c1a014 7e07                     moveq #$07,d7
+00c1a016 7a01                     moveq #$01,d5
+00c1a018 244b                     movea.l a3,a2
+00c1a01a 2220                     move.l -(a0) [00308350],d1
+00c1a01c 4a01                     tst.b d1
+00c1a01e 6706                     beq.b #$06 == $00c1a026 (F)
+00c1a020 6128                     bsr.b #$28 == $00c1a04a
+00c1a022 9284                     sub.l d4,d1
+00c1a024 e2ad                     lsr.l d1,d5
+00c1a026 e089                     lsr.l #$08,d1
+00c1a028 d7c1                     adda.l d1,a3
+00c1a02a 611e                     bsr.b #$1e == $00c1a04a
+00c1a02c 653e                     bcs.b #$3e == $00c1a06c (F)
+00c1a02e 7400                     moveq #$00,d2
+00c1a030 3004                     move.w d4,d0
+00c1a032 6124                     bsr.b #$24 == $00c1a058
+00c1a034 d441                     add.w d1,d2
+00c1a036 b246                     cmp.w d6,d1
+00c1a038 67f6                     beq.b #$f6 == $00c1a030 (F)
+00c1a03a 7007                     moveq #$07,d0
+00c1a03c 611a                     bsr.b #$1a == $00c1a058
+00c1a03e 1701                     move.b d1,-(a3) [2c]
+00c1a040 51ca fff8                dbf.w d2,#$fff8 == $00c1a03a (F)
+00c1a044 b5cb                     cmpa.l a3,a2
+00c1a046 6524                     bcs.b #$24 == $00c1a06c (F)
+00c1a048 4e75                     rts  == $00ff492e
+00c1a04a e8ad                     lsr.l d4,d5
+00c1a04c 6702                     beq.b #$02 == $00c1a050 (F)
+00c1a04e 4e75                     rts  == $00ff492e
+00c1a050 2a20                     move.l -(a0) [00308350],d5
+00c1a052 e8b5                     roxr.l d4,d5
+00c1a054 4e75                     rts  == $00ff492e
+00c1a056 9044                     sub.w d4,d0
+00c1a058 7200                     moveq #$00,d1
+00c1a05a e8ad                     lsr.l d4,d5
+00c1a05c 6708                     beq.b #$08 == $00c1a066 (F)
+00c1a05e e9b1                     roxl.l d4,d1
+00c1a060 51c8 fff8                dbf.w d0,#$fff8 == $00c1a05a (F)
+00c1a064 4e75                     rts  == $00ff492e
+00c1a066 2a20                     move.l -(a0) [00308350],d5
+00c1a068 e8b5                     roxr.l d4,d5
+00c1a06a 60f2                     bra.b #$f2 == $00c1a05e (T)
+00c1a06c 3004                     move.w d4,d0
+00c1a06e 61e8                     bsr.b #$e8 == $00c1a058
+00c1a070 7000                     moveq #$00,d0
+00c1a072 1035 1000                move.b (a5,d1.w,$00) == $00ff4e74 [2c],d0
+00c1a076 3401                     move.w d1,d2
+00c1a078 b446                     cmp.w d6,d2
+00c1a07a 6616                     bne.b #$16 == $00c1a092 (T)
+00c1a07c 61cc                     bsr.b #$cc == $00c1a04a
+00c1a07e 6502                     bcs.b #$02 == $00c1a082 (F)
+00c1a080 7007                     moveq #$07,d0
+00c1a082 61d2                     bsr.b #$d2 == $00c1a056
+00c1a084 3601                     move.w d1,d3
+00c1a086 7002                     moveq #$02,d0
+00c1a088 61ce                     bsr.b #$ce == $00c1a058
+00c1a08a d441                     add.w d1,d2
+00c1a08c b247                     cmp.w d7,d1
+00c1a08e 67f6                     beq.b #$f6 == $00c1a086 (F)
+00c1a090 6004                     bra.b #$04 == $00c1a096 (T)
+00c1a092 61c2                     bsr.b #$c2 == $00c1a056
+00c1a094 3601                     move.w d1,d3
+00c1a096 d444                     add.w d4,d2
+00c1a098 1733 3000                move.b (a3,d3.w,$00) == $00c1ae34 [00],-(a3) [2c]
+00c1a09c 51ca fffa                dbf.w d2,#$fffa == $00c1a098 (F)
+00c1a0a0 33cb 00df f1a2           move.w a3,$00dff1a2
+00c1a0a6 b5cb                     cmpa.l a3,a2
+00c1a0a8 6580                     bcs.b #$80 == $00c1a02a (F)
+00c1a0aa 4e75                     rts  == $00ff492e
+00c1a0ac 090a 0b0b                movep.w (a2,$0b0b) == $00c06e23,d4
+00c1a0b0 4e46                     trap #$06
+00c1a0b2 8082                     or.l d2,d0
+00c1a0b4 1630 2800                move.b (a0,d2.l,$00) == $00c21ce0 [20],d3
+00c1a0b8 00c2                     illegal
+00c1a0ba 3110                     move.w (a0) [0a30],-(a0) [8350]
+00c1a0bc 0000 00b0                or.b #$b0,d0
+00c1a0c0 0048                     illegal
+00c1a0c2 b2a9 0044                cmp.l (a1,$0044) == $00c20e94 [abababab],d1
+00c1a0c6 6e00 0028                bgt.w #$0028 == $00c1a0f0 (T)
+00c1a0ca 2411                     move.l (a1) [003067a3],d2
+00c1a0cc e58a                     lsl.l #$02,d2
+00c1a0ce 2630 2800                move.l (a0,d2.l,$00) == $00c21ce0 [20202020],d3
+00c1a0d2 e58b                     lsl.l #$02,d3
+00c1a0d4 d681                     add.l d1,d3
+00c1a0d6 7800                     moveq #$00,d4
+00c1a0d8 1830 3800                move.b (a0,d3.l,$00) == $00c21ce8 [20],d4
+00c1a0dc 262a 0230                move.l (a2,$0230) == $00c06548 [00000000],d3
+00c1a0e0 e58b                     lsl.l #$02,d3
+00c1a0e2 d681                     add.l d1,d3
+00c1a0e4 1184 3800                move.b d4,(a0,d3.l,$00) == $00c21ce8 [20]
+00c1a0e8 7201                     moveq #$01,d1
+00c1a0ea d2a9 0048                add.l (a1,$0048) == $00c20e98 [abababab],d1
+00c1a0ee 60ce                     bra.b #$ce == $00c1a0be (T)
+00c1a0f0 4ed6                     jmp (a6)
+00c1a0f2 4e71                     nop
 
 Code example and debugger example for _LVOOpenLibrary (a6) etc
 https://gist.github.com/emoon/f4cc058dd2a23c6cb9bce16b2548339a
+
+
+
+Nice reference list of functions: https://amigasourcecodepreservation.gitlab.io/total-amiga-assembler/
