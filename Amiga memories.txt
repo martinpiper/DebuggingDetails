@@ -763,3 +763,21 @@ Nice reference list of functions: https://amigasourcecodepreservation.gitlab.io/
 
 
 Developer docs: http://amigadev.elowar.com/read/ADCD_2.1/Hardware_Manual_guide/node0000.html
+
+
+First version, code that:
+1. Runs as a normal exe
+2. Decompresses the result of this: c:\work\c64\bin\LZMPi.exe -no -cu "C:\work\DebuggingDetails\AmigaDH0\Temp\bin20000" "C:\work\DebuggingDetails\AmigaDH0\Temp\bin20000.cmp"
+3. To fixed address $1ffe0
+4. Runs $20000
+
+Second version:
+1. Allocates chip memory with suitable size, will need 32 bit size in the file 9not 16 bit)
+2. Decompresses into that memory
+3. Runs the code cleanly, with suitable register setup indicating the memory block?
+4. Exits cleanly, freeing the allocated block
+
+Third version:
+1. Parses chunks, allocates suitable chunks, decompresses into hunks
+2. Frees the source compressed data before execution
+3. Exits cleanly, not allowing the OS to free already freed blocks
