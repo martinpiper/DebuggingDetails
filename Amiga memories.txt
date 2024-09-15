@@ -804,3 +804,7 @@ Quick-start
 	or: open .vscode/launch.json and point "kickstart" to your Kickstart 1.3 ROM
 	Hit F5 to build and run a minimal sample project
 	If you prefer C++ instead of C, just rename main.c to main.cpp
+
+
+
+C:\Users\marti\.vscode\extensions\bartmanabyss.amiga-debug-1.7.7\bin\win32\Shrinkler.exe -h -f dff180 -9 "C:\work\DebuggingDetails\AmigaDH0\Temp\exe" "C:\work\DebuggingDetails\AmigaDH0\Temp\exeshrinkler"
