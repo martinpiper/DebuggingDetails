@@ -770,6 +770,7 @@ First version, code that:
 2. Decompresses the result of this: c:\work\c64\bin\LZMPi.exe -no -cu "C:\work\DebuggingDetails\AmigaDH0\Temp\bin20000" "C:\work\DebuggingDetails\AmigaDH0\Temp\bin20000.cmp"
 3. To fixed address $1ffe0
 4. Runs $20000
+Code: https://github.com/martinpiper/AmigaDecompression/tree/main/Test1
 
 Second version:
 1. Allocates chip memory with suitable size, will need 32 bit size in the file 9not 16 bit)
