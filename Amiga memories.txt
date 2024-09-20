@@ -814,6 +814,9 @@ C:\Users\marti\.vscode\extensions\bartmanabyss.amiga-debug-1.7.7\bin\win32\Shrin
 
 What happens when a task is started: https://archive.org/details/Amiga_System_Programmers_Guide_1988_Abacus/page/n379/mode/2up
 https://www.ikod.se/wp-content/uploads/2018/10/Amiga_System_Programmers_Guide_1988_Abacus.pdf
+	Page 378 (386)
 https://retro-commodore.eu/files/downloads/amigamanuals-xiik.net/eBooks/Advanced%20System%20Programmers%20Guide%20for%20the%20Amiga%20-%20eBook-ENG.pdf
 	Page 255 for FindTask
 https://archive.org/stream/AmigaSystemProgrammersGuide/Amiga_System_Programmers_Guide_djvu.txt
+	dos::LoadSeg?
+		https://www.youtube.com/watch?v=9mvA6R-x2l0&lc=UgzDS6dkWzhz1943z-p4AaABAg.A8VTSYJOLLkA8Wre5C5YMr
