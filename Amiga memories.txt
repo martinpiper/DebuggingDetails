@@ -809,3 +809,9 @@ Quick-start
 
 
 C:\Users\marti\.vscode\extensions\bartmanabyss.amiga-debug-1.7.7\bin\win32\Shrinkler.exe -h -f dff180 -9 "C:\work\DebuggingDetails\AmigaDH0\Temp\exe" "C:\work\DebuggingDetails\AmigaDH0\Temp\exeshrinkler"
+
+
+
+What happens when a task is started: https://archive.org/details/Amiga_System_Programmers_Guide_1988_Abacus/page/n379/mode/2up
+https://retro-commodore.eu/files/downloads/amigamanuals-xiik.net/eBooks/Advanced%20System%20Programmers%20Guide%20for%20the%20Amiga%20-%20eBook-ENG.pdf
+	Page 255 for FindTask
