@@ -1,0 +1,17 @@
+Jack the Nipper 2
+
+Brown and green text MC
+Single screen
+
+Block 6 is a ladder.
+4x4 map blocks, no colour
+
+$d0 map width?
+
+Charset $4800
+Some dynamic water/flames etc
+
+Tiles at $0f00
+Map at $1f00
+
+CharPad ctm file created :)
