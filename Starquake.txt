@@ -1,0 +1,113 @@
+Starquake
+Question: https://www.youtube.com/watch?v=n4PVen9UGsw&lc=Ugwde2xxXdNvV5EqW9d4AaABAg
+512 screens arranged in a 16x32
+Map: https://maps.speccy.cz/map.php?id=Starquake
+
+
+
+Bitmap at $7000
+$d18 when moving left, dec $b9
+$c73 = draw screen?
+
+$410a after screen clear
+$e8c loads $b9 and $ba, = X and Y?
+
+$1037 clears 4 bytes at $28-$2b, based on $b9/$ba, random seed? Mersenne Twister?
+	With a high nybble set table at $1148 for 8 bytes
+
+$10b0 plot one map block, was in top left of the bitmap
+	Seems to be plotting "random" positions. and blocks...
+
+$34 = rock?
+$32 = other rock
+$14 = empty?
+$0e / $11 = hanging down platform
+
+$07 = electricity top thingy
+$24 = teleporter building
+
+Teleporter room = $f8ac from $76 77
+$f08 seems to draw the teleporter...
+
+$76 - $79 Seem to be involved in the $f05 screen draw loop, to read sparse level data?
+
+Teleporter room?
+C:$0e8c) m b9 ba
+>C:00b9  28 00
+(C:$00bb) > b9 ba 0 0
+Seems to draw the top left room?
+
+$d800 is the collision screen! which would normally be the colour screen
+
+Try using mmsh and mmzp for known rooms to find the $~f800 memory read pattern
+
+$e7e seems to be the start of the map screen draw
+Setup $e000 into $78/$79
+Loads b9/ba, multiply by 4 into A and $b6, then add into $78/$79
+So... if b9/ba is 0 to 511, then $e000 should have 512x4 bytes of data... so should be e000 to e7ff
+
+Then multiply A/$b6 by 2, again add into $78/$79
+
+
+
+
+
+
+When map x/y = 0,0
+(C:$0ea4) m 28 2b
+>C:0028  a0 70 40 30                                          .p@0
+(C:$002c) m b9 ba
+>C:00b9  00 00
+(C:$0079) m 78 79
+>C:0078  00 e0
+
+Then divides b9/ba by 16 into A then X
+So gets the Y coordinate, adds $20, then loads from $115f (actually $117f) onwards, into Y, 32 bytes max
+$1017 seems to take these coordinates and loads from table at $119f, using the value from $117f
+Does some maths, then loads from table at $fc00
+$1017 seems to draw 6 blocks in a vertical chunk, based on values in these tables.
+$ff4 seems to calculate from the $e000 table, byte offset 0, into $76/$77
+
+After drawing a map column, of one block...
+It then draw a group on 2x2 blocks
+Then another 2x2 group...
+
+
+oh... so it looks like we have a map comprised of 2x2 blocks, which are then 4x4 char blocks
+So $f800 = meta tiles, 2x2 blocks
+And $e000 = meta tile map
+So each map screen is at least 12 bytes for meta tiles, at $e000
+
+
+Looks like $faf has some special case draw code for certain map coordinates
+	.specialCaseMapBlockDraw
+	Draws blocks $16 at specific screen coordinates, for map $b9/$ba = c7 00
+	Completes drawing the core screen...
+
+
+$b9/$ba = map room number 0 to 511
+
+Room 0 uses $e000
+Room 1 uses $e00c
+Room 2 uses $e018
+
+.calcMapDataFromCoordinates
+	into $78/$79
+
+
+
+So 6144 bytes for the map, and uses about 2048 bytes for meta tiles...
+Pickups are in a different place
+
+
+
+al fe6 .calcMapDataFromCoordinates
+
+al 100c .getYMapCoordinate
+al 10b0 .blockDraw
+al 1017 .drawMapColumn
+al ff4 .calcMetaTileAddress
+al faf .specialCaseMapBlockDraw
+al e7b .drawScreen
+al 4030 .clearScreen
+al 1037 .setupTwister
