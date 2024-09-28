@@ -1,0 +1,26 @@
+;HTWAM1 test code
+
+!source "stdlib/stdlib.a"
+!to "HTWAM.prg", cbm
+!sl "HTWAM.map"
+!sal
+!svl "HTWAM.lbl"
+!pdb "HTWAM.pdb"
+!cpu 6510
+!ct pet
+!initmem $aa
+
+*=$400
+.bph
+	sei
+	lda #ProcessorPortAllRAMWithIO
+	jsr InitialiseMachine
+	lda #VIC2ScreenControlVDefault
+	sta VIC2ScreenControlV
+
+.l1
+	inc VIC2BorderColour
+	jmp .l1
+	
+
+!source "stdlib/Initialise.a"
