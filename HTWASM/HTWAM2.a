@@ -1,4 +1,4 @@
-;HTWAM1 test code
+;HTWAM2 test code
 
 !source "stdlib/stdlib.a"
 !to "HTWAM.prg", cbm
@@ -9,6 +9,26 @@
 !cpu 6510
 !ct pet
 !initmem $aa
+
+!macro MIRQStackAck {
+	pha
+	txa
+	pha
+	tya
+	pha
+	inc VIC2BorderColour
+	+MACROAckRasterIRQ_A
+}
+!macro MIRQStackPop {
+	dec VIC2BorderColour
+	pla
+	tay
+	pla
+	tax
+	pla
+	rti
+}
+
 
 *=$400
 !fill 40*25 , ' '
@@ -23,36 +43,64 @@
 
 	+MVIC2SpriteEnableAll_A
 
-.l1
-	lda VIC2ScreenControlV
-	bpl .l1
-.l2	lda VIC2ScreenControlV
-	bmi .l2
-	lda #VIC2Colour_Red
-	sta VIC2BorderColour
-	lda #VIC2Colour_Black
-	sta VIC2BorderColour
+	+MWordValueToAddress_A .firstRow , KERNALIRQServiceRoutineLo
+	lda #70
+	sta VIC2Raster
+	lda #1
+	sta VIC2InteruptControl
+	cli
 
-	; First row
-	+MACROWaitForRaster 70
-	inc VIC2BorderColour
+.ml1
+	inc SCREENRAM
+	jmp .ml1
+
+
+.firstRow
+	+MIRQStackAck
+
 !for .ii , 8 {
 !set .i = .ii-1
 	+MSetSpriteXYColFrame_A .i , 30  + (.i * 30), 80 , .ii , 248 + .i , SCREENRAM
 }
-	dec VIC2BorderColour
 
-	; Second row
-	+MACROWaitForRaster 110
-	inc VIC2BorderColour
+	+MWordValueToAddress_A .secondRow , KERNALIRQServiceRoutineLo
+	lda #110
+	sta VIC2Raster
+
+	+MIRQStackPop
+
+
+.secondRow
+	+MIRQStackAck
+
 !for .ii , 8 {
 !set .i = .ii-1
-	+MSetSpriteXYColFrame_A .i , 30  + (.i * 30), 120 , -.ii , 255 - .i , SCREENRAM
+	+MSetSpriteXYColFrame_A .i , 70  + (.i * 30), 130 - .i , -.ii , 255 - .i , SCREENRAM
 }
 
-	dec VIC2BorderColour
+	+MWordValueToAddress_A .thirdRow , KERNALIRQServiceRoutineLo
+	lda #160
+	sta VIC2Raster
 
-	jmp .l1
+	+MIRQStackPop
+
+
+.thirdRow
+	+MIRQStackAck
+
+!for .ii , 8 {
+!set .i = .ii-1
+	+MSetSpriteXYColFrame_A .i , 100  + (.i * 20), 170 + .i , -.ii , 255 - .i , SCREENRAM
+}
+
+	+MWordValueToAddress_A .firstRow , KERNALIRQServiceRoutineLo
+	lda #70
+	sta VIC2Raster
+
+	+MIRQStackPop
+
+
+
 	
 
 !source "stdlib/Initialise.a"

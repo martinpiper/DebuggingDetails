@@ -1,4 +1,4 @@
-;HTWAM1 test code
+;HTWAM3 test code
 
 !source "stdlib/stdlib.a"
 !to "HTWAM.prg", cbm
@@ -9,6 +9,27 @@
 !cpu 6510
 !ct pet
 !initmem $aa
+
+kMaxSprites = 24
+
+!macro MIRQStack {
+	pha
+	txa
+	pha
+	tya
+	pha
+	inc VIC2BorderColour
+}
+!macro MIRQStackPop {
+	dec VIC2BorderColour
+	pla
+	tay
+	pla
+	tax
+	pla
+	rti
+}
+
 
 *=$400
 !fill 40*25 , ' '
@@ -23,36 +44,161 @@
 
 	+MVIC2SpriteEnableAll_A
 
-.l1
-	lda VIC2ScreenControlV
-	bpl .l1
-.l2	lda VIC2ScreenControlV
-	bmi .l2
-	lda #VIC2Colour_Red
-	sta VIC2BorderColour
-	lda #VIC2Colour_Black
-	sta VIC2BorderColour
+	+MWordValueToAddress_A .firstRow , KERNALIRQServiceRoutineLo
+	lda #20
+	sta VIC2Raster
+	lda #1
+	sta VIC2InteruptControl
+	cli
 
-	; First row
-	+MACROWaitForRaster 70
-	inc VIC2BorderColour
-!for .ii , 8 {
-!set .i = .ii-1
-	+MSetSpriteXYColFrame_A .i , 30  + (.i * 30), 80 , .ii , 248 + .i , SCREENRAM
+.ml1
+	inc SCREENRAM
+	jmp .ml1
+
+
+.firstRow
+	+MIRQStack
+
+	ldx #0
+	ldy #0
+.cl1
+	lda SpriteXTab,x
+	sta VIC2Sprite0X,y
+	lda SpriteYTab,x
+	sta VIC2Sprite0Y,y
+	lda SpriteColourTab,x
+	sta VIC2Sprite0Colour,x
+	lda SpriteFrameTab,x
+	sta SCREENRAM + SPRITEFRAMESCROFF,x
+	inx
+	iny
+	iny
+	cpx #kVIC2NumSprites
+	bne .cl1
+
+	lda #0
+	sta .nextVICSpriteIndex
+	lda #8
+	sta .nextSpriteIndexToProcess
+
+	+MACROAckRasterIRQ_A
+	; Calculate the first safe raster position, underneath the first sprite Y position
+	lda VIC2Sprite0Y
+	clc
+	adc #22
+	sta VIC2Raster
+	+MWordValueToAddress_A .secondRow , KERNALIRQServiceRoutineLo
+
+	+MIRQStackPop
+
+.nextVICSpriteIndex !by 0
+.nextSpriteIndexToProcess !by 0
+
+.secondRow
+	+MIRQStack
+
+	ldx .nextSpriteIndexToProcess
+	lda .nextVICSpriteIndex
+	asl
+	tay
+
+.safeToProcessSprite
+
+	lda SpriteXTab,x
+	sta VIC2Sprite0X,y
+	lda SpriteYTab,x
+	sta VIC2Sprite0Y,y
+	ldy .nextVICSpriteIndex
+	lda SpriteColourTab,x
+	sta VIC2Sprite0Colour,y
+	lda SpriteFrameTab,x
+	sta SCREENRAM + SPRITEFRAMESCROFF,y
+	inx
+
+	cpx #kMaxSprites
+	bcs .startTopRowAgain
+
+	iny
+	tya
+	and #7
+	sta .nextVICSpriteIndex
+
+	asl
+	tay
+	; Test the next sprite Y position bottom edge with the current raster
+	lda VIC2Sprite0Y,y
+	clc
+	adc #22
+	sta .nextSafePosition
+	lda VIC2Raster
+	cmp .nextSafePosition
+	bcs .safeToProcessSprite
+
+	stx .nextSpriteIndexToProcess
+
+	; Is the next safe position very close in terms of raster time?
+!if 1 {
+.closeTime
+	lda .nextSafePosition
+	sec
+	sbc VIC2Raster
+	cmp #2
+	bcs .notCloseTime
+
+.quickWait
+;	inc VIC2ScreenColour
+	lda VIC2Raster
+	cmp .nextSafePosition
+	bcc .quickWait
+	jmp .safeToProcessSprite
 }
-	dec VIC2BorderColour
 
-	; Second row
-	+MACROWaitForRaster 110
-	inc VIC2BorderColour
-!for .ii , 8 {
+; The next raster is not near, so trigger it later
+.notCloseTime
+	+MACROAckRasterIRQ_A
+	lda .nextSafePosition
+	sta VIC2Raster
+
+	+MIRQStackPop
+
+.nextSafePosition !by 0
+
+.startTopRowAgain
+	+MWordValueToAddress_A .firstRow , KERNALIRQServiceRoutineLo
+	+MACROAckRasterIRQ_A
+	lda #20
+	sta VIC2Raster
+
+	+MIRQStackPop
+
+
+SpriteXTab
+!for .ii , kMaxSprites {
 !set .i = .ii-1
-	+MSetSpriteXYColFrame_A .i , 30  + (.i * 30), 120 , -.ii , 255 - .i , SCREENRAM
+	!by 30 + ((.i * 24) & 0x7f)
 }
 
-	dec VIC2BorderColour
+SpriteYTab
+	!by 50 , 50 , 50 , 50 , 51 , 51 , 60 , 72
+	!by 100 , 100 , 100 , 110 , 120 , 130 , 160 , 170
+	!by 210 , 220 , 220 , 220 , 220 , 220 , 220 , 230
 
-	jmp .l1
+
+
+SpriteColourTab
+!for .i , kMaxSprites {
+!set .i = .i & 15
+!if .i < 1 {
+!set .i = 1
+}
+	!by .i
+}
+
+SpriteFrameTab
+!for .ii , kMaxSprites {
+!set .i = .ii-1
+	!by 248 + (.i & 7)
+}
 	
 
 !source "stdlib/Initialise.a"

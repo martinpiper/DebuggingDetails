@@ -7,9 +7,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\C64\stdlib\Initialise.a" />
     <None Include="..\..\C64\stdlib\stdlib.a" />
     <None Include="BuildIt.bat" />
     <None Include="HTWAM1.a" />
+    <None Include="HTWAM2.a" />
+    <None Include="HTWAM3.a" />
+    <None Include="HTWAM4.a" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{74571111-EF48-45E5-AE0F-4F819F638E3D}</ProjectGuid>
