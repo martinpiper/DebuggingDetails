@@ -8,4 +8,20 @@ Code: https://github.com/martinpiper/DebuggingDetails/HTWASM/
 Sorting algorithm: https://en.wikipedia.org/wiki/Gnome_sort
 
 
-Full optmised code: https://github.com/martinpiper/C64Public/tree/master/SpriteMultiplexor
+Full optimised code: https://github.com/martinpiper/C64Public/tree/master/SpriteMultiplexor
+
+Dev tools used: https://youtu.be/LOUCV-x31U4
+
+00:12 Introduction
+00:47 How video displays work
+02:24 Raster timing
+03:59 Video chip updates
+10:13 Sprite duplication
+53:09 Complex sprite patterns
+01:13:44 Sorting algorithms
+01:33:20 Adding an index table
+01:37:16 Bubble sort
+01:48:48 Unrolled bubble sort
+01:53:01 Gnome sort
+01:57:35 Summary of code development
+02:01:58 Sprite priority or ordering
