@@ -3,7 +3,7 @@ How to write a sprite multiplexor
 Empty blank project with compression: https://github.com/martinpiper/C64Public/tree/master/BlankProjectComp
 
 Note: This is meant to be readable and understandable code, not very optimised.
-Code: https://github.com/martinpiper/DebuggingDetails/HTWASM/
+Code: https://github.com/martinpiper/DebuggingDetails/tree/main/HTWASM
 
 Sorting algorithm: https://en.wikipedia.org/wiki/Gnome_sort
 
