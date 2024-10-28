@@ -60,3 +60,28 @@ Valid frame/type 4 1a 0e 14 10
 35:56 Finding frame, xpos and ypos tables
 39:01 Rendering new sprites!
 41:50 Technical summary
+
+
+
+
+
+Looking for the level draw...
+Looking through the game memory, there seems to be a copy of the current level ar $8b00, which is not the VIC screen.
+w store 8b00
+Seems to show e098 copying data into this memory first
+Then that data is being read with bit shift testing at e0bf and draws blocks of char $15 on the screen at 5400
+A byte of 8 bits seems to correspond to 8 blocks on the screen
+e0c5 stores a block, then seems to update the blocks around it to account for borders, shadows, etc based on adjacent data already on the screen.
+So the level data seems to be bit packed data representing solid platforms
+e10e is after this draw
+e159 draws a column down the right hand side
+retusn to the code at 09b2, 09ac seems to be the start of the level draw?
+09f4 seems to copy the completed (scrolled) screen at $5000 back to 8b00
+
+$e000 seems to be the main level draw entry point, setup the compressed data, drawing blocks, etc
+$e494 seems to be wait for vsync
+$e393 clears the working screen at $5400
+$10 seems to be the level number
+The tables at $200 and $300 are used to calculate the compressed data offset
+
+On the "bubble game start" use this to warp to the end boss: > 10 +99

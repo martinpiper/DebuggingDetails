@@ -1,0 +1,17 @@
+https://www.lemon64.com/game/james-pond-2
+
+
+
+Intro
+
+$400 screen shows "PDS OB*" and sys 28672
+
+Code at $1000 shows Brian/Graffity
+	https://csdb.dk/search/?seinsel=all&search=graffity&Go.x=0&Go.y=0
+	Very similar credit at the same location https://csdb.dk/release/?id=117328
+	Player credited: https://www.vgmpf.com/Wiki/index.php?title=James_Pond_II_-_Codename_RoboCod_(C64)
+	
+	
+Double buffered screens at $5000 and $5400
+First screen drawn at $5400
+
