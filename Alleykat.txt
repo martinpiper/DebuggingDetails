@@ -1,0 +1,77 @@
+https://mastodon.social/@gamesthatwerent@mastodon.world/113395979799901616
+https://www.gamesthatwerent.com/2024/10/alleykat-non-playable-demo/
+
+.C:0678  20 00 A9    JSR $A900
+
+af28 = function key read
+
+
+$ad21 not called...
+looks like $17 $16 and $18 are decoded joystick directions and fire flag?
+$ad19 seems to be the real entry...
+
+w 16 18
+>> Triggers inside $dcd code
+used as a random number source? for joystick movement? into 16 17 18?
+This routine also stores into $ed and $ee
+>> $df9 also
+
+h 200 ffff ad 1b d4
+Too many...
+
+h 200 ffff 20 87 0d
+0c9b
+0d4e
+
+
+Make the game playable...
+> c9c 19 ad
+> d4f 19 ad
+
+
+946 seems to be a frame counter time check?
+94c triggered in the attract mode progression
+967 again seems like a frame counter time check
+988 = game start?
+nope just another attract mode screen
+9a5 another frame count check
+$44 and $45 = frame counter, with checks in the attract mode
+9ab = game start?
+probably not... mroe attract mode
+
+aca = game start? :)
+
+1fa5 = frame counter increment...
+1f97 entry point ^^^
+
+Add fire button check and game start
+a 1f97 jmp f700
+
+a f700 jsr $ad19
+lda $18
+bne $f70a
+jmp $aca
+lda $2a
+beq $f70a
+jmp $1f9b
+
+
+s "c:\temp\alleykat cfda p1.prg" 0 200 ffff
+
+
+
+Looking for the level select logic...
+$af9 seems to run the logic?
+is it the 1077 random read that sets the next level?
+
+104f inc the $ae choice?
+107e = start? nope
+109a = inc another choice?
+
+$133d = return to game start?
+nope not there, the menu just changed
+
+
+
+c:\work\c64\bin\LZMPi.exe -c64mbu  "C:\temp\alleykat cfda p1.prg" "c:\work\DebuggingDetails\Alleykat demo play.prg" $cfda
+

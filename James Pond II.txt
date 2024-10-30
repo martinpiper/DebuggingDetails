@@ -15,3 +15,6 @@ Code at $1000 shows Brian/Graffity
 Double buffered screens at $5000 and $5400
 First screen drawn at $5400
 
+
+
+c:\work\C1541-Tweaks\c1541\Release\c1541.exe "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\j\james_pond_ii_robocod_s1[millenium_1992](pal)(!).g64"
