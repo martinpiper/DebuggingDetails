@@ -1,4 +1,5 @@
 https://www.lemon64.com/game/james-pond-2
+https://youtu.be/UMRivQn9BwY
 
 
 
@@ -18,3 +19,16 @@ First screen drawn at $5400
 
 
 c:\work\C1541-Tweaks\c1541\Release\c1541.exe "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\j\james_pond_ii_robocod_s1[millenium_1992](pal)(!).g64"
+
+
+
+Block data at $5800 in rows 2x2 row format
+map data around $ba00?
+$5c00 = block colours
+
+s "c:\temp\jpgame.bin" 0 2 ffff
+s "c:\temp\jpblockcolours.bin" 0 5c00 5cff
+s "c:\temp\jpblocks.bin" 0 5800 5bff
+s "c:\temp\jpchars.bin" 0 4800 4fff
+
+c:\work\c64\bin\Swizzle.exe c:\temp\jpblocks.bin c:\temp\jpblocksswizzled.bin 2 4 256
