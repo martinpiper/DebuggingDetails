@@ -1,0 +1,19 @@
+Ghouls and Ghosts
+https://youtu.be/z6hn1Rw4Jis
+
+https://www.lemon64.com/review/ghouls-n-ghosts/1112
+
+bank ram
+s "c:\temp\gng chrs.bin" 0 f000 f7ff
+s "c:\temp\gng blk.bin" 0 bc00 bfff
+
+c:\work\c64\bin\Swizzle.exe "c:\temp\gng blk.bin" "c:\temp\gng blk swz.bin" 2 4 256
+
+$c8 = 200 block wifth starting at $a020?
+Actually map width per "screen" is 20 (dec) x 10 starting at $a020 apparently
+
+Two charsets $e800 $f000
+
+$e800 is used for the trees area
+
+
