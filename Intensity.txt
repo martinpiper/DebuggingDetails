@@ -1,0 +1,42 @@
+$a197
+(C:$051f) m 2d 2e
+>C:002d  c5 98
+
+$128 = troublesome CLI
+
+
+
+$a154 seems to be the better startup
+with fd fe = c5 98
+
+
+
+.C:0500  A9 35       LDA #$35
+.C:0502  85 01       STA $01
+.C:0504  A9 C5       LDA #$C5
+.C:0506  85 FD       STA $FD
+.C:0508  A9 98       LDA #$98
+.C:050a  85 FE       STA $FE
+.C:050c  A9 00       LDA #$00
+.C:050e  8D 11 D0    STA $D011
+.C:0511  8D 00 DD    STA $DD00
+.C:0514  8D 20 D0    STA $D020
+.C:0517  8D 21 D0    STA $D021
+.C:051a  4C 54 A1    JMP $A154
+.050f
+(C:$050f) bank ram
+(C:$050f) s "c:\temp\intensity 500.prg" 0 200 ffff
+
+https://youtu.be/O2j0t4KmCPA
+00:00 Introduction
+00:10 Game details
+00:56 Tape loader and animation
+06:38 Create a compressed game file
+27:19 Compressed game works!
+29:05 Title screen graphical effects
+29:47 Multiplexed sprites logo
+32:20 Game sprites use shadows
+36:27 Who wrote the animated loader screen?
+50:50 Finding code clues or fingerprints
+53:58 So... who really wrote the loader?
+58:52 Compressed sprite data in the loader
