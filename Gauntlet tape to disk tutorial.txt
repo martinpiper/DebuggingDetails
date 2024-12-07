@@ -1,0 +1,179 @@
+$330/$331 vector is setp and used for the load using existing kernal routines for lfs/name setup = $914
+Also $914 is directly jmp/jsr to as well.
+$b7 = filename length and $293 = filename storage
+
+
+87d tape loader setup
+	88c timer setup and IRQ = $934
+	8a6 load complete detection, outside of IRQ, in mainline
+	
+	
+
+
+Find $ff header break $974
+Then break at $94c
+
+Side 2 expected bytes
+Filename: 41 20 20 20 .....
+Lo/hi start: 00 20
+Lo/hi end: 00 34
+Data: 4f 00 06 0a e9
+
+Find $ff header starts:
+cls && c:\work\c64\bin\TapeTool.exe fh 0 ft $100 $200 1 $ff r "D:\Ultimate tape archive\Ultimate_Tape_Archive_V4.5\Ultimate_Tape_Archive_V4.5\Gauntlet_(19xx_Kixx)_[1289]\Gauntlet_Side_2.tap" p $0 bt24
+$41 $55 $54 $4f $54 $45 $58 $54 $2c $53 $2c $52 $20 $20 $20 $20 $00 $e0 $00 $e1 $41 $0d $41 $31
+e000 - e100
+
+cls && c:\work\c64\bin\TapeTool.exe fh 0 ft $100 $200 1 $ff r "D:\Ultimate tape archive\Ultimate_Tape_Archive_V4.5\Ultimate_Tape_Archive_V4.5\Gauntlet_(19xx_Kixx)_[1289]\Gauntlet_Side_2.tap" p $85c bt24
+Middle of data
+
+cls && c:\work\c64\bin\TapeTool.exe fh 0 ft $100 $200 1 $ff r "D:\Ultimate tape archive\Ultimate_Tape_Archive_V4.5\Ultimate_Tape_Archive_V4.5\Gauntlet_(19xx_Kixx)_[1289]\Gauntlet_Side_2.tap" p $adf bt24
+$41 $20 $20 $20 $20 $20 $20 $20 $20 $20 $20 $20 $20 $20 $20 $20 $00 $20 $00 $34 $4f $00 $06 $0a
+2000 - 3400
+
+bk 9bd shows the first bytes written to memory by the load on side 2 are $4f $00 $06
+bk 9de shows the xor checksum value is $90
+s "c:\temp\a.prg" 0 2000 33ff
+>> "C:\temp\a.prg"
+
+This extracts all the header, file bytes, and last byte for the xor checksum:
+cls && c:\work\c64\bin\TapeTool.exe fh 0 ft $100 $200 1 $ff r "D:\Ultimate tape archive\Ultimate_Tape_Archive_V4.5\Ultimate_Tape_Archive_V4.5\Gauntlet_(19xx_Kixx)_[1289]\Gauntlet_Side_2.tap" p $adf bt$1415
+
+Existing...
+ft
+fh
+
+New...
+
+Define filename root path for storage
+fr c:\temp\
+
+Define filename byte range
+ff 0 15
+
+Define start address lo/hi bytes
+fs 16 17
+
+Define end address lo/hi bytes (end exclusive)
+fe 18 19
+
+Define data start range, end if calculated from the length (end - start)
+fd 20
+
+Define xor value byte offset after data chunk
+fx 0
+
+e.g.: cls && c:\work\c64\bin\TapeTool.exe fr "C:\temp\tap files\\" ff 0 15 fs 16 17 fe 18 19 fd 20 fx 0    fh 0 ft $100 $200 1 $ff r "D:\Ultimate tape archive\Ultimate_Tape_Archive_V4.5\Ultimate_Tape_Archive_V4.5\Gauntlet_(19xx_Kixx)_[1289]\Gauntlet_Side_2.tap" p 0 bt20
+There are multiple "A1" files on side two.
+
+This gets side 1 data: cls && c:\work\c64\bin\TapeTool.exe fr "C:\temp\tap files\\" ff 0 15 fs 16 17 fe 18 19 fd 20 fx 0    fh 0 ft $100 $200 1 $ff r "D:\Ultimate tape archive\Ultimate_Tape_Archive_V4.5\Ultimate_Tape_Archive_V4.5\Gauntlet_(19xx_Kixx)_[1289]\Gauntlet_Side_1.tap" p 0 bt20
+
+
+bk ffba
+bk ffbd
+bk ffd5
+bk f4a2
+bk 914
+
+All initial game loaders use ffd5 with the vector at 330/331
+But when the level data is loaded from side two $850 is used from $98b8
+This seems to load "A" or "A1" depending.
+
+
+
+
+Initial tape boot can be stopped at $611
+Some spare memory to init $01 to $26
+Chance to modify the code at $914 and $850
+$f4a5 is the default $330/$331 location
+
+a 611
+lda #$36
+sta $01
+lda #8
+sta $ba
+
+a 917
+lda #8
+sta $ba
+lda #0
+jsr $f4a5
+lda #$7f
+sta $dc0d
+sta $dd0d
+lda #0
+sta $d01a
+rts
+
+s "c:\temp\gauntletboot 611.prg" 0 200 930
+c:\work\c64\bin\LZMPi.exe -c64mbu "c:\temp\gauntletboot 611.prg" c:\temp\gauntletboot.prg $611
+
+F51C   91 AE      STA ($AE),Y
+
+
+98bb
+
+
+
+PRG
+509
+448
+
+
+
+
+
+Understand the tape turbo loader
+	Sync byte $20
+	Any header byte(s)? $ff
+	Filename 16 bytes
+	Start address 2 bytes
+	End address (or size) 2 bytes
+	Data Follows... for size...
+	Checksum? 1 byte following
+Extract data files from tape
+	Speed? $100 $200
+Change the code to read data from the disk
+Get the data onto a disk
+
+
+
+Several ways to measure the pulses from tape
+Use a timer that counts down and stops, detect if it has stopped, get 0/1
+Use a timer but shift the lo or hi value to get a bit, get 0/1
+Use opcodes to time the pulses, not very accurate
+
+A short pulse is usually, not always, 0
+A long pulse is usually 1
+
+
+
+It works?!
+
+$850 needs improvement to load A2 A3 etc
+
+
+00:00 Introduction, the objectives
+00;35 Quick look at the game, Gauntlet
+03:16 C64 Tape device schematic and CIA
+05:52 Analyse tape loader behaviour
+09:58 Main loader code entry point
+11:29 Claimed the kernal load routine vector
+14:08 Using a CIA timer and IRQ on the tape pulse
+15:34 Detect load complete and verify checksum
+16:10 Tape read pulse interrupt, measuring time
+18:03 Decoding 0 or 1 bits from the tape 
+19:12 Converting a bit stream to data bytes
+21:06 Byte read state machine entry
+21:28 Understand the tape data structure
+31:45 Finding the tape pulse timings
+33:09 Using TapeTool to extract data from the tape
+36:42 Checking extracted file data
+37:40 Change the game code to read from disk
+45:31 Creating a disk image
+50:07 Testing the disk
+52:41 Displays the title screen
+55:39 How the game chooses the level data file
+58:04 First level works
+58:48 Level 8 load... Works!
+59:39 Minimising code changes
