@@ -1,0 +1,134 @@
+Spindizzy
+https://youtu.be/j0ttCOsyiu4
+
+Hires over and multicolour sprites for the player
+Sprites are masked, with 8 pixel horizontal coordinate resolution, and 1 pixel vertical resolution. Probably masks the masking faster.
+
+$5e $5f The game time, lo, hi
+$9bca looks like the code to alter the time
+Uses SED, which sets decimal mode, and stops the IRQs while it does this :)
+Time cheat: > 9bca 60
+
+
+
+$aa80 seems to be the start of a off-screen buffer that is used for the calculated screen
+And is read from when the player moves...
+128 bytes wide? Due to the two duplicated views horizontally speaking...
+
+From the starting position...
+$b1b9 seems to be the Z coordinate of a 2x1 char block in the middle of the screen
+Changing it to be $40 seems to not mask out the left hand part of the player, but $41 seems to mask out the part of the player
+When it is $40 $b1b8 is not read, but when $41 (or greater) then $b1b9 is read?
+$b1bb also seems to affect the left hand part of the player, as a Z coordinate
+So maybe each 2x1 char block is using 8 bytes
+
+
+In screen 382, with the lift, move several screens to the right...
+The lift sprite is larger...
+$b149 left hand part of the lift
+$4c no clip, $4d = clip and reads prev/next RAM values, which seem to be gradients?
+Maybe it is doing a simple fast reject in the 2x1 char block, but if the value passes the clip Z check (it is obscured) then searches within the 8 byte block using the gradients?
+
+2x1 block Z buffer accumlation. A stack of Z values?
+$b148 character type, $ff = end of list
+$fe might be a special case with the test a 99d8, skips 4 blocks?
+Otherwise, test $b149 Z value. Then obscure type values are:
+w load b148
+Examine code...
+Divides by 4 then lookup into 953c which seems to be a range of numbers 0 to f, for $40 entries (obviously)
+Then multiplies by 16 then seems to get char data from c300 and mask from b900
+It is the mask at $b900 that specifies the gradients etc to mask with
+$b14b Z value
+$b14d Z value
+$b14f Z value
+So that's the sprite masking code and how it reacts to screen changes.
+
+
+And what renders to the screen?
+$9a30 seems to render into the screen from a temporary buffer at c300 and reads aa80 2x1 blocks sequentially
+$fe is a special case, skips 4 blocks...
+
+
+Now, what decodes data into this char/Z buffer? :)
+w store b148
+975b clears the buffer with $ff
+9961 wrote a byte...
+991b as well
+9979 which seems to be copying data from nearby...?! Probably creating space into the buffer for the four Z entries...
+$9a98 seems to be the start of the map draw? and 8b/8c init which reads $b700...
+Putting $41 into various places draws extra blocks! $b700 to $b8ff seems to be another temporary map block buffer
+8d7f jsr 951b clears this b700 buffer... with 0
+w store b700 b8ff
+Code at 960f seems to draw each cell with $41 every 8 blocks? Stacked height!
+Yes! b700 to b707 is the top most stack of blocks!
+966c draws some base blocks at the lowest height?
+9685 seems to be the start of a map draw into b700?
+First screen at $1023 +3 for the size/x/y so $1026 until the two 0 and $1050 and $1051, in three byte chunks? Also seems to read data from $0434 and $0400 and other sparse data...
+
+fa/fb = screen number? Scanned by 8cb5?
+Scans $0a00... data for screens...
+Length of screen data, 0 terminates the list
+Screen number lo/hi matches with fa/fb (x/y?) = 44/45 4c/4d
+8cd5 = found screen data
+
+Address		Byte	Code		Param					Flags
+1026		12		8b64		colour & 0f				10
+1027		01		9695		Block type	
+1028		00		969f		Height & 03	
+	
+1029		82		96ac		& 1f					if = 2 then *1 otherwise just single blocks
+														$20 = rotate 90 degrees, origin at right
+														$40 = rotate 180 degrees, origin at bottom
+														$60 = rotate 270 degrees, origin at left
+102a		00		96b6		Height of block	& 3		>> 2 = offset in screen	param & 80 = half adjust height
+*1 102b		08		96d9		& 07 = special block type, various shapes
+
+00 00 terminates the list
+
+zeropage 3a 3b = lo hi map screen number
+44 45 = map coordinates
+4c 4d are used while the screen is drawing, probably a backup so the previous screen can be returned to?
+
+
+
+
+0.0022720478325859
+
+Altering the level to understand the $02 special block type
+Four sloping blocks raised up with one block gap
+> 1029 02 01 17 0 0
+Code at $972a starts reading from $0400 and looking for a match with the ($102b) special block type, which is in $fd from the code at 96d9
+This data at $0400 format is:
+00 Special block type
+01 Block size, including this header
+02... block size - 2 bytes of data
+Oh, is this like a collection of block fragments that can be repositioned and reused? Then when it "returns" by using 0,0 then it returns back to the main level definition?
+And this can be stacked with other $02 special block types
+
+So the level can be constructed of nested groups of blocks at postions. Cool!
+
+
+
+00:12 Introduction
+01:55 Note sprite masking
+02:10 Hires sprite overlay
+04:30 Map view
+06:34 Lots of pre-calculated data
+07:15 Finding the timer in memory
+10:01 What is this mystery memory block?
+13:15 Is this a mask shape and depth buffer?
+14:30 Infinite time cheat
+19:45 Sprite dynamic animation
+20:35 Testing the depth buffer
+22:20 Finding the sprite mask routine
+25:05 What calculates into the mask and depth buffer?
+28:10 Inserting values into the mask depth buffer
+29:50 Adding extra blocks into the current screen
+30:45 8x8x8 block level grid buffer found
+32:25 Analyse the level grid orientation
+34:13 Finding what draws into the 8x8x8 level grid memory
+41:30 Analyse the level data format
+49:30 Finding meta tiles/blocks code
+53:10 Finding map data rotation flags
+56:00 Current map screen coordinates
+
