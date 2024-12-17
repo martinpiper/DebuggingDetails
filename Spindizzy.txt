@@ -109,6 +109,15 @@ So the level can be constructed of nested groups of blocks at postions. Cool!
 
 
 
+
+Pressing runstop shows the credit screen, which says "there is no cheat mode"
+But a cheat code was found:
+bank ram
+> df00 "I LIED!"
+This disables the timer code with rts.
+
+
+
 00:12 Introduction
 01:55 Note sprite masking
 02:10 Hires sprite overlay
