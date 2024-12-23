@@ -1,0 +1,67 @@
+Encounter
+
+
+Screen 1 6000
+screen 2 6400
+
+Many charsets used:
+4000 screen 1 top
+4800 screen 1 bottom
+5000 screen 2 top
+5800 screen 2 bottom
+
+7800 score panel and title screen
+
+title screen 6c00
+
+
+a19b clears top screen
+
+
+aad3 calculate loop? for $08 to $18?
+a0d1 canother loop of $08 to $18 objects?
+
+a103 several jsr, to pscreen already cleared
+a109 seems to calculate data into top charset and draw the top screen
+	afa1 is part of the screen data draw, more complex code than the bottom of the screen
+a10c seems to draw into the bottom charset and screen
+	Interesting, it seems to mirror the top half of the screen!
+	b201 specifically has a eor #$ff for the char screen data
+a10c draw top or bottom?
+
+From title screen, clear 4000 to 5fff
+Then break at a103 shows solid characters created in all four charsets
+
+
+Disk version has a nice menu with demos...
+The logo uses colour flashing to "expand" the range of displayed colours.
+
+Doughboy? Make playable?
+a 5f8c lda dc00
+jmp 5fbb
+
+Sentinel could not find any recording...
+
+Zaxxon make playable?
+a 5844 lda dc00
+jmp 5869
+
+
+https://youtu.be/Lx1pGtNZ5VI
+
+00:10 Introduction
+01:12 Tape turbo loader
+10:44 Game title screen
+11:23 Game demo mode
+12:16 Analysing the frame time
+12:30 Finding four character sets
+13:10 Dynamic character set updates
+13:53 Identifying character set usage
+18:12 Finding the draw code
+24:58 More draw code analysis
+26:54 Mirrored bottom part of the screen
+28:28 Top screen draw code
+29:47 Reset vector claimed
+30:32 Disk version menu with colour mixing...
+31:25 Disk version loading messages
+31:45 Making the demo games playable
