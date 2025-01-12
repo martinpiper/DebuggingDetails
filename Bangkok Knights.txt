@@ -1,0 +1,42 @@
+381
+
+8:727
+
+c:364 = 88
+
+> 8:72c ea ea ea
+Bug!
+
+c:e2 = sta ()
+
+At c:35f set Y=ff
+
+load "*",8,1
+without the trailing : colon
+And using 1541, not 1541-ii
+
+Budget release no title screen and music with scrolling message...
+
+
+Title screen uses sprite overlay for the dissolve...
+The sprite dissolve with horizontal bands using the sprite pointer updates as the sprite is drawn...
+The screen split is covered with X expanded multicolour sprites
+The large characters are a mixture of hires and multicolour sprites, with X and/or Y expansion, wow, quite a complex multiplexor
+Sample playback code at $a1 stores to $d418 (volume) at c8 e8 seems to just use the top nybble?
+Ah ha, there are two sample routines copied over, which select the different nybbles by code at $3525 and $3538
+Large background around $a800 and charset at $c000
+
+
+00:10 Introduction
+00:38 Debugging Paraprotect issues
+26:02 Animated disk loading screen
+27:53 Title screen and dissolve
+28:07 Screen split in the game
+28:47 Compressed and dynamic sprite frames
+29:12 Budget disk release without protection
+30:25 Title screen dissolve, sprites cover the screen
+33:10 Sprite dissolve uses sprite frame pointer updates
+34:53 Large game sprites, multiplexed and expanded
+40:52 Sampled sound memory usage
+41:29 Finding the sample code
+47:23 Extracting the game background
