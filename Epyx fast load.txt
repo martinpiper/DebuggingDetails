@@ -96,3 +96,23 @@ We can see the drive sends two bits, the C64 receives two bits and stores them a
 
 Summary:
 When loading a file, drive code is sent/executed, which finds the file in the directory, reads blocks, uses a two-bit data transfer and simple protocol to signal error/success and file data sizes and data etc back to the C64.
+
+00:10 Introduction
+00:41 Quick look at the program file
+01:55 Code underneath the kernal ROM
+02:23 Fast loader demonstration
+03:50 Getting into the startup code
+11:00 Patching the kernal and vector claiming
+16:25 Switching out the kernal on file access
+18:30 Checking the replaced kernal memory
+19:35 Debugging patched code, filename checks
+23:20 Directory loading uses kernal code
+25:14 While file loading starts the fast loader
+29:40 Computer sends drive code and starts it
+40:30 Computer waits for data, using a two-bit protocol
+47:30 Drive code reads the directory block...
+59:12 Drive mechanics, magnetic issues, GCR encoding... https://www.linusakesson.net/programming/gcr-decoding/index.php
+1:05:40 Finds the file in the directory block
+1:09:50 Parsing the file block chain
+1:14:55 Drive sends data
+1:29:11 Using Hoxs64 with cycle/instruction accurate timing
