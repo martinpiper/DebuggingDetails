@@ -1,0 +1,98 @@
+Epyx fast load
+https://youtu.be/IUCco1l2-yI
+
+$0845 Copies from kernal ROM $e000 to RAM $e000
+When writing to ROM area, the C64 will write to RAM underneath.
+
+$0859 Copies code from $08bf to $f800-$fc00
+Patches $fdd6 with $e5
+
+$087b Copies code from $089c to $02c0
+
+$08bf Sets the vector at $0330 (Kernal LOAD Routine) to $02c0
+And also patches $02c0 to $fd4c/$fd4d
+Patches $e523 $e528 with $02db which inits the vector at $028f (Routine to determine Keyboard table)?!
+
+No drive code is sent during this init.
+
+Binary diff shows lots of injected code in the above memory range, which seems to be in the tape code range.
+
+
+
+After: load "$",8
+$02c0 Switches out the kernal ROM and calls RAM $f86f, via the load vector at $0330
+and ensures $eb48 to $028f
+Then restores the normal kernal mapping
+Preserving the load register A return.
+
+Checks for device 8 (not all drives)
+Checks for filename existing, displays error if needed
+Copies filename to $fbe7
+Checks for "$" filename, uses standard load, serial routines etc
+
+
+After: load "gamedemo1",8
+The "$" filename check obviously fails...
+Nicely claims kernal NMI vector and just does RTI
+Alters the NMI timer, then restores NMI vector.
+Turns off any sprites
+
+Sends listen 8 on serial bus...
+Sends $6f secondary address using $EDB9
+Sends M-W followed by code/data from $fa13
+	The drive starts receiving the M-W command at 8:c146
+Turns off screen
+Sends device 8 listen on serial bus
+By this time, the drive has finsihed processing the "M-W" command, which incldues data in 8:300 8:400 including the C64 filename at c:fbe7
+
+c:f95c Sends M-E with $6f secondary address, with start address 8:0303
+c:f97d starts looking for serial data
+Small delay...
+
+** At c:f987... just after small delay
+** Calls c:f83f which seems to be a serial data recive function. It seems to use two bits transfer protocol (c:f854 ldx #$04)
+c:f845 seems to be a wait for data signal from drive code...
+Returns byte in A and $fb at c:f86e
+Meanwhile, the drive is executing code...
+	Turns on the LED (8:c118)
+	8:0381 Sets up buffer 6 pointers
+	Two read attempts
+	Sets track $12 (18) sector 1
+	Calls 8:0477 Checks disk change
+		Checks for the job to finish
+	Seems to use job code $b0 (seek) using 8:04bd
+	Then seems to send job code $e0 using 8:04bd
+		Which exutes code at 8:0300, which overrides the buffer pointer for the disk controller to 0600
+		And jumps to 8:f4d1 which is in the middle of the sector read code...
+		Which stores raw GCR data into 8:0600
+			https://www.linusakesson.net/programming/gcr-decoding/index.php
+			https://en.wikipedia.org/wiki/Group_coded_recording
+		Calls 8:f8e0 to decode GCE data from 8:0600 to 8:0600, the same buffer
+		8:f4f0 checks data block, calculates parity, checks partiy, sets OK, turns off motor, checks comand buffer, command codes, etc
+	8:03a0 Checks for "$01  | Everything OK                  | 00, OK" from the disk operation, indicating the track/sector was read and decoded.
+	8:03a4 Parsing the directory block...
+	8:03b3 Compares filename... 8:03d6 compares OK
+	8:0413 Extract file chain track sector start to 06/07
+		Calls 0477 reads track/sector decodes GCR etc
+		Checks everything OK
+	8:0426 Extracks next track/sector in the file data block
+	** Calls 8:0348 seems to be drive send byte to the C64...
+		8:0350 Waits for signal from C64... etc
+C64 code again c:f98c checks for $ff returned from the drive
+Recieves two more bytes
+Checks secondary address
+	Optionally uses the load address ffrom the file, or from the BASIC start ($0801)
+c:f80b receive two bit data from drive, as a byte, and stores to ($ae) (at 8:f832) for 254 times
+Then c:f9c5 gets another byte from the drive as the remaining chunk size, gets any remaining bytes for the end of the file (not a 254 byte chunk)
+c:f9ea Turns on the screen
+Restores any sprites
+Turns off CIA2 IRQs
+Returns X/Y from $ae/$af
+Restores kernal etc, and exits wit A set to the retun value
+
+Hoxs is a much better cycle accurate debugger, but less user friendly :)
+We can see the drive sends two bits, the C64 receives two bits and stores them as the drive is sending the next two bits.
+
+
+Summary:
+When loading a file, drive code is sent/executed, which finds the file in the directory, reads blocks, uses a two-bit data transfer and simple protocol to signal error/success and file data sizes and data etc back to the C64.
