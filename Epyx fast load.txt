@@ -97,6 +97,10 @@ We can see the drive sends two bits, the C64 receives two bits and stores them a
 Summary:
 When loading a file, drive code is sent/executed, which finds the file in the directory, reads blocks, uses a two-bit data transfer and simple protocol to signal error/success and file data sizes and data etc back to the C64.
 
+https://www.linusakesson.net/programming/gcr-decoding/index.php
+https://commodore.software/downloads/download/215-articles-and-guides/15601-iec-disected
+
+
 00:10 Introduction
 00:41 Quick look at the program file
 01:55 Code underneath the kernal ROM
@@ -111,8 +115,23 @@ When loading a file, drive code is sent/executed, which finds the file in the di
 29:40 Computer sends drive code and starts it
 40:30 Computer waits for data, using a two-bit protocol
 47:30 Drive code reads the directory block...
-59:12 Drive mechanics, magnetic issues, GCR encoding... https://www.linusakesson.net/programming/gcr-decoding/index.php
+59:12 Drive mechanics, magnetic issues, GCR encoding...
 1:05:40 Finds the file in the directory block
 1:09:50 Parsing the file block chain
 1:14:55 Drive sends data
 1:29:11 Using Hoxs64 with cycle/instruction accurate timing
+
+
+
+
+Epyx fast load cartridge
+https://rr.pokefinder.org/wiki/Epyx_FastLoad
+
+8:01a9 is initially faster, but not very fast, read more data routine
+c:81f3 sends this data
+8:0180 receive byte
+c:8290 sends the faster byte data
+
+8:0500 then receives the filename, using the one bit protocol
+Then forces a $f0 command to "open" the file using 8:c146
+c:8425 gets a byte from the drive, while timing the code with any badlines and the raster at $d012
