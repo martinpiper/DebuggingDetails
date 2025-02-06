@@ -24,3 +24,9 @@ Some expanded and multicolour
 
 
 https://youtu.be/Ik1vsMM2EuY
+
+
+
+f 6800 6d00 0
+a 8d51 jmp 8d7a
+f 6400 6800 %10101010 %01010101 %11111111
