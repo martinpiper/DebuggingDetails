@@ -1,0 +1,90 @@
+https://csdb.dk/release/?id=107816
+
+When using option "3. Transfer a file" it uses a raster timed two bit protocl, avoiding bad lines, to load the file.
+
+Writing code seems to be around 9:43d and 9:458 stores $1a2 bytes to $1c01 data to the drive head.
+bvc used a lot: https://en.wikipedia.org/wiki/MOS_Technology_6502#Detailed_behavior
+
+9:300 seems to be a simple serial data transfer, one it at a time. Mostly from the C64 to the drive, for data writes.
+9:3d4 seems to get two bytes from the C64 and stores to $0e $0f
+9:345 seems to get a command byte from the C64, $f0 to $f5, $f4 not tested?
+	9:348 command parsing
+
+
+When loading the file ,8,1
+8:326 chrout routine is updated which runs auto-run code at $34a
+Restores the vector, and takes a backup of the filename to $200
+c:36b turns off the screen
+c:379 injects a run:
+c:389 continues "standard" load RAM for a bit... data to $fe00
+
+c:38f seems to switch to the command channel 15,15
+c:395 sends M-E with $0205 and some extra code bytes.
+	Using "filename" and "open" in kernal
+
+c:3a1 runs code in RAM under kernal at $fe00
+	Uses>> 8:fe71 sends byte to the drive one bit at a time
+	Sends filename with prefix ?? to the drive, with drive ACK wait
+
+At this point the drive starts executing 8:205
+	Seems to setup a read for track $12 sector $11 (18 17)
+	and overrides the current buffer to be 4
+	calls 8:d586 to read block directly
+	And then runs the loaded code at 8:700
+	Then seems to ensure buffer contents at 8:700
+8:724 then seems to init the drive command codes, tracks, sectors, and buffers at 8:00 to 8:0e with:
+	>8:0000  80 80 80 80  00 00 
+		Track/sector pairs: 12 09  12 0c  12 0f  12 12
+	Then waits for jobs to complete, until 8:73a
+	Which loads a lot of data from these blocks to the command buffers
+
+After the C64 sends the filename again it seems to read the file start and end data
+
+Meanwhile the drive has been executing another job code to read a block... 8:4f6
+
+The C64 reads data quickly using a two bit protocol c:fe27
+	while pushing the data onto the stack
+	Seems to enter a receive loop for $50 iterations
+	Drive 8:43c also sends for $50 iterations
+		But... this seems to be sending encoded table based responses to the serial port...
+		Using data at 8:146 700 751
+	Three bytes per iteration for $f0 bytes in total
+
+c:fef9 Then decodes those $f0 bytes? eored with #$f9...
+	and stores to the destination memory
+
+Drive code 8:5cb reads $4f+1 so $50 bytes from the drive head $1c01 and stores to 8:146 then 700 and 751, corresponding to the data later read by the table based serial send
+	And also stores to 8:7a2
+	And bit eor table at 4d1 helps decode the drive head byte/bits
+	8:420 seems to read the next block
+	Then sends table based serial data from raw disk data
+
+It seems no drive ROM code is executed for a whole file
+Then it enters the reset routine at 8:eb4b
+
+So, yes, the drive code reads raw encoded data and uses table based seral responses to send to the C64. The C64 receives two bits at a time, uses the stack.
+
+Drive 8:626 seems to encode data in $1a7 to $1ab then compares that with data from the drive head (read) at 8:67e
+	 It matches encoded data with data seen on the disk, before it knows it can send data
+	 8:6a0 seems to be a sync mark check and timeout code... 8:6c0 is success, 8:6ad is sec failure
+	 
+The drive code receives 4x$50 bytes from the disk = $140 bytes (320)
+And results in $f0 bytes at the C64 (240)
+Standard 1541 GCR per byte is 1.25 larger (5/4)
+Warp25 coding per byte is 1.33 larger (320/240)
+So Warp25 is less efficient, but it is faster to send and decode :)
+
+
+https://github.com/martinpiper/C1541-Tweaks
+
+https://github.com/martinpiper/C64Docs
+
+
+https://youtu.be/QAMPAC1CQhM
+00:00:10 Introduction
+00:01:11 Creating an example disk image
+00:21:56 Comparing the disk image
+00:23:38 Booting the loader code
+00:50:50 Starting to receive fast data
+01:10:43 Load completed
+01:15:17 Gaps between track data
