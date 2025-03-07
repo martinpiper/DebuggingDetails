@@ -2,6 +2,7 @@
 cd /d C:\Work\DebuggingDetails
 ..\c64\acme.exe --lib ..\C64\ --msvc -v9 "Enigma Force.a"
 c:\work\c64\bin\LZMPi.exe -pp $37 -c64mbu "Enigma Force 4000.prg" EnigmaForceMouse1.prg $4000
+EnigmaForceMouse1.prg
 }
 
 !source "stdlib/stdlib.a"
@@ -20,17 +21,17 @@ c:\work\c64\bin\LZMPi.exe -pp $37 -c64mbu "Enigma Force 4000.prg" EnigmaForceMou
 * = $340
 	ldx #0
 	lda #%00111111
-	sta $dc02
+	sta CIA1PortADDR
 	lda #0
-	sta $dc00
+	sta CIA1KeyboardColumnJoystickA
 	jmp $a144
 
 * = $350
 	lda #%11000000
-	sta $dc02
+	sta CIA1PortADDR
 	lda #%01000000
-	sta $dc00
-	lda $d419
+	sta CIA1KeyboardColumnJoystickA
+	lda SIDPaddleX
 	and #%01111110
 	lsr
 	sta $ab
@@ -49,7 +50,7 @@ c:\work\c64\bin\LZMPi.exe -pp $37 -c64mbu "Enigma Force 4000.prg" EnigmaForceMou
 	bcc .o2
 	inc $a8
 .o2
-	lda $d41a
+	lda SIDPaddleY
 	and #%01111110
 	lsr
 	asl
@@ -57,12 +58,12 @@ c:\work\c64\bin\LZMPi.exe -pp $37 -c64mbu "Enigma Force 4000.prg" EnigmaForceMou
 	clc
 	adc #$89
 	sta $f4df
-	lda $dc01
+	lda CIA1KeyboardRowsJoystickB
 	and #%10000
 	eor #%10000
 	sta $ab
 	lda #0
-	sta $dc02
+	sta CIA1PortADDR
 	jmp $a10e
 
 * = SCREENRAM
@@ -78,5 +79,4 @@ c:\work\c64\bin\LZMPi.exe -pp $37 -c64mbu "Enigma Force 4000.prg" EnigmaForceMou
 	jsr $340
 * = $9db4
 	jsr $350
-
 !enablesegmentcheck
