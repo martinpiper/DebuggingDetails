@@ -1,0 +1,129 @@
+Enigma force
+
+l "c:\temp\enigmaforce 4000.prg" 0
+
+sty
+h 0 ffff 8c 00 dc
+sta
+h 0 ffff 8d 00 dc
+stx
+h 0 ffff 8e 00 dc
+Gives a141
+
+
+a13b is the start
+.C:a13b  A2 FF       LDX #$FF888882
+.C:a13d  8E 02 DC    STX $DC02
+.C:a140  E8          INX
+.C:a141  8E 00 DC    STX $DC00
+Will need to preserve the upper two bytes for the paddle read...
+
+(C:$a04b) h 0 ffff 20 3b a1
+8014
+8025
+a048
+
+
+w load dc00
+g 4000
+a163 is the real joystick read, called from a048
+During game, returns back to a04b
+$ab = joystick bits
+Seems to be up down joystick acceleration calculation into f465
+a078 seems to be move up f4df, with f465 speed
+a08e seems to be move down f4df, with f465 speed
+
+
+a0a1 left right check with more acceleration checks
+a0d5 seems to be move left f463, with f464 speed
+a0f3 seems to be move right f463, with f464 speed
+
+f466 seems to be left/right speed divided by 2 from f464
+a0e8/a106 update $a8 with f466, might be to scroll the panel left/right?
+	Yes a8 = panel pos, no clamping etc
+
+$a10e The x pos div 2 is then shifted into sprite X pos and MSB X
+
+$a129 tests for fire pressed with $ab
+
+
+
+a048 is the routine that reads the joystick and moves the cursor and panel around
+	Which is only called from $9db4
+
+
+Do not disturb the paddle selection bits and hook the cursor routine to read the mouse
+
+Using: C:\Users\marti\Downloads\GTK3VICE-3.7.1-win32-r43776\GTK3VICE-3.7.1-win32-r43776\bin\x64sc.exe
+
+bank ram
+f 400 800 20
+l "c:\temp\enigmaforce 4000.prg" 0
+> 400 31 33 35 31 20 0d 0f 15 13 05 20 10 0f 12 14 20 31 20 03 0f 04 05 20 02 19 20 0d 01 12 14 09 0e 20 10 09 10 05 12
+
+a 340
+ldx #0
+lda #%00111111
+sta $dc02
+lda #0
+sta $dc00
+jmp $a144
+
+
+a a13b
+jmp 340
+
+
+
+
+a 350
+lda #%11000000
+sta $dc02
+lda #%01000000
+sta $dc00
+lda $d419
+and #%01111110
+lsr
+sta $ab
+lsr $ab
+lsr $ab
+asl
+clc
+adc #$0f
+adc $ab
+sta $f463
+cmp #$28
+bcs $375
+dec $a8
+cmp #$80
+bcc $37b
+inc $a8
+lda $d41a
+and #%01111110
+lsr
+asl
+eor #$7f
+clc
+adc #$89
+sta f4df
+lda $dc01
+and #%10000
+eor #%10000
+sta $ab
+lda #0
+sta $dc02
+jmp $a10e
+
+
+a 9db4
+jsr $350
+
+
+
+s "c:\temp\ef 4000.prg" 0 200 ffff
+
+
+
+
+
+c:\work\c64\bin\LZMPi.exe -pp $37 -c64mbu "c:\temp\ef 4000.prg" C:\work\DebuggingDetails\EnigmaForceMouse1.prg $4000
