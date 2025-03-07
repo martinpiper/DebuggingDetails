@@ -1,0 +1,82 @@
+!if 0 {
+cd /d C:\Work\DebuggingDetails
+..\c64\acme.exe --lib ..\C64\ --msvc -v9 "Enigma Force.a"
+c:\work\c64\bin\LZMPi.exe -pp $37 -c64mbu "Enigma Force 4000.prg" EnigmaForceMouse1.prg $4000
+}
+
+!source "stdlib/stdlib.a"
+!source "stdlib/LongBranches.a"
+!to "Enigma Force 4000.prg", cbm
+!sal
+!sl "Enigma Force 4000.map"
+!svl "Enigma Force 4000.lbl"
+!pdb "Enigma Force 4000.pdb"
+!cpu 6510
+!ct pet
+
+* = $200
+!bin "c:\temp\default start.prg" , $140 , 2
+
+* = $340
+	ldx #0
+	lda #%00111111
+	sta $dc02
+	lda #0
+	sta $dc00
+	jmp $a144
+
+* = $350
+	lda #%11000000
+	sta $dc02
+	lda #%01000000
+	sta $dc00
+	lda $d419
+	and #%01111110
+	lsr
+	sta $ab
+	lsr $ab
+	lsr $ab
+	asl
+	clc
+	adc #$0f
+	adc $ab
+	sta $f463
+	cmp #$28
+	bcs .o1
+	dec $a8
+.o1
+	cmp #$80
+	bcc .o2
+	inc $a8
+.o2
+	lda $d41a
+	and #%01111110
+	lsr
+	asl
+	eor #$7f
+	clc
+	adc #$89
+	sta $f4df
+	lda $dc01
+	and #%10000
+	eor #%10000
+	sta $ab
+	lda #0
+	sta $dc02
+	jmp $a10e
+
+* = SCREENRAM
+!scr "1541 mouse port 1 code by martin piper"
+!align 1023 , 0 , $20
+
+
+* = $800
+!bin "c:\temp\enigmaforce 4000.prg" , , 2
+
+!disablesegmentcheck
+* = $a13b
+	jsr $340
+* = $9db4
+	jsr $350
+
+!enablesegmentcheck
