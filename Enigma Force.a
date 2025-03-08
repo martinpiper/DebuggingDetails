@@ -112,7 +112,7 @@ kRangeClampYM = 110
 
 !disablesegmentcheck
 * = $a13b
-	jsr $340
+	jmp $340
 * = $9db4
 	jsr $350
 !enablesegmentcheck
