@@ -1,0 +1,68 @@
+!source "stdlib/stdlib.a"
+!source "stdlib/LongBranches.a"
+!to "Enigma Force with pic.prg", cbm
+!sal
+!sl "Enigma Force with pic.map"
+!svl "Enigma Force with pic.lbl"
+!pdb "Enigma Force with pic.pdb"
+!cpu 6510
+!ct pet
+
+* = $200
+	lda #ProcessorPortDefault
+	jsr InitialiseMachine
+
+	ldx #0
+.cl1
+	lda $c400,x
+	sta COLOURRAM,x
+	lda $c500,x
+	sta COLOURRAM + $100,x
+	lda $c600,x
+	sta COLOURRAM + $200,x
+	lda $c700,x
+	sta COLOURRAM + $300,x
+	dex
+	bne .cl1
+
+	+MVIC2MemorySetup_ScreenBitmap_A $c000 , $e000
+	sta VIC2MemorySetup
+	lda #VIC2ScreenControlHDefault | kVIC2ScreenControlHBits_Multicolour
+	sta VIC2ScreenControlH
+	lda #CIA2PortASerialBusVICBank_Bank3
+	sta CIA2PortASerialBusVICBank
+
+	+MACROWaitForTheLastScan_A
+	lda #VIC2ScreenControlVDefault | kVIC2ScreenControlVBits_Bitmap
+	sta VIC2ScreenControlV
+	
+.o2
+	+TestForPortBitsLoop_A CIA1KeyboardColumnJoystickA , JoystickBits_Fire , .o1
+	jmp .start
+.o1
+	+TestForPortBitsLoop_A CIA1KeyboardColumnJoystickA , JoystickBits_Fire , .o2
+.start
+	+MACROWaitForTheLastScan_A
+	lda #0
+	sta VIC2ScreenControlV
+
+	jmp 2061
+
+Initialise_NoPreserveStack = 1
+Initialise_NoIRQServiceRoutine = 1
+!source "stdlib/Initialise.a"
+
+* = SCREENRAM
+!scr "1541 mouse port 1 code by martin piper"
+!align 1023 , 0 , $20
+
+* = $801
+!bin "EnigmaForceMouse1.prg",,2
+
+*=$c000
+!bin "efload.scr",,2
+*=$c400
+!bin "efload.col",,2
+
+*=$e000
+!bin "efload.bmp",,2
