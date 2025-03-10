@@ -40,7 +40,7 @@
 	+TestForPortBitsLoop_A CIA1KeyboardColumnJoystickA , JoystickBits_Fire , .o1
 	jmp .start
 .o1
-	+TestForPortBitsLoop_A CIA1KeyboardColumnJoystickA , JoystickBits_Fire , .o2
+	+TestForPortBitsLoop_A CIA1KeyboardRowsJoystickB , JoystickBits_Fire , .o2
 .start
 	+MACROWaitForTheLastScan_A
 	lda #0
