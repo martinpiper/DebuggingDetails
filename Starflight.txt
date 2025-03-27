@@ -1,0 +1,43 @@
+Starflight
+https://www.lemon64.com/game/starflight
+
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\s\starflight_s1[ea_1989](!).g64"
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\s\starflight_s2[ea_1989](!).g64"
+
+
+Note $2000 memory shows U1: and B-P disk commands.
+file:///C:/work/C64Docs/commodore_vic_1541_floppy_drive_users_manual.pdf
+Page 31 (34)
+Page 39 (42)
+
+
+c:\work\C1541-Tweaks\c1541\Release\c1541.exe "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\s\starflight_s1[ea_1989](!).g64" -recover C:\Temp\d64recover\file%d_%d.prg
+
+
+Note forth commands in game memory
+
+
+"C:\Users\marti\Downloads\ELCOMP-FORTH_DG.T64"
+
+vlist
+
+: fizzbuzz
+  101 1 do
+    i 3 mod 0= i 5 mod 0= and if
+      ." fizzbuzz" cr
+    else i 3 mod 0= if
+      ." fizz" cr
+    else i 5 mod 0= if
+      ." buzz" cr
+    else i . cr
+    then then then
+  loop ;
+
+
+
+
+$8ca seems to be process command. Indirect jump table $0060?
+
+
+
+https://dwheeler.com/6502/

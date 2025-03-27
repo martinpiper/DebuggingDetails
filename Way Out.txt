@@ -1,0 +1,29 @@
+Way Out
+https://www.lemon64.com/game/way-out
+
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\w\way_out[sirius_1983].g64"
+
+c:\work\C1541-Tweaks\c1541\Release\c1541.exe "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\w\way_out[sirius_1983].g64" -recover C:\Temp\d64recover\file%d_%d.prg
+
+Level data at $8a00
+Seems to be 8a00 bit field for walls in one axis
+Seems to be 8b00 bit field for walls in other axis
+8b8b walls around the exit first level
+Stride seems to be 4 bytes with a bit field, maybe 4x8 bits width/height? So a 32x32 map of bitss?
+$8b83 seems to be the walls north/south of the player start
+$8b7f north/south walls to the left of the start position
+$8b87 north/south walls to the right of the start position
+
+$470d accesses 8b00,y
+It isn't doing an incremental render here, the whole charset gets updated somewhere else
+$6ac5 seems to be copying from the top half of the charset to the lower half?
+$4edd each segment top wall, left to right? Called from $50e9
+$62cb lots of jsrs for a draw?
+	$4fbc draws the top edges...
+	$6a65 draws the rest, fills etc
+		$6ab9 
+	
+	$4d26 draws random dots?
+
+So yes, after drawing the top edges and filling the top hald, it seems to mirror for the bottom half
+Cool :)
