@@ -1,0 +1,18 @@
+; c:\work\c64\acme.exe -f cbm -o c:\temp\t.prg C:\Work\DebuggingDetails\MakeAllScrText.a
+* = $400
+	sei
+	ldy #0
+	sty $01
+	sty $fb
+	lda #4
+	sta $fc
+.l1
+	lda ($fb),y
+	and #$1f
+	sta ($fb),y
+	iny
+	bne .l1
+	inc $fc
+	bne .l1
+	jmp *
+
