@@ -1,0 +1,26 @@
+
+https://www.lemon64.com/game/koronis-rift
+
+f e780 f67f 0
+f a780 b67f 0
+
+8ad draw loop?
+c8fa draw columns, unrolled for a specific column, draw from the bottom up, with X register
+Clever use of self modifiying code to replace the unrolled sta aaaa,x with rts
+jsr at $c902 is self modified
+So actually it draws column spans using the self modified unrolled code, with X
+$c92b also jsr is self modified
+
+
+.C:08ad  20 69 C8    JSR $C869	Draws solid columns using self modified unrolled code
+.C:08b0  20 67 96    JSR $9667	Draws landscape dots really
+.C:08b3  20 CD 4E    JSR $4ECD		
+.C:08b6  20 E1 08    JSR $08E1
+.C:08b9  20 EF 08    JSR $08EF	Draws sprites
+.C:08bc  20 B8 3C    JSR $3CB8
+.C:08bf  20 F4 18    JSR $18F4
+
+
+
+f 8400 873f ff clears the sprites with solid colour
+The easiest way is to clip is to change the sprite definition to point to an empty frame
