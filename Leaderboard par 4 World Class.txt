@@ -1,6 +1,8 @@
 https://www.lemon64.com/doc/world-class-leader-board/1353
 file:///D:/Ultimate%20tape%20archive/Ultimate_Tape_Archive_V4.5/Ultimate_Tape_Archive_V4.5/Leader_Board_Executive_Edition_(1987_U.S._Gold)_[1042]/Extras/Instructions.pdf
 
+https://github.com/martinpiper/DebuggingDetails
+
 "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\l\leaderboard_par_4_world_class_s1[access_1987](dongle)(!).g64"
 "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\l\leaderboard_par_4_world_class_s2[access_1987](dongle)(!).g64"
 
