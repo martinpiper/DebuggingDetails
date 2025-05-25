@@ -1,0 +1,67 @@
+https://www.lemon64.com/doc/world-class-leader-board/1353
+file:///D:/Ultimate%20tape%20archive/Ultimate_Tape_Archive_V4.5/Ultimate_Tape_Archive_V4.5/Leader_Board_Executive_Edition_(1987_U.S._Gold)_[1042]/Extras/Instructions.pdf
+
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\l\leaderboard_par_4_world_class_s1[access_1987](dongle)(!).g64"
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\l\leaderboard_par_4_world_class_s2[access_1987](dongle)(!).g64"
+
+
+fd2f
+a2d9
+
+
+c:\work\C1541-Tweaks\c1541\Release\c1541.exe "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\l\leaderboard_par_4_world_class_s2[access_1987](dongle)(!).g64"
+
+chain rng
+bpeek 31 1
+$c554 start address
+Same as on disk and in memory
+
+
+
+Dynamic sprites, decompressed from roughly $7400
+
+
+$2941 seems to be the start of the tee view draw?
+
+al 31f9 .FillWithColourGreen
+al 31c3 .DrawLinesGreen
+al 2c56 .DrawFillGreen
+al ad5f .DrawTrees
+al 2a59 .DrawTeeMarkers
+al 1a0f .GameLoop
+al 1d77 .ClearScreen
+al 2ea5 .RenderAllGreen
+al 2eba .RenderAllBrown
+al 2ed1 .RenderAllYellow
+al 2233 .TreeCalculation
+
+al 21a3 .numberOfPolygons
+al 45 .numberOfPolygonsWorking
+
+al 2ce7 .DrawFillYellow
+al 31bf .DrawOutline
+
+
+$20aa $20ad $20b0 very similar enry points into reused code, just uses bit to hop over ldx #$xx
+
+The top view seems to refuse quite a lot of the draw lines and fill code from the tee view.
+
+
+$c554 number of green areas
+$c555 number of yellow areas (bunkers)
+water?
+$c55c number of trees
+
+
+
+When reading $c554 number of green areas
+$20c7 reads 4 values, from $c59d and stores them into $21a5-$21a8
+Then again reads four values from $c5a1 = 4 bytes different
+Then $c5bd $c5dd
+
+Piece coordinates
+$c59d+2 seems to be x pos of the first piece (tee)
+$c5a1+2 ditto but second piece
+lo/hi x pos
+lo/hi y pos
+
