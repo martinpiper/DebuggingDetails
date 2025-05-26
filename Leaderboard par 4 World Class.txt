@@ -51,8 +51,18 @@ The top view seems to refuse quite a lot of the draw lines and fill code from th
 
 $c554 number of green areas
 $c555 number of yellow areas (bunkers)
-water?
+$c556 number of polygons, for water!
+$c557 par for the hole
+$c558 unused, at least during the renders
+$c559 unused, at least during the renders
+$c55a Signed Y course offset
+$c55b Signed X course offset
 $c55c number of trees
+$c900 tree data start? Accessed by .TreeCalculation and stores into bb92 bc52 bd12 bdd2 = $c0 delta, max trees?
+	> c55c 2
+	> c900 01 01 01 01 02 02 02 02
+		x/y lo/hi two coordinates?
+
 
 
 
@@ -66,4 +76,30 @@ $c59d+2 seems to be x pos of the first piece (tee)
 $c5a1+2 ditto but second piece
 lo/hi x pos
 lo/hi y pos
+
+c554  08 03 00 04  00 09 1e 00  03
+$c55d pieces lo/hi addresses
+>> c600 c600 c613 c626  c62f c63c  c649 c658  c665 c658   c672 c600   c600  c600   c600 ...
+	Deltas $13 $13 9 d d
+
+>C:c600  09 00 << bpl check 00 << bpl check 07  00 03 fd 00  ca fd fd f2  00 fd 03 00   ................
+>C:c610  36 03 03
+I think this is number of points followed by two bytes per point
+Number of points, followed by x/y signed byte relative coordinates
+> c600 3 10 30   40 20    0 90		<< This draws a triangle, starting at a point $10,$30 from the origin of the piece
+
+
+
+
+After reading $c555 then reads x/y lo/hi offset from $c5bd...
+Then lo/hi pieces address from $c56d
+
+I think with this we can almost edit the whole course
+
+
+
+$c556 number of polygons, for water!
+Then reads 4 bytes x/y lo/hi offset from $c5dd
+Then polygon addresses lo/hi from $c57d
+
 
