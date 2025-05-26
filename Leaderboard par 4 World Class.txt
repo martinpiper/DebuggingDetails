@@ -3,6 +3,8 @@ file:///D:/Ultimate%20tape%20archive/Ultimate_Tape_Archive_V4.5/Ultimate_Tape_Ar
 
 https://github.com/martinpiper/DebuggingDetails
 
+https://youtu.be/MWz23q5d-xM
+
 "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\l\leaderboard_par_4_world_class_s1[access_1987](dongle)(!).g64"
 "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\l\leaderboard_par_4_world_class_s2[access_1987](dongle)(!).g64"
 
@@ -46,7 +48,7 @@ al 31bf .DrawOutline
 
 $20aa $20ad $20b0 very similar enry points into reused code, just uses bit to hop over ldx #$xx
 
-The top view seems to refuse quite a lot of the draw lines and fill code from the tee view.
+The top view seems to reuse quite a lot of the draw lines and fill code from the tee view.
 
 
 $c554 number of green areas
