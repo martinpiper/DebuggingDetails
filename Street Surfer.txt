@@ -1,0 +1,14 @@
+Street Surfer
+https://www.lemon64.com/game/street-surfer
+"D:\Ultimate tape archive\Ultimate_Tape_Archive_V4.5\Ultimate_Tape_Archive_V4.5\Street_Surfer_(1986_Entertainment_USA)_[2843]\Street_Surfer.tap"
+
+f 4f00 5b7f aa
+
+(C:$0c15) a 400
+.0400  inc d020
+.0403  jsr 16e8
+.0406  dec d020
+.0409  rts
+.040a
+
+> c13 0 4
