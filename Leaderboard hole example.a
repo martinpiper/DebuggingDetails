@@ -1,0 +1,153 @@
+; Assemble the course with: ..\c64\acme.exe -v9 -f cbm -o c:\temp\lbh.prg "Leaderboard hole example.a"
+; Then either add the output file to a copy of the course disk, or view the course in game by using the monitor command: l "c:\temp\lbh.prg" 0
+!initmem 0
+
+* = $c554
+	!by kNumGreenAreas
+	!by kNumYellowAreas
+	!by kNumBlueAreas
+	!by 5		; Par
+* = $c55a
+	!by 0 , 64	; y/x offset for the flag, from the last green piece
+* = $c55c
+	!by kNumTrees
+
+* = $c55d
+GreenAreasStart
+	!word Polygon_tallRectangle
+	!word Polygon_tallRectangle
+	!word Polygon_downRightRectangle
+	!word Polygon_downLeftRectangle
+	!word Polygon_triangle
+	!word Polygon_triangle
+	!word Polygon_triangle
+kNumGreenAreas = (*-GreenAreasStart)/2
+!if kNumGreenAreas > 8 {
+	!error "kNumGreenAreas cannot be more than 8"
+}
+
+* = $c56d
+YellowAreasStart
+	!word Polygon_tallRectangle
+	!word Polygon_tallRectangle
+	!word Polygon_tallRectangle
+	!word Polygon_wideRectangle
+	!word Polygon_wideRectangle
+kNumYellowAreas = (*-YellowAreasStart)/2
+!if kNumYellowAreas > 8 {
+	!error "kNumYellowAreas cannot be more than 8"
+}
+
+* = $c57d
+BlueAreasStart
+	!word Polygon_tallRectangle
+	!word Polygon_square
+kNumBlueAreas = (*-BlueAreasStart)/2
+!if kNumBlueAreas > 8 {
+	!error "kNumBlueAreas cannot be more than 8"
+}
+
+* = $c58d
+YellowAreasFlagStart
+	!by 1	; Draw as yellow flag
+	!by 1
+	!by 1
+	!by 1
+	!by 1
+!if (*-YellowAreasFlagStart) != kNumYellowAreas {
+	!error "The number of YellowAreasFlagStart must be the same as those in YellowAreasStart"
+}
+
+
+* = $c59d
+GreenAreasOffsets
+	!word 400 , 1500	; x/y offset
+	!word 500 , 1500	; x/y offset
+	!word 400 , 1500	; x/y offset
+	!word 450 , 1500	; x/y offset
+	!word 480 , 75		; x/y offset
+	!word 400 , 300		; x/y offset
+	!word 512 , 600		; x/y offset
+!if (*-GreenAreasOffsets)/4 != kNumGreenAreas {
+	!error "The number of GreenAreasOffsets must be the same as those in GreenAreasStart"
+}
+
+* = $c5bd
+YellowAreasOffsets
+	!word 550 , 1500	; x/y offset
+	!word 550 , 1300	; x/y offset
+	!word 650 , 1500	; x/y offset
+	!word 550 , 1500	; x/y offset
+	!word 550 , 1300	; x/y offset
+!if (*-YellowAreasOffsets)/4 != kNumYellowAreas {
+	!error "The number of YellowAreasOffsets must be the same as those in YellowAreasStart"
+}
+
+* = $c5dd
+BlueAreasOffsets
+	!word 700 , 1300	; x/y offset
+	!word 700 , 1500	; x/y offset
+!if (*-BlueAreasOffsets)/4 != kNumBlueAreas {
+	!error "The number of BlueAreasOffsets must be the same as those in BlueAreasStart"
+}
+
+
+* = $c600
+Polygon_triangle
+	!by 3
+	!by 16 , 48
+	!by 64 , 32
+	!by 0 , -112
+
+Polygon_tallRectangle
+	!by 5
+	!by 0 , 0
+	!by 20 , 0
+	!by 0 , -128	; Because numbers are limited (-128 to 127) we combine two Y offset changes to create a longer edge
+	!by 0 , -100
+	!by -20 , 0
+
+Polygon_wideRectangle
+	!by 5
+	!by 0 , 0
+	!by 50 , 0		; It seems like there might be an issue with X coordinate maths, so we go in smaller steps and don't quite close the polygon by moving back to x=0
+	!by 50 , 0
+	!by 0 , -30
+	!by -48 , 0
+
+Polygon_downRightRectangle
+	!by 4
+	!by 15 , 0
+	!by 50 , -85
+	!by -15 , -15
+	!by -50 , 65
+
+Polygon_downLeftRectangle
+	!by 4
+	!by 75 , 0
+	!by -50 , -85
+	!by -15 , 15
+	!by 50 , 55
+
+Polygon_square
+	!by 4
+	!by 0 , 0
+	!by 30 , 0
+	!by 0 , -60
+	!by -28 , 0
+
+
+	
+* = $c900
+TreesStart
+	!word 0,0		; x/y pos
+!for .i , 10 {
+	!word 500 + (.i*10) , 700
+}
+!for .i , 10 {
+	!word 400 + (.i*12) , 400
+}
+!for .i , 10 {
+	!word 575 , 400 + (.i*10)
+}
+kNumTrees = (*-TreesStart)/4
