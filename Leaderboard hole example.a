@@ -26,6 +26,22 @@ kNumGreenAreas = (*-GreenAreasStart)/2
 	!error "kNumGreenAreas cannot be more than 8"
 }
 
+* = $c59d
+GreenAreasOffsets
+	!word 400 , 1500	; x/y offset
+	!word 500 , 1500	; x/y offset
+	!word 400 , 1500	; x/y offset
+	!word 450 , 1500	; x/y offset
+	!word 480 , 75		; x/y offset
+	!word 400 , 300		; x/y offset
+	!word 512 , 600		; x/y offset
+!if (*-GreenAreasOffsets)/4 != kNumGreenAreas {
+	!error "The number of GreenAreasOffsets must be the same as those in GreenAreasStart"
+}
+
+
+
+
 * = $c56d
 YellowAreasStart
 	!word Polygon_tallRectangle
@@ -38,13 +54,15 @@ kNumYellowAreas = (*-YellowAreasStart)/2
 	!error "kNumYellowAreas cannot be more than 8"
 }
 
-* = $c57d
-BlueAreasStart
-	!word Polygon_tallRectangle
-	!word Polygon_square
-kNumBlueAreas = (*-BlueAreasStart)/2
-!if kNumBlueAreas > 8 {
-	!error "kNumBlueAreas cannot be more than 8"
+* = $c5bd
+YellowAreasOffsets
+	!word 550 , 1500	; x/y offset
+	!word 550 , 1300	; x/y offset
+	!word 650 , 1500	; x/y offset
+	!word 550 , 1500	; x/y offset
+	!word 550 , 1300	; x/y offset
+!if (*-YellowAreasOffsets)/4 != kNumYellowAreas {
+	!error "The number of YellowAreasOffsets must be the same as those in YellowAreasStart"
 }
 
 * = $c58d
@@ -59,28 +77,15 @@ YellowAreasFlagStart
 }
 
 
-* = $c59d
-GreenAreasOffsets
-	!word 400 , 1500	; x/y offset
-	!word 500 , 1500	; x/y offset
-	!word 400 , 1500	; x/y offset
-	!word 450 , 1500	; x/y offset
-	!word 480 , 75		; x/y offset
-	!word 400 , 300		; x/y offset
-	!word 512 , 600		; x/y offset
-!if (*-GreenAreasOffsets)/4 != kNumGreenAreas {
-	!error "The number of GreenAreasOffsets must be the same as those in GreenAreasStart"
-}
 
-* = $c5bd
-YellowAreasOffsets
-	!word 550 , 1500	; x/y offset
-	!word 550 , 1300	; x/y offset
-	!word 650 , 1500	; x/y offset
-	!word 550 , 1500	; x/y offset
-	!word 550 , 1300	; x/y offset
-!if (*-YellowAreasOffsets)/4 != kNumYellowAreas {
-	!error "The number of YellowAreasOffsets must be the same as those in YellowAreasStart"
+
+* = $c57d
+BlueAreasStart
+	!word Polygon_tallRectangle
+	!word Polygon_square
+kNumBlueAreas = (*-BlueAreasStart)/2
+!if kNumBlueAreas > 8 {
+	!error "kNumBlueAreas cannot be more than 8"
 }
 
 * = $c5dd
@@ -90,6 +95,8 @@ BlueAreasOffsets
 !if (*-BlueAreasOffsets)/4 != kNumBlueAreas {
 	!error "The number of BlueAreasOffsets must be the same as those in BlueAreasStart"
 }
+
+
 
 
 * = $c600
@@ -135,6 +142,7 @@ Polygon_square
 	!by 30 , 0
 	!by 0 , -60
 	!by -28 , 0
+
 
 
 	
