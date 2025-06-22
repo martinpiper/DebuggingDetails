@@ -1,19 +1,20 @@
 c:\work\c64\bin\TapeTool.exe r c:\work\c64\IRQTape\TapeTool\test.tap bc1000
 
 0 rem this will read an auto run tape file
-1 rem and relocate it to 32768 onwards
+1 rem and relocate it to 16384 onwards
 2 rem this allows easier study
-10 fori=0to1023:poke32768+i,0:next
+3 a=16384
+10 fori=0to1023:pokea+i,0:next
 20 poke780,0:sys65469:rem setnam
 30 poke780,1:poke781,1:poke782,0:sys65466:rem setlfs
 40 sys65472:rem open
 50 s=(peek(830)*256)+peek(829)
 60 e=(peek(832)*256)+peek(831)
-70 for i=828to1019:poke32768+i,peek(i):pokei,0:next
+70 for i=828to1019:pokea+i,peek(i):pokei,0:next
 80 print"remember to use goto 200"
 90 print"start end: ",s,e
 100 input a$
 110 poke781,1:sys65478:rem chkin
 120 sys65487:rem chrin
 130 input a$
-200 fori=stoe:poke32768+i,peek(828+i-s):next
+200 fori=stoe:pokea+i,peek(828+i-s):next
