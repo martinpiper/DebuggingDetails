@@ -1,0 +1,122 @@
+"D:\Ultimate tape archive\Ultimate_Tape_Archive_V4.5\Ultimate_Tape_Archive_V4.5\Wanted!_Monty_Mole_(1984_Gremlin_Graphics)_[1707]\Wanted!_Monty_Mole.tap"
+c:\work\c64\bin\LZMPi.exe -pp $27 -c64mbu "c:\temp\mm 8300.prg" c:\temp\mm.prg $8300
+c:\work\c64\bin\LZMPi.exe -pp $27 -c64mbu "c:\temp\mm 8300.prg" c:\temp\mm.prg 33682 && "c:\temp\mm.prg"
+
+$8100 = MC monitor?!
+
+C:\Users\marti\Desktop\CDU
+
+
+Tape loader peek
+795 to 810
+$31b to $32a
+
+$326 = $3f2 = 1010
+
+We can see: 43ec jmp 400
+
+1000 *=49152
+1010 sei
+1020 lda #$37
+1030 sta $01
+1040 jsr $ff84
+1050 jsr $ff8a
+1060 lda #$36
+1070 sta $01
+1080 inwait lda $dc00
+1090 inc $d020
+1100 cmp #$7f
+1110 beq inwait
+1120 lda #0
+1130 sta 43
+1140 lda #4
+1150 sta 44
+1160 lda #12
+1170 ldx #<name
+1180 ldy #>name
+1190 jsr $ffbd
+1200 lda #0
+1210 ldx #8
+1220 ldy #0
+1230 jsr $ffba
+1240 lda #43
+1250 ldx #0
+1260 ldy #5
+1270 jsr $ffd8
+1280 theend inc $d020
+1290 jmp theend
+1300 name byt "montyloader2"
+
+
+43ec = 17388
+new
+poke 17390,192
+
+10 fori=795to1023
+20 poke i,peek(16384+i)
+30 next
+40 sys 1010
+
+
+
+
+
+
+Can see: 4449 JMP $8300
+So we will have new code at $c000 which alters second loader $449 jmp in the first loader, then jmps to $400
+But load this code:
+1000 *=49152
+1010 sei
+1020 lda #$37
+1030 sta $01
+1040 jsr $ff84
+1050 jsr $ff8a
+1060 lda #$36
+1070 sta $01
+1080 inwait lda $dc00
+1090 inc $d020
+1100 cmp #$7f
+1110 beq inwait
+1120 lda #1
+1130 sta 43
+1140 lda #8
+1150 sta 44
+1160 lda #5
+1170 ldx #<name
+1180 ldy #>name
+1190 jsr $ffbd
+1200 lda #0
+1210 ldx #8
+1220 ldy #0
+1230 jsr $ffba
+1240 lda #43
+1250 ldx #0
+1260 ldy #$c0
+1270 jsr $ffd8
+1280 theend inc $d020
+1290 jmp theend
+1300 name byt "monty"
+
+monitor
+s "montysave" 8 c000 c100
+
+
+** Tape loader peek again
+** Override the first loader and intercept the second loader to run the save code
+poke17390,193
+poke49408,169:poke49409,192
+poke49410,141:poke49411,75:poke49412,4
+poke49413,76:poke49415,0:poke49415,4
+
+new
+
+10 fori=795to1023
+20 poke i,peek(16384+i)
+30 next
+40 sys 1010
+
+
+Remember to disable true drive and enable virtual device traps before the save
+And pwd and cd if needed
+
+c:\work\c64\bin\LZMPi.exe -pp $27 -c64mbu "c:\temp\monty" c:\temp\mm.prg 33682 && "c:\temp\mm.prg"
