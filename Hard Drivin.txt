@@ -1,0 +1,89 @@
+cd /d c:\Temp\d64recover
+c:\work\C1541-Tweaks\c1541\Release\c1541.exe "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\h\hard_drivin[domark_1989].g64" -recover "t%ds%d"
+c:\work\C1541-Tweaks\c1541\Release\c1541.exe "D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\h\hard_drivin[domark_1989].g64" -extract
+
+a03 start of render loop, alternates screens
+a8c starts of jsrs
+
+abf7 clears screen, draws mountains and ground
+al abf7 .ClearScreenDrawMountains
+al 319f .DrawRoad
+al 2e14 .DrawObjects
+al 2e73 .DrawObject
+
+
+5a2+8 = 5aa = object list
+98 90 88 80
+
+502 = object 80 data
+50a = object 88 data
+512 = object 90 data
+51a = object 98 data
+	51a = byte model index
+		8 = house
+		7 = hut
+		6 = barriers
+	51b = some kind of rotation... maybe a precalculated transformed model reference?
+	These seem to be in view space...
+	51c/51d = 16 bit position in X
+	51e/51f = 16 bit Y pos
+	520 = 8 bit world Z scale?
+	
+	
+520 = ?
+
+a91b = multiply or divide?
+	entry 54/55
+	56
+	return 52/53
+
+30ed = transform?
+
+5da = offset?
+
+1cfd = object pointer setup?
+
+
+Turn off timer...
+f b280 b2ad ea
+
+
+For the objects, it looks like the 3D is faked with precalculated models?!!!
+Relative to the faked road perspective, note the road section lines are always horizontal.
+
+It looks like there is some kind of faked, this is how far along the "road" the player is, which is where the object data at $502 is updated.
+
+
+
+During object draw, 5c1 = object type
+al 5c1 .objectType
+al 365 .objectFrame
+al 41 .objectXPosHi
+al 93 .objectXPosHi
+al 40 .objectXPosLo2
+al 92 .objectXPosLo
+
+b28 = .objectFrame range clamping
+b3e = .objectType access...
+
+al 53d6 .objectFrameM2ToDataTabLo
+al 53d7 .objectFrameM2ToDataTabHi
+
+ba2 = .objectFrame and .objectType access into .objectFrameM2ToDataTabLo/Hi
+e278 seems to be the house with final objectFrame 0
+
+e27e = X pos of top left roof
+e280 = X pos of top left wall at roof
+e282 = X pos of top right roof
+e284 = X pos of top right wall at roof
+e286 = X pos top roof apex
+e288 = X pos top left porch
+so there we have it, the data for each "rotated frame" seems to be precalculated
+ in memory...
+
+>C:e278  02 06 0e 16  c0 22 aa ae  92 cc 56 ae  6e cc 00 9a   ....."....V.n...
+>C:e288  d6 c8 2a c8  d6 1e 2a 1e  f8 96 f8 a4  08 96 08 a4   ..*...*.........
+>C:e298  92 1a 2a 1a  d4 1a ec de  ec 1e 14 de  14 1e a0 e8   ..*.............
+
+so yes, the object frame data is already in memory when the tile bitmap is displayed :)
+

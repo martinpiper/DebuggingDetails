@@ -1,0 +1,47 @@
+3d05
+
+f 5c00 5fff 12
+
+bank io
+f d800 dbe7 0
+f 4000 5bff ff
+f 6000 7fff ff
+f d800 dbe7 3
+
+
+Colour RAM and bank switch
+3d0b  20 41 08    JSR $0841
+
+The draw
+3d11  20 7A 16    JSR $167A
+
+Clears the whole bitmap screen to ff and draws the engine block
+167a  20 4D 16    JSR $164D
+
+f 6000 7fff aa
+
+Render near track lines (black background)
+170d  20 3B 1A    JSR $1A3B
+Render next segment black lines
+1721  20 3B 1A    JSR $1A3B
+Render next segment black lines... loop at 1755 to 1747
+174d  20 3B 1A    JSR $1A3B
+Rendered one row of track at the horizon
+1779  20 2B 2C    JSR $2C2B
+
+Wheel top edge?
+3d17  20 D0 14    JSR $14D0
+
+
+al 841 .ColourRAMUpdate
+al 167a .DrawFrame
+al 164d .ClearScreenDrawEngine
+al 2c23 .ClearScreenDrawEngineSpecific
+al 2c2b .FillHorizonEdge
+al 1a3b .DrawLines
+al 1c1e .DrawChains
+al cfc5 .PreDrawLines1
+al 177d .PreDrawLines2
+al 3f6b .ColourRAMDelta
+
+> 173e 0f
