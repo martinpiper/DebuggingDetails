@@ -1,0 +1,13 @@
+al 245b .MapAndRayCast
+al 25c4 .MakeMap
+al 24e2 .RayCast
+al 1090 .ClearWorkScreen
+al 2625 .RenderWorkScreen
+al 98b2 .ConvertWorkScreen
+
+
+bk 2473
+
+
+Left hand portion seems to be horizontal scans, wraparound with 32 $0-$1f
+Right hand portion seems to be top down and angle raycast in a circle to find distance or height?
