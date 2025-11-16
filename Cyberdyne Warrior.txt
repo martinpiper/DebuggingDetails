@@ -11,3 +11,9 @@ then sys 4096
 
 c:\work\c64\bin\LZMPi.exe -c64mbu "c:\temp\cw 80d.prg" c:\temp\cw.prg $80d
 c:\work\c64\bin\LZMPi.exe -pp $37 -c64mbu c:\temp\cwintro1000.prg c:\temp\cwintro.prg $1000
+
+
+https://www.gamesthatwerent.com/gtw64/cyberdyne-warrior-intro/
+
+FLI-viewer...
+http://www.zimmers.net/anonftp/pub/cbm/c64/graphics/viewers/index.html
