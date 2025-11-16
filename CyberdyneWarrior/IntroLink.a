@@ -7,6 +7,9 @@
 !ct pet
 
 !source "stdlib/stdlib.a"
+MainLoad_DisableCounter = 1
+MainLoad_StartLoadingFilename = 1
+
 
 *=$200
 !bin "data/cwintro1000.prg",,2
@@ -46,4 +49,8 @@ RunGameRelocEnd
 
 Initialise_NoIRQServiceRoutine = 1
 !source "stdlib/Initialise.a"
+EndPatchCode
 
+!if * > $3000 {
+!error "Code does not fit in empty space"
+}

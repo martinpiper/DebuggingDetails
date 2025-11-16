@@ -6,11 +6,11 @@ NextFilenameEnd
 	
 
 
-*=$c400
+*=BitmapScreenRAM
 !bin "data/b.apex1.prg" , VIC2ScreenNumChars , 2 + $400
 
-*=$c800
+*=BitmapColourRAM
 !bin "data/b.apex1.prg" , VIC2ScreenNumChars , 2 
 
-*=$e000
+*=BitmapCharsRAM
 !bin "data/b.apex1.prg" , VIC2ScreenNumChars * 8 , 2 + $800

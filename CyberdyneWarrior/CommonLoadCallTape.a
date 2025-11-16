@@ -1,0 +1,15 @@
+	sei
+	+MACROVICIRQCIATimerControlDisable_A
+	+MByteValueToAddress_A ProcessorPortAllRAMWithIO , ZPProcessorPort
+	+MCopyMemorySlowOnceFromToLength_A TapeTurboLoaderTopCode , MainSecondLoaderStart , MainSecondLoaderEnd - MainSecondLoaderStart
+	jmp MainSecondLoaderStart
+
+MainLoad_DisableSplit = 1
+MainLoad_DisableMusic = 1
+
+!source "TapeOptions.a"
+!source "LoadersCommon.a"
+!source "TurboTapeVars.a"
+
+TapeTurboLoaderTopCode
+!source "ScrollerMusicLoader.a"
