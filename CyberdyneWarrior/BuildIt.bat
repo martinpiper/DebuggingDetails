@@ -3,6 +3,9 @@ del Picture1.prg Picture2.prg Intro.prg Game.prg
 
 set COMPOPT=-c64mbu
 
+; Assemble with disk support
+echo !source "CommonLoadCallDisk.a" >CommonLoadCall.a
+
 ..\..\C64\acme.exe --lib ..\..\C64\ -v4 --msvc -f cbm -o Picture1.prg PictureLink.a Picture1.a
 if not exist Picture1.prg goto error
 goto next
