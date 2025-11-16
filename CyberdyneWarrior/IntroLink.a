@@ -1,0 +1,49 @@
+; Patches the intro code to load the next part...
+!sal
+!sl "IntroLink.map"
+!svl "IntroLink.lbl"
+!pdb "IntroLink.pdb"
+!cpu 6510
+!ct pet
+
+!source "stdlib/stdlib.a"
+
+*=$200
+!bin "data/cwintro1000.prg",,2
+
+!disablesegmentcheck
+
+* = $1d98
+jmp RunGame
+
+* = $2a00
+	+SetDefaultScreen_A
+	jmp $1000
+
+RunGame
+	lda #ProcessorPortDefault
+	jsr InitialiseMachine
+
+	; Copy from where the game code loads to a nice safe space near the end of RAM
+	+MCopyMemorySlowOnceFromToLength_A RunGameReloc , RunGameReal , RunGameRelocEnd - RunGameReloc
+	jmp RunGameReal
+
+RunGameReloc
+!pseudopc $c000 {
+RunGameReal
+	; Chain next file
+	+InitKERNALStringDisplay_AXY
+
+!source "CommonLoadCall.a"
+
+NextStart = 2061
+
+NextFilename
+	!tx "p5"
+NextFilenameEnd
+}
+RunGameRelocEnd
+
+Initialise_NoIRQServiceRoutine = 1
+!source "stdlib/Initialise.a"
+

@@ -1,0 +1,27 @@
+	lda #<StopKeyCheck
+	sta STOPVectorLo
+	lda #>StopKeyCheck
+	sta STOPVectorHi
+
+	lda #8
+	ldx #8
+	ldy #1
+	jsr SETLFS
+	lda #NextFilenameEnd-NextFilename
+	ldx #<NextFilename
+	ldy #>NextFilename
+	jsr SETNAM
+	lda #0
+	ldx #$ff
+	ldy #$ff
+	jsr LOAD
+	jmp NextStart
+
+StopKeyCheck
+	; This flashes the border during loading because the load routine checks the stop key.
+	lda #1
+	sta VIC2BorderColour
+	dec VIC2BorderColour
+	; Tell the kernal we are not pressing the stop key, honest
+	lda #$ff
+	rts

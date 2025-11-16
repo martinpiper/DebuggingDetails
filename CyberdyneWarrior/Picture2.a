@@ -1,0 +1,16 @@
+NextStart = 2061
+
+NextFilename
+	!tx "p3"
+NextFilenameEnd
+	
+
+
+*=$c400
+!bin "data/b.apex2.prg" , VIC2ScreenNumChars , 2 + $400
+
+*=$c800
+!bin "data/b.apex2.prg" , VIC2ScreenNumChars , 2 
+
+*=$e000
+!bin "data/b.apex2.prg" , VIC2ScreenNumChars * 8 , 2 + $800

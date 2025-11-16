@@ -1,0 +1,36 @@
+; Displays a picture and then calls another prg
+!sal
+!sl "PictureLink.map"
+!svl "PictureLink.lbl"
+!pdb "PictureLink.pdb"
+!cpu 6510
+!ct pet
+
+!source "stdlib/stdlib.a"
+
+*=$c000
+	lda #ProcessorPortDefault
+	jsr InitialiseMachine
+	
+	; Display the picture
+	+MCopyMemorySlowOnceFromToLength_A $c800 , COLOURRAM , VIC2ScreenNumChars
+	+MVIC2MemorySetup_ScreenBitmap_A $c400 , $e000
+	+MAlsoToAddress_A VIC2MemorySetup
+	+MByteValueToAddress_A CIA2PortASerialBusVICBank_Bank3 , CIA2PortASerialBusVICBank
+	+MByteValueToAddress_A VIC2ScreenControlHDefault | kVIC2ScreenControlHBits_Multicolour , VIC2ScreenControlH
+	+MACROWaitForTheLastScan_A
+	+MByteValueToAddress_A VIC2ScreenControlVDefault | kVIC2ScreenControlVBits_Bitmap , VIC2ScreenControlV
+
+	+WaitForFire_A
+	
+	; Chain next file
+	+MACROWaitForTheLastScan_A
+	+BlankScreenBorderSpriteSound_A
+	+MByteValueToAddress_A CIA2PortASerialBusVICBank_Bank0 , CIA2PortASerialBusVICBank
+	+InitKERNALStringDisplay_AXY
+
+!source "CommonLoadCall.a"
+
+Initialise_NoIRQServiceRoutine = 1
+!source "stdlib/Initialise.a"
+

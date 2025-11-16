@@ -1,0 +1,13 @@
+Colour RAM
+Screen RAM
+Then bitmap
+All aligned $100
+
+
+bk 1d98
+> 1d98 ea ea ea
+yeah just frozen and waiting on a short black screen...
+then sys 4096
+
+c:\work\c64\bin\LZMPi.exe -c64mbu "c:\temp\cw 80d.prg" c:\temp\cw.prg $80d
+c:\work\c64\bin\LZMPi.exe -pp $37 -c64mbu c:\temp\cwintro1000.prg c:\temp\cwintro.prg $1000
