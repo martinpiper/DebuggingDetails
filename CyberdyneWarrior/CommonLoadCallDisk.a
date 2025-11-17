@@ -16,8 +16,8 @@
 	ldy #$ff
 	jsr LOAD
 	
-;	+MACROWaitForTheLastScan_A
-;	+BlankScreenBorderSpriteSound_A
+	+MACROWaitForTheLastScan_A
+	+BlankScreenBorderSpriteSound_A
 
 	jmp NextStart
 

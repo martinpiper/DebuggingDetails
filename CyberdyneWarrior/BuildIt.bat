@@ -1,5 +1,5 @@
 @echo off
-del Picture1.prg Picture2.prg Intro.prg Game.prg
+del Picture1.prg Picture2.prg Intro.prg Game.prg cyberdyne.tap
 
 set COMPOPT=-c64mbu
 set COMMONLIB=--lib ..\..\C64\ --lib ..\..\c64\IRQTape\TapeTool\ --lib ..\..\c64\IRQTape\ -v4 --msvc

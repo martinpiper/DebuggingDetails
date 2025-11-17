@@ -1,8 +1,13 @@
 	sei
 	+MACROVICIRQCIATimerControlDisable_A
 	+MByteValueToAddress_A ProcessorPortAllRAMWithIO , ZPProcessorPort
-	+MCopyMemorySlowOnceFromToLength_A TapeTurboLoaderTopCode , MainSecondLoaderStart , MainSecondLoaderEnd - MainSecondLoaderStart
+;	+MCopyMemorySlowOnceFromToLength_A TapeTurboLoaderTopCode , MainSecondLoaderStart , MainSecondLoaderEnd - MainSecondLoaderStart
 	jmp MainSecondLoaderStart
+
+StartCompressedCode
+	+MACROWaitForTheLastScan_A
+	+BlankScreenBorderSpriteSound_A
+	jmp 2061
 
 MainLoad_DisableSplit = 1
 MainLoad_DisableMusic = 1
@@ -11,5 +16,9 @@ MainLoad_DisableMusic = 1
 !source "LoadersCommon.a"
 !source "TurboTapeVars.a"
 
+MainSecondLoaderPseudoPC = *	; Assemble the code where we currently are
+JMPQuickStartAddress = StartCompressedCode
 TapeTurboLoaderTopCode
 !source "ScrollerMusicLoader.a"
+
++MGuardAgainstIOSpaceUpwards BlocksLoadedTableEnd

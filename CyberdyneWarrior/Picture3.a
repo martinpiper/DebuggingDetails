@@ -12,5 +12,5 @@ NextFilenameEnd
 *=BitmapColourRAM
 !bin "data/b.apex3.prg" , VIC2ScreenNumChars , 2 
 
-*=BitmapCharsRAM
+*=BitmapCharsData
 !bin "data/b.apex3.prg" , VIC2ScreenNumChars * 8 , 2 + $800

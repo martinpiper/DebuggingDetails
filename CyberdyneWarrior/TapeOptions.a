@@ -2,5 +2,5 @@ MainLoad_EnableScreen = 1
 MartyLoad = 1
 TapeTurboSpeed = $80
 EnableBlockChecksum = 1
-JMPQuickStartAddress = 2061
 StartOnFilenameNumber = 1
+

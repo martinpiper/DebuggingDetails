@@ -12,17 +12,26 @@ BitmapColourRAM = $cc00
 BitmapScreenRAM = $c800
 BitmapCharsRAM = $e000
 
+BitmapCharsData = $c000-(VIC2ScreenNumChars * 8)
+
 MainLoad_StartLoadingFilename = 1
-;MainLoad_DontInitScreenAtStart = 1
+MainLoad_DontInitScreenAtStart = 1
 
 *=$c000
 	lda #ProcessorPortDefault
 	jsr InitialiseMachine
 
-;	+InitKERNALStringDisplay_AXY
+	; Get ready to use the kernal later on, useful for kernal disk load and also the intro sequence
+	+InitKERNALStringDisplay_AXY
 	
 	; Display the picture
+	sei
+	+MByteValueToAddress_A ProcessorPortAllRAM , ZPProcessorPort
+	+MCopyMemorySlowOnceFromToLength_A BitmapCharsData , BitmapCharsRAM , VIC2ScreenNumChars * 8
+	+MByteValueToAddress_A ProcessorPortDefault , ZPProcessorPort
+
 	+MCopyMemorySlowOnceFromToLength_A BitmapColourRAM , COLOURRAM , VIC2ScreenNumChars
+
 	+MVIC2MemorySetup_ScreenBitmap_A BitmapScreenRAM , BitmapCharsRAM
 	+MAlsoToAddress_A VIC2MemorySetup
 	+MByteValueToAddress_A CIA2PortASerialBusVICBank_Bank3 , CIA2PortASerialBusVICBank
@@ -30,16 +39,10 @@ MainLoad_StartLoadingFilename = 1
 	+MACROWaitForTheLastScan_A
 	+MByteValueToAddress_A VIC2ScreenControlVDefault | kVIC2ScreenControlVBits_Bitmap , VIC2ScreenControlV
 
-	+WaitForFire_A
-	
-	; Chain next file
-	+MACROWaitForTheLastScan_A
-	+BlankScreenBorderSpriteSound_A
-	+MByteValueToAddress_A CIA2PortASerialBusVICBank_Bank0 , CIA2PortASerialBusVICBank
-	+InitKERNALStringDisplay_AXY
-
+	; Chain next file using either disk or tape
 !source "CommonLoadCall.a"
 
 Initialise_NoIRQServiceRoutine = 1
 !source "stdlib/Initialise.a"
 
++MGuardAgainstIOSpaceUpwards *

@@ -1,6 +1,8 @@
+JMPQuickStartAddress = 2061
+
 TapeScrollingMessageSet = 1
 !macro MTapeScrollingMessageSet {
-	!scr "now loading *cyberdyne warrior extended* edition with loading screens and intro.    press fire after each loading screen and to advance the intro...    "
+	!scr "now loading *cyberdyne warrior extended* edition with loading screens and intro.        "
 }
 
 TapeFilenameSet = 1
