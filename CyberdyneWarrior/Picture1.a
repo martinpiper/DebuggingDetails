@@ -3,7 +3,8 @@ NextStart = 2061
 NextFilename
 	!tx "p2"
 NextFilenameEnd
-	
+MainLoad_StartLoadingFilename = 2
+
 
 
 *=BitmapScreenRAM

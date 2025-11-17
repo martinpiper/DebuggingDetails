@@ -14,7 +14,6 @@ BitmapCharsRAM = $e000
 
 BitmapCharsData = $c000-(VIC2ScreenNumChars * 8)
 
-MainLoad_StartLoadingFilename = 1
 MainLoad_DontInitScreenAtStart = 1
 
 *=$c000

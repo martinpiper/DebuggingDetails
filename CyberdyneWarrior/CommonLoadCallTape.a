@@ -16,6 +16,7 @@ MainLoad_DisableMusic = 1
 !source "LoadersCommon.a"
 !source "TurboTapeVars.a"
 
+StartOnFilenameNumber = MainLoad_StartLoadingFilename
 MainSecondLoaderPseudoPC = *	; Assemble the code where we currently are
 JMPQuickStartAddress = StartCompressedCode
 TapeTurboLoaderTopCode

@@ -1,4 +1,7 @@
 JMPQuickStartAddress = 2061
+StartOnFilenameNumber = 1
+
+
 
 TapeScrollingMessageSet = 1
 !macro MTapeScrollingMessageSet {

@@ -8,7 +8,7 @@
 
 !source "stdlib/stdlib.a"
 MainLoad_DisableCounter = 1
-MainLoad_StartLoadingFilename = 1
+MainLoad_StartLoadingFilename = 5
 
 
 *=$200
