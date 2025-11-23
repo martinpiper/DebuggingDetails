@@ -1,0 +1,46 @@
+; Patches the music select system code to just play song 2 and show the raster time
+; ..\C64\acme.exe --lib ..\C64\ -v4 --msvc -f cbm -o MusicSelectSystemPatched_a000.prg RetrogradeMusicSelectSystem.a
+; ..\C64\bin\LZMPi.exe -c64mbu MusicSelectSystemPatched_a000.prg MusicSelectSystemPatched_cmp.prg $a000
+
+!sal
+!sl "MusicSelectSystem.map"
+!svl "MusicSelectSystem.lbl"
+!pdb "MusicSelectSystem.pdb"
+!cpu 6510
+!ct pet
+
+!source "stdlib/stdlib.a"
+MainLoad_DisableCounter = 1
+MainLoad_StartLoadingFilename = 5
+
+
+*=$200
+!bin "musicselectsystem.prg",,2
+
+!disablesegmentcheck
+
+MusicStart = $8ce 
+MusicPlay = $93d 
+
+* = $a000
+	lda #ProcessorPortAllRAMWithIO
+	jsr InitialiseMachine
+
+	lda #$7d
+	ldx #$83
+	ldy #$01	; Maybe not needed...
+	jsr MusicStart
+.l1
+	+MACROWaitForRaster 128
+	inc VIC2BorderColour
+	jsr MusicPlay
+	dec VIC2BorderColour
+	jmp .l1
+
+	
+	
+
+Initialise_NoIRQServiceRoutine = 1
+!source "stdlib/Initialise.a"
+
++MGuardAgainstIOSpaceUpwards *

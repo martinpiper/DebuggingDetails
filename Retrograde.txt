@@ -1,0 +1,9 @@
+Music select system
+
+al 423a .loopStart
+al 93d .musicPlay
+al 8ce .musicStart
+
+When starting song 2...
+  ADDR A  X  Y  SP 00 01 NV-BDIZC LIN CYC  STOPWATCH
+.;08ce 7d 83 01 fc 2f 36 10100001 066 014   51601172
