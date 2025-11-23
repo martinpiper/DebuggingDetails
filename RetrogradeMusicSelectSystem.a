@@ -2,6 +2,14 @@
 ; ..\C64\acme.exe --lib ..\C64\ -v4 --msvc -f cbm -o MusicSelectSystemPatched_a000.prg RetrogradeMusicSelectSystem.a
 ; ..\C64\bin\LZMPi.exe -c64mbu MusicSelectSystemPatched_a000.prg MusicSelectSystemPatched_cmp.prg $a000
 
+; Vice monitor
+; bk a000
+; Load and run MusicSelectSystemPatched_cmp.prg
+; Now clear the memory map access log: mmzap
+; Warp for a while to play the whole song
+; Show all memory access: mmsh %110110
+; Show all execution: mmsh %1001
+
 !sal
 !sl "MusicSelectSystem.map"
 !svl "MusicSelectSystem.lbl"
