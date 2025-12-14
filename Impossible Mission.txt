@@ -1,0 +1,23 @@
+Original version
+No disk protection
+388c = restore
+
+.C:82e3  A5 EB       LDA $EB
+.C:82e5  4A          LSR A
+.C:82e6  4A          LSR A
+.C:82e7  E5 EB       SBC $EB
+.C:82e9  4A          LSR A
+.C:82ea  26 EC       ROL $EC
+.C:82ec  66 EB       ROR $EB
+.C:82ee  A5 EB       LDA $EB
+.C:82f0  4D 12 D0    EOR .VIC2Raster
+	>> inc $EB and nop
+.C:82f3  60          RTS
+
+
+
+
+$4ae entry
+
+.C:00fc  E6 E0       INC $E0
+.C:00fe  60          RTS

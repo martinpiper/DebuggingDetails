@@ -1,0 +1,130 @@
+; Patches the Impossible Mission code to set the random number seed
+!sal
+!sl "ImpossibleMissionSetSeed.map"
+!svl "ImpossibleMissionSetSeed.lbl"
+!pdb "ImpossibleMissionSetSeed.pdb"
+!cpu 6510
+!ct pet
+
+!source "stdlib/stdlib.a"
+MainLoad_DisableCounter = 1
+MainLoad_StartLoadingFilename = 5
+
+
+*=$200
+!bin "im 4ae.prg",,2
+
+!disablesegmentcheck
+
+; The first available screen row without any existing code or important data
+*=$608
+SeedMessage
+	!scr "joystick udlr enter seed then press fire "
+SeedMessageTheSeed
+	!scr "0000"
+SeedMessageEnd
+
+MessageColourStart = COLOURRAM + (SeedMessage & (VIC2MemorySetup_ScreenSize-1))
+SeedMessageTheSeedColourStart = COLOURRAM + (SeedMessageTheSeed & (VIC2MemorySetup_ScreenSize-1))
+
+StartSetSeed
+	+MStopInitStack_X
+	+MByteValueToAddress_A ProcessorPortAllRAMWithIO , ZPProcessorPort
+	+MACROCIAIRQControlDisable_A
+	+MACROVICIRQCIATimerControlDisable_A
+	+BlankScreenBorderSpriteSound_A
+	+SetDefaultScreen_A
+
+	; Restore expected code:
+	; .C:00fc  E6 E0       INC $E0
+	; .C:00fe  60          RTS
+	+MByteValueToAddress_A $e6 , $fc
+	+MByteValueToAddress_A $e0 , $fd
+	+MByteValueToAddress_A $60 , $fe
+	
+	+ClearScreenAt_AX COLOURRAM , VIC2Colour_Black
+	+SetMemory_AX MessageColourStart , MessageColourStart + (SeedMessageEnd - SeedMessage) -1, VIC2Colour_White
+	
+.l1
+	+MACROWaitForTheLastScan_A
+	+WaitForPortBitsLoop_A CIA1KeyboardColumnJoystickA , JoystickBits_Up , .notUp
+	ldx .nybbleIndex
+	dec .currentSeed,x
+.notUp
+	+WaitForPortBitsLoop_A CIA1KeyboardColumnJoystickA , JoystickBits_Down , .notDown
+	ldx .nybbleIndex
+	inc .currentSeed,x
+.notDown
+	+WaitForPortBitsLoop_A CIA1KeyboardColumnJoystickA , JoystickBits_Left , .notLeft
+	ldx .nybbleIndex
+	lda #VIC2Colour_White
+	sta SeedMessageTheSeedColourStart,x
+	dec .nybbleIndex
+.notLeft
+	+WaitForPortBitsLoop_A CIA1KeyboardColumnJoystickA , JoystickBits_Right , .notRight
+	ldx .nybbleIndex
+	lda #VIC2Colour_White
+	sta SeedMessageTheSeedColourStart,x
+	inc .nybbleIndex
+.notRight
+
+	; Validate all of our state and update the displayed seed
+	ldx #3
+.vl1
+	lda .currentSeed,x
+	and #$f
+	sta .currentSeed,x
+	tay
+	lda .hexTab,y
+	sta SeedMessageTheSeed,x
+	dex
+	bpl .vl1
+	lda .nybbleIndex
+	and #3
+	sta .nybbleIndex
+	
+	; Flash the selection
+	ldx .nybbleIndex
+	inc SeedMessageTheSeedColourStart,x
+
+	+WaitForFireLoop_A .ll1
+
+	; Fire pressed...
+	; Copy our nybble seed to the game two byte seed
+	lda .currentSeed
+	asl
+	asl
+	asl
+	asl
+	ora .currentSeed + 1
+	sta $eb
+	lda .currentSeed + 2
+	asl
+	asl
+	asl
+	asl
+	ora .currentSeed + 3
+	sta $ec
+
+	; Return back to the game init with expected X=$ff
+	ldx #$ff
+	jmp $3891
+.ll1 jmp .l1
+
+.hexTab !scr "0123456789abcdef"
+.currentSeed !by 0 , 0 , 0 , 0	; Four nybbles
+.nybbleIndex !by 0
+
+
+!if * > $800 {
+!error "Code does not fit in empty space"
+}
+
+; Patch game NMI entry
+* = $388c
+	jmp StartSetSeed
+
+; Patch random number generator to remove raster position
+* = $82f0
+	dec $eb
+	nop
