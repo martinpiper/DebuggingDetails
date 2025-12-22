@@ -27,8 +27,8 @@ MainLoad_StartLoadingFilename = 5
 
 !disablesegmentcheck
 
-MusicStart = $8ce 
-MusicPlay = $93d 
+MusicStart = $8ce
+MusicPlay = $93d
 
 * = $a000
 	lda #ProcessorPortAllRAMWithIO

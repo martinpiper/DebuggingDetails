@@ -21,3 +21,16 @@ $4ae entry
 
 .C:00fc  E6 E0       INC $E0
 .C:00fe  60          RTS
+
+
+
+$bed9 seems to be "say thing from X" where X = 1,2,3,4,5 ish , not 0
+	$bf21 return
+$bed8 = Say particular thing location
+$880 = Say routine using A, which was X
+	It seems to read one or more 4 byte table entries, with some command byte values
+		@ $c2f and $cc0
+		Command byte values test @$c2f  $ff $fe $fd
+			Otherwise loads 4 bytes from table ROL ROL x4 from ind($cfe) = $e000
+		@ $cc0 seems to trigger once per whole sentence, twice for the game intro
+
