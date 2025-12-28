@@ -45,3 +45,68 @@ al 177d .PreDrawLines2
 al 3f6b .ColourRAMDelta
 
 > 173e 0f
+
+
+Revisited...
+c:\temp\scrm.vsf
+
+al f32e .DrawMapChunkXY
+al f2f6 .MapDraw
+al f386 .PrepareAndDrawMapForView
+al f404 .MapViewRotation	
+al cfde .MapViewWaitForKeyboardInput
+al 125 .MapDrawRotationY
+al 103 .MapDrawXLo
+al 104 .MapDrawYLo
+al 105 .MapDrawZLo
+al 106 .MapDrawXHi
+al 107 .MapDrawYHi
+al 108 .MapDrawZHi
+al c640 .ScreenColumnHeightDrawn
+
+
+>> Stops the view rotation
+a f386 lda #0
+nop
+
+>> Remove wait for key and skip map view render
+f 3c83 3c87 ea
+
+
+$106 Coarse X pos
+$f39f coarse Y pos	>> $107
+$108 Coarse Z pos
+$103 fine X pos
+$f3a4 fine Y pos	>> $104
+$105 fine Z pos
+
+$c640 height table for 0-$7f init to $c0, seems to be the case
+
+>> Skip code update during map draw
+a f3d9 jmp f3e8
+a f3f0 rts
+
+>> Skip map draw coordinate setup entirely
+>> scrm no wait no coordinate setup.vsf
+a f386 jmp f3a8
+
+$125 = Y rotation
+
+
+At f36f A = Model chunk index after screen boundary checks
+	A = 06 shows a part near the camera
+
+
+In .PreDrawLines2
+f02f X = model index
+49c , X	?
+$b120 $b121 X*2 index lo/hi for ?
+4ea , X ?
+
+
+For model 0B
+references indirect...
+	b2fe
+	
+
+a02f = transform read?
