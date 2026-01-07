@@ -1,40 +1,42 @@
 ; C64Ultimate open side border code, that doesn't use any IRQ/NMI/timer. Instead it jusy busy waits with suitable delays.
 ; This demonstrates just the CPU is plenty fast enough for the "cycle accurate VIC timing" needed for open side borders.
 ; Execute at 64MHz without badlines.
-; ..\c64\acme.exe -v9 -f cbm -o c:\temp\t.prg C64UltimateSimpleOpenSideBorders.a && ..\c64\bin\LZMPi.exe -pp $37 -c64mbu c:\temp\t.prg c:\temp\t.prg $400 && curl --request POST --data-binary "@C:\temp\t.prg" http://c64u/v1/runners:run_prg
+; ..\c64\acme.exe --lib ../C64/ -v9 -f cbm -o c:\temp\t.prg C64UltimateSimpleOpenSideBorders.a && ..\c64\bin\LZMPi.exe -pp $37 -c64mbu c:\temp\t.prg c:\temp\t.prg $400 && curl --request POST --data-binary "@C:\temp\t.prg" http://c64u/v1/runners:run_prg
+
+!source "stdlib/stdlib.a"
 
 * = $400
 	sei
 	clc
 	; Setup sprites to be visible
 	lda #%11111111
-	sta $d015
+	sta VIC2SpriteEnable
 	; Sprites Y pos
 	lda #100
 !for .i , 4 {
-	sta $d001 + (.i-1)*2
-	sta $d009 + (.i-1)*2
+	sta VIC2Sprite0Y + (.i-1)*2
+	sta VIC2Sprite4Y + (.i-1)*2
 	adc #21
 }
-	lda #0
-	ldx #1
+	lda #VIC2Colour_Black
+	ldx #VIC2Colour_White
 !for .i , 4 {
-	sta $d027 + (.i-1) * 2
-	stx $d028 + (.i-1) * 2
+	sta VIC2Sprite0Colour + (.i-1) * 2
+	stx VIC2Sprite1Colour + (.i-1) * 2
 }
 	
 	lda #0
 !for .i , 4 {
-	sta $d000 + (.i-1)*2
+	sta VIC2Sprite0X + (.i-1)*2
 	adc #8
 }
 	lda #72
 !for .i , 4 {
-	sta $d008 + (.i-1)*2
+	sta VIC2Sprite4X + (.i-1)*2
 	adc #8
 }
 	lda #%11110000
-	sta $d010
+	sta VIC2SpriteXMSB
 	
 	; Open side borders, with screen colour change to show the position
 .l1
@@ -66,7 +68,7 @@
 	
 WaitRaster
 .wl1
-	cpy $d012
+	cpy VIC2Raster
 	bne .wl1
 	rts
 
@@ -96,12 +98,12 @@ Delay3
 	rts
 
 OpenSideBorder
-	dec $d021
-	dec $d016
+	dec VIC2ScreenColour
+	dec VIC2ScreenControlH
 	ldx #8
 	jsr Delay1
-	inc $d021
-	inc $d016
+	inc VIC2ScreenColour
+	inc VIC2ScreenControlH
 	rts
 
 !for .i , 40 {
