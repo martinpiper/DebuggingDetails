@@ -1,0 +1,325 @@
+; C64Ultimate demonstrates mega multicolour mode (MMM).
+; Execute at 64MHz without badlines.
+; ..\c64\acme.exe --lib ../C64/ -v9 -f cbm -o c:\temp\t.prg C64UltimateMegaMulticolour.a && ..\c64\bin\LZMPi.exe -pp $35 -c64mbu c:\temp\t.prg c:\temp\t.prg $800 && curl --request POST --data-binary "@C:\temp\t.prg" http://c64u/v1/runners:run_prg
+
+; To convert images:
+; C:\Downloads\ImageMagick-7.0.7-4-portable-Q16-x64\magick.exe "C:\Users\marti\Pictures\AH_KingTut_aga_cropped.png" -resize 256x200! -remap "C:\work\c64\CharPack\Palette.bmp" c:\temp\out.png
+; C:\Downloads\ImageMagick-7.0.7-4-portable-Q16-x64\magick.exe "C:\Users\marti\Pictures\AH_Eye resized.png" -resize 256x200! -remap "C:\work\c64\CharPack\Palette.bmp" c:\temp\out.png
+; C:/Work/C64/SimpleImageConvert/main.py C:\work\c64\CharPack\Palette.bmp c:\temp\out.png c:\temp\out.bin
+
+!initmem ' '
+
+!source "stdlib/stdlib.a"
+
+* = $200
++SpriteLine %........................
++SpriteLine %.#......................
++SpriteLine %.##.....................
++SpriteLine %.###....................
++SpriteLine %.####...................
++SpriteLine %.#####..................
++SpriteLine %.######.................
++SpriteLine %.#######................
++SpriteLine %.########...............
++SpriteLine %.#########..............
++SpriteLine %.########...............
++SpriteLine %.######.................
++SpriteLine %.######.................
++SpriteLine %.##..##.................
++SpriteLine %.#....##................
++SpriteLine %......##................
++SpriteLine %.......##...............
++SpriteLine %.......##...............
++SpriteLine %........##..............
++SpriteLine %........##..............
++SpriteLine %........................
+!byte 0
+
++SpriteLine %########################
++SpriteLine %########################
++SpriteLine %###..................###
++SpriteLine %###..................###
++SpriteLine %###..................###
++SpriteLine %###..................###
++SpriteLine %###..................###
++SpriteLine %###..................###
++SpriteLine %###.......###........###
++SpriteLine %###......#####.......###
++SpriteLine %###......#####.......###
++SpriteLine %###......#####.......###
++SpriteLine %###.......###........###
++SpriteLine %###..................###
++SpriteLine %###..................###
++SpriteLine %###..................###
++SpriteLine %###..................###
++SpriteLine %###..................###
++SpriteLine %###..................###
++SpriteLine %########################
++SpriteLine %########################
+!byte 0
+
++SpriteLine %########################
++SpriteLine %########################
++SpriteLine %####.......##.......####
++SpriteLine %###.#......##......#.###
++SpriteLine %###..#.....##.....#..###
++SpriteLine %###...#....##....#...###
++SpriteLine %###....#...##...#....###
++SpriteLine %###.....#..##..#.....###
++SpriteLine %###......######......###
++SpriteLine %###......#####.......###
++SpriteLine %########################
++SpriteLine %###......#####.......###
++SpriteLine %###......#####.......###
++SpriteLine %###.....#..#..#......###
++SpriteLine %###....#...#...#.....###
++SpriteLine %###...#....#....#....###
++SpriteLine %###..#.....#.....#...###
++SpriteLine %###.#......#......#..###
++SpriteLine %####.......#.......#.###
++SpriteLine %########################
++SpriteLine %########################
+!byte 0
+
+* = SCREENRAM + (VIC2ScreenCharsWidth * 0)
+	!scr "c64ultimate mega multicolour mode (mmm)"
+	
+* = SCREENRAM + (VIC2ScreenCharsWidth * 1)
+	!fill 40 , '*'
+
+
+* = SCREENRAM + (VIC2ScreenCharsWidth * 2)
+	!scr "this is the normal screen"
+
+* = SCREENRAM + (VIC2ScreenCharsWidth * 8) + 5
+	!scr "nothing special here"
+
+* = SCREENRAM + (VIC2ScreenCharsWidth * 10) + 10
+	!scr "apart from the background"
+
+* = SCREENRAM + (VIC2ScreenCharsWidth * 15)
+	!scr "background has all 16 colours"
+* = SCREENRAM + (VIC2ScreenCharsWidth * 16)
+	!scr "without restrictions"
+* = SCREENRAM + (VIC2ScreenCharsWidth * 18)
+	!scr "and it can scroll"
+
+* = SCREENRAM + (VIC2ScreenCharsWidth * 24) + 2
+	!scr "code by martin piper"
+
+; Sprite pointers, using the code as sprite frame data
+* = $7f8
+	!by 8,9,10,8,9,10,8,9
+
+* = $800
+	sei
+	clc
+	ldx #0
+.clr1
+	txa
+	sta COLOURRAM + VIC2ScreenCharsWidth,x
+	sta COLOURRAM + $100,x
+	sta COLOURRAM + $200,x
+	sta COLOURRAM + $300,x
+	inx
+	bne .clr1
+	; Setup sprites to be visible
+	lda #%11111111
+;	lda #0
+	sta VIC2SpriteEnable
+	; Sprites Y pos
+	lda #100
+!for .i , 4 {
+	sta VIC2Sprite0Y + (.i-1)*2
+	sta VIC2Sprite4Y + (.i-1)*2
+	adc #21
+}
+	lda #VIC2Colour_Green
+	ldx #VIC2Colour_White
+!for .i , 4 {
+	sta VIC2Sprite0Colour + (.i-1) * 2
+	stx VIC2Sprite1Colour + (.i-1) * 2
+}
+	
+	lda #20
+!for .i , 4 {
+	sta VIC2Sprite0X + (.i-1)*2
+	adc #8
+}
+	lda #22
+!for .i , 4 {
+	sta VIC2Sprite4X + (.i-1)*2
+	adc #8
+}
+;	lda #%11110000
+	lda #0
+	sta VIC2SpriteXMSB
+	
+.l1
+	lda VIC2ScreenControlV
+	bmi .l1
+	+MWordValueToAddress_A MegaScreenData , $fb
+	+MByteValueToAddress_A VIC2SpriteYBorderTop + 8 , $fd
+.l2
+	lda $fd
+	jsr WaitRaster
+	
+.smpx = *+1
+	ldy #0
+
+	; Even though "bad lines" are turned off, there seems to be 40 cycles at 64 MHz used for the line fetch.
+	; At least it's not 40 cycles at 1MHz, which would be much longer in terms of time.
+	and #%111
+	cmp #3
+	beq .isBadLine
+
+	jsr RenderMegaLine
+	jmp .l3
+
+.isBadLine
+
+	jsr RenderMegaLineBad
+
+.l3
+;	+MAddU8ToAddr16 160 , $fb , $fc
+	inc $fc
+
+	inc $fd
+	lda $fd
+	cmp #VIC2SpriteYBorderBottom - 8
+	bne .l2
+
+	inc VIC2Sprite0X
+	inc VIC2Sprite1X
+	inc VIC2Sprite2X
+	inc VIC2Sprite3X
+	dec VIC2Sprite4X
+	dec VIC2Sprite5X
+	dec VIC2Sprite6X
+	dec VIC2Sprite7X
+	
+.smdir = *+1
+	lda #0
+	beq .inc
+
+	dec .smpx
+	beq .switchDir
+	jmp .ol1
+.inc
+	inc .smpx
+	lda .smpx
+	cmp #256-160-1
+	bne .ol1
+.switchDir
+	lda .smdir
+	eor #1
+	sta .smdir
+.ol1
+
+	jmp .l1
+
+	
+WaitRaster
+.wl1
+	cmp VIC2Raster
+	bne .wl1
+	rts
+
+
+Delay1
+.delay
+	dex
+	bne .delay
+	rts
+
+Delay2
+.delay2
+!for .i , 5 {
+	nop
+}
+	dex
+	bne .delay2
+	rts
+
+Delay3
+.delay3
+!for .i , 2 {
+	nop
+}
+	dex
+	bne .delay3
+	rts
+
+kStartLineDelay = 62
+
+!align 255 , 0
+!zn
+RenderMegaLine
+	ldx #kStartLineDelay
+	jsr Delay2
+
+!for .i , 7 {
+	nop
+}
+	bit $02
+
+;	ldy #0
+
+!for .i , 160 {
+	lda ($fb),y					; 5+	; 5
+	sta VIC2ScreenColour		; 4		; 9
+	iny							; 2		; 11
+	nop							; 2		; 13
+	bit $44						; 3		; 16
+}
+	+MByteValueToAddress_A VIC2Colour_Blue , VIC2ScreenColour
+
+	rts
+
+!zn
+RenderMegaLineBad
+	ldx #kStartLineDelay
+	jsr Delay2
+
+!for .i , 6 {
+	nop
+}
+
+;	ldy #0
+
+!for .i , 160 {
+	lda ($fb),y					; 5+	; 5
+	sta VIC2ScreenColour		; 4		; 9
+	iny							; 2		; 11
+	nop							; 2		; 13
+!if (.i & 3) = 0 {
+	nop							; 2		; 15
+} else {
+	bit $44						; 3		; 16
+}
+}
+	+MByteValueToAddress_A VIC2Colour_Blue , VIC2ScreenColour
+
+	rts
+
+!align 255,0
+MegaScreenData
+!if 1 {
+!bin "c:\temp\out.bin" ,, 4
+}
+
+!if 0 {
+!for .y , 200 {
+* = MegaScreenData + ((.y-1) * $100)
+!bin "c:\temp\out.bin" ,160, 4 + ((.y-1) * 160)
+}
+}
+
+!if 0 {
+!for .y , 200 {
+!for .x , 256 {
+;	!by <(.x + .y)
+	!by <(.x)
+}
+}
+}
