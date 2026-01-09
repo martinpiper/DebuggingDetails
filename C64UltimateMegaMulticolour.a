@@ -1,6 +1,6 @@
 ; C64Ultimate demonstrates mega multicolour mode (MMM).
 ; Execute at 64MHz without badlines.
-; ..\c64\acme.exe --lib ../C64/ -v9 -f cbm -o c:\temp\t.prg C64UltimateMegaMulticolour.a && ..\c64\bin\LZMPi.exe -pp $35 -c64mbu c:\temp\t.prg c:\temp\t.prg $800 && curl --request POST --data-binary "@C:\temp\t.prg" http://c64u/v1/runners:run_prg
+; ..\c64\acme.exe --lib ../C64/ -v9 -f cbm -o c:\temp\t.prg C64UltimateMegaMulticolour.a && ..\c64\bin\LZMPi.exe -pp $35 -c64mbu c:\temp\t.prg c:\temp\t.prg $e000 && curl --request POST --data-binary "@C:\temp\t.prg" http://c64u/v1/runners:run_prg
 
 ; To convert images:
 ; C:\Downloads\ImageMagick-7.0.7-4-portable-Q16-x64\magick.exe "C:\Users\marti\Pictures\AH_KingTut_aga_cropped.png" -resize 256x200! -remap "C:\work\c64\CharPack\Palette.bmp" c:\temp\out.png
@@ -10,6 +10,7 @@
 !initmem ' '
 
 !source "stdlib/stdlib.a"
+!source "stdlib/LongBranches.a"
 
 * = $200
 +SpriteLine %........................
@@ -111,9 +112,10 @@
 * = $7f8
 	!by 8,9,10,8,9,10,8,9
 
-* = $800
+* = $e000
 	sei
 	clc
+	cld
 	ldx #0
 .clr1
 	txa
@@ -123,6 +125,7 @@
 	sta COLOURRAM + $300,x
 	inx
 	bne .clr1
+
 	; Setup sprites to be visible
 	lda #%11111111
 ;	lda #0
@@ -154,18 +157,30 @@
 ;	lda #%11110000
 	lda #0
 	sta VIC2SpriteXMSB
+	jmp .l1
 	
+!align 255 , 0 
 .l1
 	lda VIC2ScreenControlV
 	bmi .l1
 	+MWordValueToAddress_A MegaScreenData , $fb
-	+MByteValueToAddress_A VIC2SpriteYBorderTop + 8 , $fd
+	+MByteValueToAddress_A VIC2SpriteYBorderTop + 9, $fd
+	+MByteValueToAddress_A >MegaScreenData, $fe
+	+MByteValueToAddress_A 0, $fb
+	jsr CalcLinePosY
 .l2
 	lda $fd
 	jsr WaitRaster
-	
+
 .smpx = *+1
-	ldy #0
+	lda #0
+	clc
+	adc $fd
+	tay
+	lda SinTab,y
+	sec
+	adc .smpx
+	tay
 
 	; Even though "bad lines" are turned off, there seems to be 40 cycles at 64 MHz used for the line fetch.
 	; At least it's not 40 cycles at 1MHz, which would be much longer in terms of time.
@@ -184,47 +199,94 @@
 ;	+MAddU8ToAddr16 160 , $fb , $fc
 	inc $fc
 
+	jsr CalcLinePosY
+
 	inc $fd
 	lda $fd
 	cmp #VIC2SpriteYBorderBottom - 8
 	bne .l2
+	
+!if >* != >.l1 {
+	!error ".l1 to here must be in the same page"
+}
 
 	inc VIC2Sprite0X
+	inc VIC2Sprite0X
+	inc VIC2Sprite1X
+	inc VIC2Sprite1X
 	inc VIC2Sprite1X
 	inc VIC2Sprite2X
+	inc VIC2Sprite2X
+	inc VIC2Sprite2X
+	inc VIC2Sprite2X
+	inc VIC2Sprite3X
 	inc VIC2Sprite3X
 	dec VIC2Sprite4X
 	dec VIC2Sprite5X
 	dec VIC2Sprite6X
 	dec VIC2Sprite7X
+
+	+MACROWaitForTheLastScan_A
+
+	inc VIC2BorderColour
+	inc .scrollXPos
+	lda .scrollXPos
+	and #7
+	sta .scrollXPos
+	sta VIC2ScreenControlH
+	+lbne .scl1
+!for .yy , VIC2ScreenCharsHeight {
+!set .y = .yy-1
+	lda SCREENRAM + (.y * VIC2ScreenCharsWidth) + VIC2ScreenCharsWidth-1
+	pha
+	lda COLOURRAM + (.y * VIC2ScreenCharsWidth) + VIC2ScreenCharsWidth-1
+	pha
+	ldx #VIC2ScreenCharsWidth-2
+!set .csl1 = *
+	lda SCREENRAM + (.y * VIC2ScreenCharsWidth),x
+	sta SCREENRAM + (.y * VIC2ScreenCharsWidth)+1,x
+	lda COLOURRAM + (.y * VIC2ScreenCharsWidth),x
+	sta COLOURRAM + (.y * VIC2ScreenCharsWidth)+1,x
+	dex
+	bpl .csl1
+	pla
+	sta COLOURRAM + (.y * VIC2ScreenCharsWidth)
+	pla
+	sta SCREENRAM + (.y * VIC2ScreenCharsWidth)
+}
+.scl1
+	dec VIC2BorderColour
 	
-.smdir = *+1
-	lda #0
-	beq .inc
-
-	dec .smpx
-	beq .switchDir
-	jmp .ol1
-.inc
 	inc .smpx
-	lda .smpx
-	cmp #256-160-1
-	bne .ol1
-.switchDir
-	lda .smdir
-	eor #1
-	sta .smdir
-.ol1
-
 	jmp .l1
 
-	
+.scrollXPos !by 0
+
+CalcLinePosY
+	ldy .smpx
+	lda SinTab2,y
+	clc
+	adc $fe
+	cmp #(>MegaScreenData)+200
+	bcc .ok1
+	sec
+	sbc #(>MegaScreenData)+200
+.ok1
+	cmp #>MegaScreenData
+	bcs .ok2
+	clc
+	adc #>MegaScreenData
+.ok2
+	sta $fc
+	inc $fe
+	rts
+
+!align 255,0
 WaitRaster
 .wl1
 	cmp VIC2Raster
 	bne .wl1
 	rts
-
 
 Delay1
 .delay
@@ -249,10 +311,12 @@ Delay3
 	dex
 	bne .delay3
 	rts
+!if >* != >WaitRaster {
+	!error "WaitRaster to here must be in the same page"
+}
 
-kStartLineDelay = 62
+kStartLineDelay = 65
 
-!align 255 , 0
 !zn
 RenderMegaLine
 	ldx #kStartLineDelay
@@ -275,7 +339,7 @@ RenderMegaLine
 	+MByteValueToAddress_A VIC2Colour_Blue , VIC2ScreenColour
 
 	rts
-
+	
 !zn
 RenderMegaLineBad
 	ldx #kStartLineDelay
@@ -302,7 +366,18 @@ RenderMegaLineBad
 
 	rts
 
-!align 255,0
+!align 255 , 0
+SinTab
+!for .i , 256 {
+	!by 64 + (64 * cos( (float(.i) / 128) * 3.14159265 ))
+}
+SinTab2
+!for .i , 256 {
+	!by 32 + (32 * sin( (float(.i) / 128) * 3.14159265 ))
+}
+
+
+* = $800
 MegaScreenData
 !if 1 {
 !bin "c:\temp\out.bin" ,, 4
