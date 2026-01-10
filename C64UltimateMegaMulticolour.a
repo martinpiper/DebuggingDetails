@@ -175,8 +175,10 @@
 	
 !align 255 , 0 
 .l1
+	+MByteValueToAddress_A VIC2Colour_Blue , VIC2BorderColour
+.l12
 	lda VIC2ScreenControlV
-	bmi .l1
+	bmi .l12
 	+MWordValueToAddress_A MegaScreenData , $fb
 	+MByteValueToAddress_A VIC2SpriteYBorderTop + 9, $fd
 	+MByteValueToAddress_A >MegaScreenData, $fe
@@ -243,6 +245,12 @@
 	+MACROWaitForTheLastScan_A
 
 	inc VIC2BorderColour
+	; Play Apex music
+	jsr label_093d
+
+	inc VIC2BorderColour
+
+	inc VIC2BorderColour
 	inc .scrollXPos
 	lda .scrollXPos
 	and #7
@@ -269,19 +277,18 @@
 	sta SCREENRAM + (.y * VIC2ScreenCharsWidth)
 }
 .scl1
-	dec VIC2BorderColour
 	
 	inc .smpx
-	
-	; Play Apex music
-	jsr label_093d
 	
 	jmp .l1
 
 .scrollXPos !by 0
 
 CalcLinePosY
-	ldy .smpx
+	lda .smpx
+	clc
+	adc $fe
+	tay
 	lda SinTab2,y
 	clc
 	adc $fe
