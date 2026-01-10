@@ -1,6 +1,14 @@
 ; C64Ultimate demonstrates mega multicolour mode (MMM).
 ; Execute at 64MHz without badlines.
-; ..\c64\acme.exe --lib ../C64/ -v9 -f cbm -o c:\temp\t.prg C64UltimateMegaMulticolour.a && ..\c64\bin\LZMPi.exe -pp $35 -c64mbu c:\temp\t.prg c:\temp\t.prg $e000 && curl --request POST --data-binary "@C:\temp\t.prg" http://c64u/v1/runners:run_prg
+; ..\c64\acme.exe --lib ../BDD6502/ --lib ../C64/ -v9 -f cbm -o C64UltimateMegaMulticolour.prg C64UltimateMegaMulticolour.a && ..\c64\bin\LZMPi.exe -pp $35 -c64mbu C64UltimateMegaMulticolour.prg C64UltimateMegaMulticolour.prg $e000 && curl --request POST --data-binary "@C64UltimateMegaMulticolour.prg" http://c64u/v1/runners:run_prg http://c64u/v1/runners:run_prg
+
+; To reset the machine
+; curl --request PUT http://c64u/v1/machine:reset
+
+; To setup the machine for 64MHz manual control with bad lines disabled:
+; curl --request PUT http://c64u/v1/configs/U64%20Specific%20Settings/CPU%20Speed?value=64
+; curl --request PUT http://c64u/v1/configs/U64%20Specific%20Settings/Turbo%20Control?value=Manual
+; curl --request PUT http://c64u/v1/configs/U64%20Specific%20Settings/Badline%20Timing?value=Disabled
 
 ; To convert images:
 ; C:\Downloads\ImageMagick-7.0.7-4-portable-Q16-x64\magick.exe "C:\Users\marti\Pictures\AH_KingTut_aga_cropped.png" -resize 256x200! -remap "C:\work\c64\CharPack\Palette.bmp" c:\temp\out.png
@@ -125,6 +133,12 @@
 	sta COLOURRAM + $300,x
 	inx
 	bne .clr1
+
+	; Init Apex music
+	lda #<label_837d
+	ldx #>label_837d
+	jsr label_08ce
+
 
 	; Setup sprites to be visible
 	lda #%11111111
@@ -258,6 +272,10 @@
 	dec VIC2BorderColour
 	
 	inc .smpx
+	
+	; Play Apex music
+	jsr label_093d
+	
 	jmp .l1
 
 .scrollXPos !by 0
@@ -376,6 +394,8 @@ SinTab2
 	!by 32 + (32 * sin( (float(.i) / 128) * 3.14159265 ))
 }
 
+!source "features\MinPlay_SID.a"
+!source "ApexMusic.a"
 
 * = $800
 MegaScreenData
