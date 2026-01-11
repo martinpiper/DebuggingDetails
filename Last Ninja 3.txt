@@ -1,0 +1,28 @@
+771b draw map to screen, during object draw...
+74d0 next level out
+
+7577 seems to be draw a bitmap char cell 4x8 pixels...
+6e47 DrawMap
+	Uses $e3
+Video $cc00, Bitmap $e000 (RAM)
+
+al 6e47 .DrawMap
+al 6e4f .ClearGameScreen
+al 71f9 .DrawMapWithA
+al 732f .DrawMapObject
+	DrawMapObject with $a0 $a1 position
+
+
+@$7234 $ff seems to be an end of object list marker?
+@$72d7 16 byte entry?
+
+@$7445 start drawing object?
+	Y seems to be the object width counter...
+@$7380 seems to be near the start of an object draw in the map...
+
+
+a 5600 sei
+lda #0
+sta $e3
+jsr 6e47
+jmp 5600

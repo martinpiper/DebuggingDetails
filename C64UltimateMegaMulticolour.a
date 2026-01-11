@@ -90,6 +90,29 @@
 +SpriteLine %########################
 !byte 0
 
++SpriteLine %########################
++SpriteLine %########################
++SpriteLine %########################
++SpriteLine %########################
++SpriteLine %########################
++SpriteLine %########################
++SpriteLine %########################
++SpriteLine %########################
++SpriteLine %########################
++SpriteLine %########################
++SpriteLine %########################
++SpriteLine %########################
++SpriteLine %########################
++SpriteLine %########################
++SpriteLine %########################
++SpriteLine %########################
++SpriteLine %########################
++SpriteLine %########################
++SpriteLine %########################
++SpriteLine %########################
++SpriteLine %########################
+!byte 0
+
 * = SCREENRAM + (VIC2ScreenCharsWidth * 0)
 	!scr "c64ultimate mega multicolour mode (mmm)"
 	
@@ -118,7 +141,7 @@
 
 ; Sprite pointers, using the code as sprite frame data
 * = $7f8
-	!by 8,9,10,8,9,10,8,9
+	!by 8,9,10,11,8,9,10,11
 
 * = $e000
 	sei
@@ -216,6 +239,7 @@
 	inc $fc
 
 	jsr CalcLinePosY
+	jsr CalcSpriteLine
 
 	inc $fd
 	lda $fd
@@ -225,22 +249,6 @@
 !if >* != >.l1 {
 	!error ".l1 to here must be in the same page"
 }
-
-	inc VIC2Sprite0X
-	inc VIC2Sprite0X
-	inc VIC2Sprite1X
-	inc VIC2Sprite1X
-	inc VIC2Sprite1X
-	inc VIC2Sprite2X
-	inc VIC2Sprite2X
-	inc VIC2Sprite2X
-	inc VIC2Sprite2X
-	inc VIC2Sprite3X
-	inc VIC2Sprite3X
-	dec VIC2Sprite4X
-	dec VIC2Sprite5X
-	dec VIC2Sprite6X
-	dec VIC2Sprite7X
 
 	+MACROWaitForTheLastScan_A
 
@@ -279,6 +287,7 @@
 .scl1
 	
 	inc .smpx
+	dec .smtp1
 	
 	jmp .l1
 
@@ -304,6 +313,65 @@ CalcLinePosY
 .ok2
 	sta $fc
 	inc $fe
+	rts
+
+CalcSpriteLine
+	lda $fd
+	and #%11
+	bne .notYet
+	lda $fd
+	clc
+	adc #1
+	sta VIC2Sprite0Y
+	sta VIC2Sprite1Y
+	sta VIC2Sprite2Y
+	sta VIC2Sprite3Y
+	sta VIC2Sprite4Y
+	sta VIC2Sprite5Y
+	sta VIC2Sprite6Y
+	sta VIC2Sprite7Y
+.notYet
+	; Update all sprite colours, every line
+	lda $fd
+	sta VIC2Sprite0Colour
+	sta VIC2Sprite1Colour
+	sta VIC2Sprite2Colour
+	sta VIC2Sprite3Colour
+	eor #$ff
+	sta VIC2Sprite4Colour
+	sta VIC2Sprite5Colour
+	sta VIC2Sprite6Colour
+	sta VIC2Sprite7Colour
+	
+	lda #0
+	sta $ff
+.smtp1 = *+1
+	lda #0
+	clc
+	adc $fd
+	tax
+	lda SinTab,x
+	sec
+	sbc .smpx
+	sta $fa
+!macro MSpriteXPosCalc .reg , .offset {
+	lda $fa
+	clc
+	adc #.offset
+	asl
+	sta .reg
+	ror $ff
+}
+	+MSpriteXPosCalc VIC2Sprite0X , 0
+	+MSpriteXPosCalc VIC2Sprite1X , 20
+	+MSpriteXPosCalc VIC2Sprite2X , 40
+	+MSpriteXPosCalc VIC2Sprite3X , 60
+	+MSpriteXPosCalc VIC2Sprite4X , 80
+	+MSpriteXPosCalc VIC2Sprite5X , 100
+	+MSpriteXPosCalc VIC2Sprite6X , 120
+	+MSpriteXPosCalc VIC2Sprite7X , 140
+	lda $ff
+	sta VIC2SpriteXMSB
 	rts
 
 !align 255,0
