@@ -4,6 +4,8 @@
 
 ; To reset the machine
 ; curl --request PUT http://c64u/v1/machine:reset
+; Power off
+; curl --request PUT http://c64u/v1/machine:poweroff
 
 ; To setup the machine for 64MHz manual control with bad lines disabled:
 ; curl --request PUT http://c64u/v1/configs/U64%20Specific%20Settings/CPU%20Speed?value=64
