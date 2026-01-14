@@ -26,3 +26,27 @@ lda #0
 sta $e3
 jsr 6e47
 jmp 5600
+
+
+
+
+703e perhaps the start of the code the redraws after a player "unalives" themselves? :)
+	1 = $35 All RAM with IO
+7041 sword comes down
+7044 lives remaining and sword comes up
+7047 init and other work before map draw?
+	Nothing stores into $e3
+
+a 5600 sei
+lda #0
+sta $e3
+jsr 7047
+jmp 5600
+
+Map 0 - $b
+
+7b1c  A5 C0       LDA $C0            - A:00 X:ff Y:00 SP:f8   -  IZC
+7b1e  8D 21 D0    STA $D021
+This sets the colour for the bitmap background during the game display.
+The bitmap background is then black for the lower portion of the display.
+
