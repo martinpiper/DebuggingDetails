@@ -50,3 +50,41 @@ Map 0 - $b
 This sets the colour for the bitmap background during the game display.
 The bitmap background is then black for the lower portion of the display.
 
+
+
+label_0804 * screen * 2 = Background colour
+label_0803 * screen * 2 = index into label_0843/label_0844 or label_0943/label_0944 lo/hi tables
+
+>C:2d24  17 18 19 6a  0e 1c 6a 16  1a 75 0e 1c  75 16 1a 6a   ...j..j..u..u..j
+>C:2d34  1e 18 75 1e  18 6a 26 16  75 26 16 6b  0e 1a 71 90   ..u..j&.u&.k..q.
+>C:2d44  5d bc af 71  9c 5a bc af  62 28 3d 0c  48 a8 19 47   ]..q.Z..b(=.H..G
+>C:2d54  2b 19 4d 2a  1a 77 1d 15  77 13 0e 4a  24 1a 67 29   +.M*.w..w..J$.g)
+>C:2d64  11 31 29 0f  70 1a 0c 70  1e 0d 6e 21  10 70 25 0d   .1).p..p..n!.p%.
+>C:2d74  70 21 0c 36  29 0e 36 a5  4e 09 bc 36  a1 4d 09 bc   p!.6).6.N..6.M..
+>C:2d84  37 29 0d 37  a5 4d bc af  6b 1e 15 6b  16 13 76 22   7).7.M..k..k..v"
+>C:2d94  15 6b 0f 13  76 12 1a 33  17 1b 6c 13  11 75 13 11   .k..v..3..l..u..
+>C:2da4  6f 16 0c 6f  12 0d 60 12  0d 25 15 0c  24 9c 4c 09
+
+Seems to use the Y=2 $20 bit...
+>C:2e64  65 0e 2f a0  65 12 2e a0  ff
+
+2e67 ($a0) is accessed by what?
+	$731a
+	Seems to be the top two bits after shift << 4?
+	So $2f means X = 1 which means load 1 extra value
+	Also $6e means X = 3
+	Which seems to remap the low/hi colour nybble values
+	
+
+Byte offset:	Calculation:
+0				Type index...
+1				& $80	=> $c6 ??
+1				& $40	=> After drawing pixels...???
+						Casues add and extra 1 at $7265 ?!?? during the +3 calculation...!??!
+				& $3f	- $0e	(xpos)
+2				& $1f	- $0e	(ypos)
+				& $20 | $40	=> Colour remap (or force) low/hi nybble colours...
+					$20 = 1
+					$40 = 2
+					$60 = 3
+					
