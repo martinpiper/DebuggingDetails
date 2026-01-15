@@ -67,6 +67,12 @@ label_0803 * screen * 2 = index into label_0843/label_0844 or label_0943/label_0
 
 Seems to use the Y=2 $20 bit...
 >C:2e64  65 0e 2f a0  65 12 2e a0  ff
+Seems to use the Y=2 $20 bit...
+>C:2e82  18 11 30 cb
+Seems to use the Y=2 $60 bits... which adds 3 bytes to the data
+And the Y=1 $80 bit, which does not add anything to the data
+>C:2cf7  31 8e 6e 09  bc af
+
 
 2e67 ($a0) is accessed by what?
 	$731a
@@ -78,9 +84,9 @@ Seems to use the Y=2 $20 bit...
 
 Byte offset:	Calculation:
 0				Type index...
-1				& $80	=> $c6 ??
+1				& $80	=> $c6 Flip X
 1				& $40	=> After drawing pixels...???
-						Casues add and extra 1 at $7265 ?!?? during the +3 calculation...!??!
+						Casues add and extra 1 at $7265 ($7253) ?!?? during the +3 calculation...!??!
 				& $3f	- $0e	(xpos)
 2				& $1f	- $0e	(ypos)
 				& $20 | $40	=> Colour remap (or force) low/hi nybble colours...
@@ -88,3 +94,91 @@ Byte offset:	Calculation:
 					$40 = 2
 					$60 = 3
 					
+
+To test Y=1 bit $80 and $40
+> 2d25 d8
+w 2d25
+w c6
+>> Using $40 doesn't seem to cause any extra access, but does seem to cause the map to not render correctly...
+
+
+
+$96 = ? Added during X pos read
+
+
+
+If the label_0844/label_0944 hi value is negative ($80 set) it seems to go straight to the block draw?
+	Otherwise if it's positive it seems to stack the current draw context. $b3 seems to be the stack depth...
+	$72a8 is the decision point
+	For example...
+	>C:2e0e  70 14 16 70  10 15
+
+
+$7232 start of map object read, end of list check.
+$7273 read X pos
+$7294 read object index/type, which reads from lo/hi tables label_0843/label_0844 or label_0943/label_0944
+$72d7 read object data... Seems to decode pixel colours directly into $b1 $b2, first byte seems be to XY as nybbles, size for the object, then pixel data, then colours for the chars...
+
+First object drawn... Gravel/pebbles...
+7294  B1 7E       LDA ($7E),Y        - A:0b X:24 Y:00 SP:fb   -   Z
+7296  0A          ASL A              - A:17 X:24 Y:00 SP:fb   -
+7297  A8          TAY                - A:2e X:24 Y:00 SP:fb   -
+7298  B0 08       BCS $72A2          - A:2e X:24 Y:2e SP:fb   -
+729a  BE 43 08    LDX $0843,Y        - A:2e X:24 Y:2e SP:fb   -
+729d  B9 44 08    LDA $0844,Y        - A:2e X:70 Y:2e SP:fb   -
+72a0  90 06       BCC $72A8          - A:90 X:70 Y:2e SP:fb N -
+72a8  30 25       BMI $72CF          - A:90 X:70 Y:2e SP:fb N -
+72cf  29 7F       AND #$7F           - A:90 X:70 Y:2e SP:fb N -
+72d1  85 81       STA $81            - A:10 X:70 Y:2e SP:fb   -
+72d3  86 80       STX $80            - A:10 X:70 Y:2e SP:fb   -
+>C:1070  32 00 00 00  00 00 00 00  30 00 00 00  0c 00 c0 0c   2.......0.......
+>C:1080  00 00 00 00  00 30 00 03  00 00 00 00  0c 00 00 00   .....0..........
+>C:1090  00 00 00 c0  03 00 30 00  00 30 00 00  00 00 00 00   ......0..0......
+>C:10a0  c0 00 00 00  00 00 00 9f  9f 9f 9f 9f  9f
+(C:$0084) m 84 85
+>C:0084  a7 10                                                ..
+(C:$0086) m 82 83
+>C:0082  a1 10
+$10a1 and $10a7 seem to be read...
+
+
+
+First stacked object:
+>C:2d27  6a 0e 1c
+7294  B1 7E       LDA ($7E),Y        - A:0e X:00 Y:00 SP:fb   -B  Z
+7296  0A          ASL A              - A:6a X:00 Y:00 SP:fb   -B
+7297  A8          TAY                - A:d4 X:00 Y:00 SP:fb N -B
+7298  B0 08       BCS $72A2          - A:d4 X:00 Y:d4 SP:fb N -B
+729a  BE 43 08    LDX $0843,Y        - A:d4 X:00 Y:d4 SP:fb N -B
+729d  B9 44 08    LDA $0844,Y        - A:d4 X:c1 Y:d4 SP:fb N -B
+72a0  90 06       BCC $72A8          - A:2c X:c1 Y:d4 SP:fb   -B
+72a8  30 25       BMI $72CF          - A:2c X:c1 Y:d4 SP:fb   -B
+72aa  86 80       STX $80            - A:2c X:c1 Y:d4 SP:fb   -B
+72ac  85 81       STA $81            - A:2c X:c1 Y:d4 SP:fb   -B
+Which then reads these objects...
+>C:2cc1  62 0e 0f 62  12 0e ff
+7294  B1 7E       LDA ($7E),Y        - A:0f X:c1 Y:00 SP:f7   -B  Z
+7296  0A          ASL A              - A:62 X:c1 Y:00 SP:f7   -B
+7297  A8          TAY                - A:c4 X:c1 Y:00 SP:f7 N -B
+7298  B0 08       BCS $72A2          - A:c4 X:c1 Y:c4 SP:f7 N -B
+729a  BE 43 08    LDX $0843,Y        - A:c4 X:c1 Y:c4 SP:f7 N -B
+729d  B9 44 08    LDA $0844,Y        - A:c4 X:6b Y:c4 SP:f7   -B
+72a0  90 06       BCC $72A8          - A:a9 X:6b Y:c4 SP:f7 N -B
+72a8  30 25       BMI $72CF          - A:a9 X:6b Y:c4 SP:f7 N -B
+72cf  29 7F       AND #$7F           - A:a9 X:6b Y:c4 SP:f7 N -B
+72d1  85 81       STA $81            - A:29 X:6b Y:c4 SP:f7   -B
+72d3  86 80       STX $80            - A:29 X:6b Y:c4 SP:f7   -B
+>C:296b  44 00 00 00  00 00 00 0a  aa 00 00 00  00 0a aa aa   D...............
+>C:297b  aa 00 00 0a  aa aa aa aa  aa 0a aa aa  aa aa aa aa   ................
+>C:298b  aa aa aa aa  aa aa aa aa  aa aa aa aa  aa aa aa aa   ................
+>C:299b  aa aa aa aa  aa aa aa aa  aa aa aa aa  aa aa aa aa   ................
+>C:29ab  aa aa aa aa  aa aa aa aa  aa aa aa aa  aa aa aa aa   ................
+>C:29bb  aa aa aa aa  aa aa aa aa  aa aa aa aa  aa aa aa aa   ................
+>C:29cb  aa aa aa aa  aa aa aa aa  a0 aa aa aa  aa aa a0 00   ................
+>C:29db  00 aa aa aa  a0 00 00 00  00 aa a0 00  00 00 00 00   ................
+>C:29eb  00 0c 0c 0c  0c 0c 0c 0c  0c 0c 0c 0c  0c 0c 0c 0c   ................
+>C:29fb  0c 50 50 50  50 50 50 50  50 50 50 50  50 50 50 50   .PPPPPPPPPPPPPPP
+>C:2a0b  50
+
+
+The rendering system seems to have a concept of objects, that can reference other objects, i.e. draw more than one object, each object could be comprised of compound objects....
