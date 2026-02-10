@@ -1,0 +1,12 @@
+"D:\C64_Preservation_Project_10th_Anniversary_Collection_G64\c64pp-g64-zip\0\3d_construction_kit[domark_1991](pal)(!).g64"
+256 88
+0xb1e0 + 31 + ((255-xpos)/8) + ((87-ypos) * 32)
+0xe000 + (((xpos/8) + (~~(ypos/8) * 40))*8) + (ypos&0x07)
+
+"C:\Users\marti\Downloads\Driller_LaySoft.d64"
+256 104
+0x80e0 + 20 + ((255-xpos)/8) + ((103-ypos) * 32)
+0xe000 + (((xpos/8) + (~~(ypos/8) * 40))*8) + (ypos&0x07)
+
+
+220f  CE 28 20    DEC $2028          

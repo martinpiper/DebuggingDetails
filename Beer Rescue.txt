@@ -1,0 +1,4 @@
+https://justepyx.itch.io/beer-rescue
+c:\work\c64\bin\TapeTool.exe r "C:\Users\marti\Downloads\TSA_BeerRescue.tap" bc1000
+
+"C:\work\C1541-Tweaks\c1541\Release\c1541.exe"  "C:\Users\marti\Downloads\TSA_BeerRescue.d64" -recover c:\temp\d64recover\t%02ds%02d.prg

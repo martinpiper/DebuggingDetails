@@ -1,0 +1,18 @@
+Amiga ADF archives: https://archive.org/search?query=subject%3A%22Commodore+Amiga+-+Games+-+%5BADF%5D%22
+https://archive.org/download/commodore-amiga-games-adf-r_202301
+
+https://coppenheimer.heckmeck.de/
+amiga init A500_OCS_1MB
+dmadebugger bitplanes off
+dmadebugger refresh off
+C:\Users\Public\Documents\Amiga Files\WinUAE
+
+Requests
+https://www.youtube.com/watch?v=Vfnyczaf1Ao&lc=Ugylr8c4qkOK5AQ0dIR4AaABAg
+https://www.youtube.com/watch?v=Vfnyczaf1Ao&lc=UgzH8ivR92pwUHE1OLl4AaABAg
+https://www.youtube.com/watch?v=V1APacXhoJI&lc=UgxW-wHWGudG2fzkRzZ4AaABAg
+https://www.youtube.com/watch?v=V1APacXhoJI&lc=UgxJqqDzH-4BUYZbfTt4AaABAg
+	https://fabiensanglard.net/anotherWorld_code_review/
+
+
+"C:\Users\marti\Downloads\Turrican (1990)(Rainbow Arts)[cr TRSI][m][t +4 ACU].adf"
