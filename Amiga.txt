@@ -5,7 +5,24 @@ https://coppenheimer.heckmeck.de/
 amiga init A500_OCS_1MB
 dmadebugger bitplanes off
 dmadebugger refresh off
+dmadebugger blitter on
+dmadebugger sprites off
+dmadebugger copper off
+dmadebugger cpu off
+dmadebugger audio off
+
+"C:\Users\marti\Downloads\WinUAE5300_x64\winuae64.exe"
 C:\Users\Public\Documents\Amiga Files\WinUAE
+Shift F12
+f
+t
+o1
+o2
+ot
+H
+HH
+
+
 
 Requests
 https://www.youtube.com/watch?v=Vfnyczaf1Ao&lc=Ugylr8c4qkOK5AQ0dIR4AaABAg
@@ -13,6 +30,13 @@ https://www.youtube.com/watch?v=Vfnyczaf1Ao&lc=UgzH8ivR92pwUHE1OLl4AaABAg
 https://www.youtube.com/watch?v=V1APacXhoJI&lc=UgxW-wHWGudG2fzkRzZ4AaABAg
 https://www.youtube.com/watch?v=V1APacXhoJI&lc=UgxJqqDzH-4BUYZbfTt4AaABAg
 	https://fabiensanglard.net/anotherWorld_code_review/
+"C:\Users\marti\Downloads\cecconoid (2).adf"
 
 
 "C:\Users\marti\Downloads\Turrican (1990)(Rainbow Arts)[cr TRSI][m][t +4 ACU].adf"
+
+
+http://amiga-dev.wikidot.com/information:hardware
+http://amiga-dev.wikidot.com/hardware:copins
+http://amiga-dev.wikidot.com/hardware:bltsize
+https://www.amigarealm.com/computing/knowledge/hardref/ch2.htm

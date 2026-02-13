@@ -219,6 +219,7 @@ IRQDisk_LEDFlash = 15
 ; Minimal code
 IRQDisk_NoDriveCode = 1
 IRQDisk_NoCode_LoadAfterName = 1
+IRQDisk_NoCode_LoadCompressed = 1
 IRQDisk_NoCode_Pulse = 1
 IRQDisk_NoCode_Save = 1
 
