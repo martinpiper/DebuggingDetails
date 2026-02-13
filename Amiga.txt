@@ -3,13 +3,13 @@ https://archive.org/download/commodore-amiga-games-adf-r_202301
 
 https://coppenheimer.heckmeck.de/
 amiga init A500_OCS_1MB
+dmadebugger audio off
 dmadebugger bitplanes off
-dmadebugger refresh off
 dmadebugger blitter on
-dmadebugger sprites off
 dmadebugger copper off
 dmadebugger cpu off
-dmadebugger audio off
+dmadebugger refresh off
+dmadebugger sprites off
 
 "C:\Users\marti\Downloads\WinUAE5300_x64\winuae64.exe"
 C:\Users\Public\Documents\Amiga Files\WinUAE
