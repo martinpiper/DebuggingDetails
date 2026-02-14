@@ -1,0 +1,24 @@
+$82/83 = X pos
+$84/85 = Y pos
+$86/87 = Z pos
+$8b = Y rot
+
+$2842 seems to be draw object, using X, at position from objects tables starting at:
+f402/f422 X pos
+f442/f462 Y pos
+f482/f4a2 Z pos
+f5c2 rot?
+f5e2 rot Y
+f3c2 type?
+	a492 table lo
+	a4e7 table hi
+
+$9a = other camera rot?
+$9b = camera Y rot?
+
+
+
+3da2 render the world objects, after the roads...
+	Buildsing, tanks, weapons etc...
+	
+
