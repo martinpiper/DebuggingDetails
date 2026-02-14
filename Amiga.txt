@@ -11,6 +11,10 @@ dmadebugger cpu off
 dmadebugger refresh off
 dmadebugger sprites off
 
+r cpu
+r copper
+
+
 "C:\Users\marti\Downloads\WinUAE5300_x64\winuae64.exe"
 C:\Users\Public\Documents\Amiga Files\WinUAE
 Shift F12
