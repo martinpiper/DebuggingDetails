@@ -1,0 +1,8 @@
+https://int10h.org/blog/2021/01/simulating-crt-monitors-ffmpeg-pt-1-color/
+
+P_DECAY_FACTOR    0.9        ; Phosphor decay factor (0..1), non-linear: <0.9 is mild, 0.95=heavy, 0.99=very long, 1.0=infinite
+P_DECAY_ALPHA     0.5        ;   - opacity (0..1) - 0.3 to 0.5 seem realistic, but this depends on monitor type
+LATENCY           2          ; Pixel on/off latency (number of frames), 0 to disable; should be 0 for almost all CRTs
+
+cd /d C:\Users\marti\Downloads\ffmpeg-2024-01-24-git-00b288da73-full_build\ffmpeg-2024-01-24-git-00b288da73-full_build\bin
+ffcrt presets\color-PAL-TV-older.cfg c:\temp\t.avi c:\temp\tcrt.avi

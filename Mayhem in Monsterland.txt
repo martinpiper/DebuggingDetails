@@ -1,0 +1,2 @@
+Protection sequence skip, while the prompt is displayed.
+> 459c ea ea
