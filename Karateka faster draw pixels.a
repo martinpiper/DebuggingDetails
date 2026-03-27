@@ -1,0 +1,66 @@
+; ..\c64\acme.exe -f cbm -o c:\temp\kd.prg -v9 "C:\Work\DebuggingDetails\Karateka faster draw pixels.a"
+
+; Replaces the routine at $e354
+* = $fd00
+	lda ($14),y
+	ldx $10
+	and $e3c9,x
+	sta $19
+.e35d  	lda ($03),y
+	tax
+	txa
+	ora $19
+	pha
+	lda #$00
+	sta $19
+	sty $09
+	lda $e890,y
+	tay
+	pla
+	sta ($14),y
+	ldy $09
+	iny
+	cpy $0e
+	bcc .e35d
+
+	lda $05
+	clc
+	adc $1f
+	cmp #$28
+	bcs .e39c
+	ldx $e890,y
+	txa
+	tay
+	lda ($14),y
+	ldx $0f
+	bmi .e3b5
+	beq .e398
+	ldx $10
+	and $e3cd,x
+.e398  	ora $19
+.e39a  	sta ($14),y
+.e39c  	lda $1f
+	sec
+	sbc $16
+	clc
+	adc $03
+	sta $03
+
+	bcc .e3aa
+	inc $04
+.e3aa  	pla
+	clc
+	adc #$01
+	cmp $0d
+	beq .e3c1
+	jmp $e300
+.e3b5  	ldx $10
+	lda $e3cd,x
+	ora $19
+	and ($14),y
+	jmp .e39a
+.e3c1  	ldx $18
+	ldy $17
+	pla
+	sta $10
+	rts
