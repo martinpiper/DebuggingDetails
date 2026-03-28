@@ -130,3 +130,7 @@ And for some part of the player it is a two pass mask out and then draw colours.
 
 
 $fd00 is free...
+
+
+Grr.... The routine is quite significantly self modified by code starting at $e2ac
+Probably two variations
