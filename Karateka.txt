@@ -58,7 +58,7 @@ And for some part of the player it is a two pass mask out and then draw colours.
 
 
 
-
+First variant:
 (C:$e37d) d e354
 .C:e354  B1 14       LDA ($14),Y
 .C:e356  A6 10       LDX $10
@@ -129,8 +129,93 @@ And for some part of the player it is a two pass mask out and then draw colours.
 .C:e3c8  60          RTS
 
 
+Second variant:
+.C:e354  B1 14       LDA ($14),Y
+.C:e356  A6 10       LDX $10
+.C:e358  3D C9 E3    AND $E3C9,X
+.C:e35b  85 19       STA $19
+.C:e35d  B1 03       LDA ($03),Y
+.C:e35f  AA          TAX
+.C:e360  BD B8 EA    LDA $EAB8,X
+.C:e363  05 19       ORA $19
+.C:e365  48          PHA
+.C:e366  BD B8 ED    LDA $EDB8,X
+.C:e369  85 19       STA $19
+.C:e36b  84 09       STY $09
+.C:e36d  B9 90 E8    LDA $E890,Y
+.C:e370  A8          TAY
+.C:e371  68          PLA
+.C:e372  EA          NOP
+.C:e373  EA          NOP
+.C:e374  91 14       STA ($14),Y
+.C:e376  A4 09       LDY $09
+.C:e378  C8          INY
+.C:e379  C4 0E       CPY $0E
+.C:e37b  90 E0       BCC $E35D
+(C:$e37d) d
+.C:e37d  A5 05       LDA $05
+.C:e37f  18          CLC
+.C:e380  65 1F       ADC $1F
+.C:e382  C9 28       CMP #$28
+.C:e384  B0 16       BCS $E39C
+.C:e386  BE 90 E8    LDX $E890,Y
+.C:e389  8A          TXA
+.C:e38a  A8          TAY
+.C:e38b  B1 14       LDA ($14),Y
+.C:e38d  A6 0F       LDX $0F
+.C:e38f  30 24       BMI $E3B5
+.C:e391  F0 05       BEQ $E398
+.C:e393  A6 10       LDX $10
+.C:e395  3D CD E3    AND $E3CD,X
+.C:e398  05 19       ORA $19
+.C:e39a  91 14       STA ($14),Y
+.C:e39c  A5 1F       LDA $1F
+.C:e39e  38          SEC
+.C:e39f  E5 16       SBC $16
+.C:e3a1  18          CLC
+.C:e3a2  65 03       ADC $03
+.C:e3a4  85 03       STA $03
+(C:$e3a6) d
+.C:e3a6  90 02       BCC $E3AA
+.C:e3a8  E6 04       INC $04
+.C:e3aa  68          PLA
+.C:e3ab  18          CLC
+.C:e3ac  69 01       ADC #$01
+.C:e3ae  C5 0D       CMP $0D
+.C:e3b0  F0 0F       BEQ $E3C1
+.C:e3b2  4C 00 E3    JMP $E300
+.C:e3b5  A6 10       LDX $10
+.C:e3b7  BD CD E3    LDA $E3CD,X
+.C:e3ba  05 19       ORA $19
+.C:e3bc  31 14       AND ($14),Y
+.C:e3be  4C 9A E3    JMP $E39A
+.C:e3c1  A6 18       LDX $18
+.C:e3c3  A4 17       LDY $17
+.C:e3c5  68          PLA
+.C:e3c6  85 10       STA $10
+.C:e3c8  60          RTS
+
+
+
 $fd00 is free...
 
 
 Grr.... The routine is quite significantly self modified by code starting at $e2ac
 Probably two variations
+so the start of the draw routine is before $e354...
+
+w store e354 e3c8
+
+Draw variants setup by:
+$e2db
+$e2bb
+$e27b earliest self modify start
+
+looking for the earliest self modified code in the pixel draw...
+$e33e?
+
+
+$e2fe looks like a good earlier pixel draw loop entry point...
+
+
+There is also another draw, for shadows, store at $e59a...
