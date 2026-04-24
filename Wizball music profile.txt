@@ -1,0 +1,151 @@
+https://github.com/MartinGalway/C64_music/blob/main/wizball.asm
+
+
+"C:\Temp\wizball_ocean_6389_lzmpi.prg"
+
+w d020
+
+f af8f af91 ea
+
+
+.C:b90a  58          CLI
+.C:b90b  20 D0 45    JSR $45D0
+.C:b90e  AD CF 45    LDA $45CF
+.C:b911  0D 4B B9    ORA $B94B
+.C:b914  8D 18 D4    STA $D418
+.C:b917  AD EF B8    LDA $B8EF
+.C:b91a  F0 30       BEQ $B94C
+.C:b91c  C9 02       CMP #$02
+.C:b91e  F0 03       BEQ $B923
+.C:b920  20 53 B9    JSR $B953
+.C:b923  AD EF B8    LDA $B8EF
+.C:b926  F0 22       BEQ $B94A
+.C:b928  C9 01       CMP #$01
+.C:b92a  F0 0C       BEQ $B938
+.C:b92c  20 F4 50    JSR $50F4
+.C:b92f  20 4E 4D    JSR $4D4E
+.C:b932  20 69 52    JSR $5269
+(C:$b935) d
+.C:b935  20 86 4E    JSR $4E86
+.C:b938  20 D7 53    JSR $53D7
+.C:b93b  20 D5 4F    JSR $4FD5
+.C:b93e  20 B7 4C    JSR $4CB7
+.C:b941  AD CF 45    LDA $45CF
+.C:b944  0D 4B B9    ORA $B94B
+.C:b947  8D 18 D4    STA $D418
+.C:b94a  60          RTS
+
+
+
+.C:45d0  AD CE 45    LDA $45CE
+.C:50f4  AE B9 46    LDX $46B9
+
+.C:4d4e  A5 59       LDA $59
+.C:4d50  F0 04       BEQ $4D56
+.C:4d52  C6 0A       DEC $0A
+.C:4d54  F0 0E       BEQ $4D64
+.C:4d56  60          RTS
+.C:4d57  E6 05       INC $05
+>> .C:4d64  A0 00       LDY #$00
+.C:4d66  B1 04       LDA ($04),Y
+
+.C:5269  AE DC 46    LDX $46DC
+
+.C:4e86  A5 5A       LDA $5A
+.C:4e88  F0 04       BEQ $4E8E
+.C:4e8a  C6 0B       DEC $0B
+.C:4e8c  F0 0E       BEQ $4E9C
+.C:4e8e  60          RTS
+.C:4e8f  E6 07       INC $07
+>> .C:4e9c  A0 00       LDY #$00
+.C:4e9e  B1 06       LDA ($06),Y
+.C:4ea0  C9 C0       CMP #$C0
+
+.C:53d7  A6 DD       LDX $DD
+.C:53d9  F0 E6       BEQ $53C1	>> rts
+>> .C:53db  A5 DB       LDA $DB
+.C:53dd  29 08       AND #$08
+.C:53df  F0 12       BEQ $53F3
+
+
+.C:4fd5  A5 5B       LDA $5B
+.C:4fd7  F0 04       BEQ $4FDD
+.C:4fd9  C6 0C       DEC $0C
+.C:4fdb  F0 0E       BEQ $4FEB
+.C:4fdd  60          RTS
+.C:4fde  E6 09       INC $09
+.C:4fe0  D0 09       BNE $4FEB
+>>.C:4feb  A0 00       LDY #$00
+.C:4fed  B1 08       LDA ($08),Y
+.C:4fef  C9 C0       CMP #$C0
+.C:4ff1  90 0E       BCC $5001
+.C:4ff3  C8          INY
+
+.C:4cb7  A5 4E       LDA $4E
+.C:4cb9  F0 11       BEQ $4CCC
+>> .C:4cbb  A6 51       LDX $51
+.C:4cbd  A4 52       LDY $52
+.C:4cbf  18          CLC
+
+a 4400
+inc d020
+LDA $45CE
+jsr 45d3
+dec d020
+rts
+inc d020
+LDX $46B9
+jsr 50f7
+dec d020
+rts
+inc d020
+LDY #$00
+LDA ($04),Y
+jsr 4d68
+dec d020
+rts
+inc d020
+LDX $46DC
+jsr 526c
+dec d020
+rts
+inc d020
+LDY #$00
+LDA ($06),Y
+jsr 4ea0
+dec d020
+rts
+inc d020
+LDA $DB
+AND #$08
+jsr 53df
+dec d020
+rts
+inc d020
+LDY #$00
+LDA ($08),Y
+jsr 4fef
+dec d020
+rts
+inc d020
+LDX $51
+LDY $52
+jsr 4cbf
+dec d020
+rts
+
+a 45d0 jmp 4400
+
+a 50f4 jmp 440d
+
+a 4d64 jmp 441a
+
+a 5269 jmp 4428
+
+a 4e9c jmp 4435
+
+a 53db jmp 4443
+
+a 4feb jmp 4451
+
+a 4cbb jmp 445f
