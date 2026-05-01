@@ -29,7 +29,7 @@
  ;  C      2*7-2 *    100Hz Bonus (music selected)
  ;  D      3*7-2 *     50Hz End Of Level jingle
  ;  E      4*7-2      200Hz Title screen music
- ;  F      5*7-2      200Hz Bonus (music not selected) - single-channel bass
+ ;  F      5*7-2      50Hz? Bonus (music not selected?) - single-channel bass
  ;  G      6*7-2 *    200Hz Get ready jingle
  ;  H      7*7-2 *    200Hz Input Name screen
  ;  I      8*7-2 *     50Hz Game Over

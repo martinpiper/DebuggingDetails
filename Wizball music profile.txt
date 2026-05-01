@@ -152,10 +152,7 @@ a 4cbb jmp 445f
 
 
 To covert the orignal Ocean syntax source to Acme syntax, assemble, compress
-cls && cd /d c:\temp\ && C:/Work/DebuggingDetails/OceanToAcme.py "C:\Users\marti\Downloads\wizball.asm" "C:\Work\DebuggingDetails\Wizball music profile.a" && c:\work\c64\acme.exe --cpu 6510 -v9 -f cbm -o wbp.prg "C:\Work\DebuggingDetails\OceanToAcmeMacros.a" "C:\Work\DebuggingDetails\Wizball music profile.a"
-
-c:\work\c64\bin\LZMPi.exe -cut c:\temp\wbp.prg c:\temp\t.prg $ffc
-c:\work\c64\bin\LZMPi.exe -pp $37 -c64mbu c:\temp\t.prg c:\temp\t.prg $1000 $1000
+cls && cd /d c:\temp\ && C:/Work/DebuggingDetails/OceanToAcme.py "C:\Work\DebuggingDetails\wizball.asm" "C:\Work\DebuggingDetails\Wizball music profile.a" && c:\work\c64\acme.exe --cpu 6510 -v9 -f cbm -o wbp.prg "C:\Work\DebuggingDetails\OceanToAcmeMacros.a" "C:\Work\DebuggingDetails\Wizball music profile.a" && c:\work\c64\bin\LZMPi.exe -cut c:\temp\wbp.prg c:\temp\t.prg $ffc && c:\work\c64\bin\LZMPi.exe -pp $37 -c64mbu c:\temp\t.prg c:\temp\t.prg $1000 $1000
 
 
 
