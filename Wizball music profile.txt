@@ -149,3 +149,136 @@ a 53db jmp 4443
 a 4feb jmp 4451
 
 a 4cbb jmp 445f
+
+
+To covert the orignal Ocean syntax source to Acme syntax, assemble, compress
+cls && cd /d c:\temp\ && C:/Work/DebuggingDetails/OceanToAcme.py "C:\Users\marti\Downloads\wizball.asm" "C:\Work\DebuggingDetails\Wizball music profile.a" && c:\work\c64\acme.exe --cpu 6510 -v9 -f cbm -o wbp.prg "C:\Work\DebuggingDetails\OceanToAcmeMacros.a" "C:\Work\DebuggingDetails\Wizball music profile.a"
+
+c:\work\c64\bin\LZMPi.exe -cut c:\temp\wbp.prg c:\temp\t.prg $ffc
+c:\work\c64\bin\LZMPi.exe -pp $37 -c64mbu c:\temp\t.prg c:\temp\t.prg $1000 $1000
+
+
+
+
+INITSOUND      JSR ResetCl
+	The jsr is extra compared to the released Wizball, see disassembly at $47d0
+Next difference is here:
+Released:
+.C:4901  A6 0D       LDX $0D
+.C:4903  18          CLC
+.C:4904  65 04       ADC $04
+Asm:
+.C:4901  A6 0D       LDX .SP0
+.C:4903  65 04       ADC .g
+.C:4905  95 E4       STA .ST0L,X
+Missing CLC in  .callt0
+Next differences:
+.C:4983  A9 02       LDA #$02
+.C:4985  18          CLC
+.C:4986  65 04       ADC $04
+Next:
+.C:4a4d  A6 0E       LDX $0E
+.C:4a4f  18          CLC
+>>
+.C:4a4d  A6 0E       LDX $0E
+.C:4a4f  65 06       ADC $06
+Next:
+.C:4abc  A9 02       LDA #$02
+.C:4abe  18          CLC
+.C:4abf  65 06       ADC $06
+Next:
+.C:4b6e  A6 0F       LDX $0F
+.C:4b70  18          CLC
+.C:4b71  65 08       ADC $08
+Next:
+.C:4bf0  A9 02       LDA #$02
+.C:4bf2  18          CLC
+.C:4bf3  65 08       ADC $08
+Next:
+.C:4d5b  A9 03       LDA #$03
+.C:4d5d  18          CLC
+.C:4d5e  65 04       ADC $04
+
+Larger code difference:
+>> Released:
+.C:4d84  F0 F1       BEQ $4D77					
+.C:4d86  65 10       ADC $10
+.C:4d88  AA          TAX
+.C:4d89  A5 57       LDA $57
+.C:4d8b  D0 07       BNE $4D94
+.C:4d8d  86 13       STX $13
+.C:4d8f  20 3B 4D    JSR $4D3B
+.C:4d92  A6 13       LDX $13
+.C:4d94  BC 75 47    LDY $4775,X
+.C:4d97  BD 1A 47    LDA $471A,X
+.C:4d9a  8D B5 46    STA $46B5
+.C:4d9d  8C B6 46    STY $46B6
+.C:4da0  8D 00 D4    STA $D400
+.C:4da3  8C 01 D4    STY $D401
+.C:4da6  A6 9D       LDX $9D
+.C:4da8  A4 9E       LDY $9E
+.C:4daa  8E 02 D4    STX $D402
+>> Source
+.C:4d84  F0 F1       BEQ $4D77
+.C:4d86  65 10       ADC $10
+.C:4d88  AA          TAX
+.C:4d89  AD 6C 13    LDA $136C
+.C:4d8c  29 01       AND #$01
+.C:4d8e  F0 E7       BEQ $4D77
+.C:4d90  A5 57       LDA $57
+.C:4d92  D0 07       BNE $4D9B
+.C:4d94  86 13       STX $13
+.C:4d96  20 3B 4D    JSR $4D3B
+.C:4d99  A6 13       LDX $13
+.C:4d9b  BC 75 47    LDY $4775,X
+.C:4d9e  BD 1A 47    LDA $471A,X
+.C:4da1  8D B5 46    STA $46B5
+.C:4da4  8C B6 46    STY $46B6
+.C:4da7  8D 00 D4    STA $D400
+.C:4daa  8C 01 D4    STY $D401
+
+
+More clc differences, note the addresses do not match due to the above code difference:
+.C:4e79  A9 02       LDA #$02
+.C:4e7b  18          CLC
+.C:4e7c  65 04       ADC $04
+>>
+.C:4e80  A9 02       LDA #$02
+.C:4e82  65 04       ADC $04
+N:
+.C:4e93  A9 03       LDA #$03
+.C:4e95  18          CLC
+.C:4e96  65 06       ADC $06
+>>
+.C:4e9a  A9 03       LDA #$03
+.C:4e9c  65 06       ADC $06
+N:
+.C:4fc8  A9 02       LDA #$02
+.C:4fca  18          CLC
+.C:4fcb  65 06       ADC $06
+>>
+.C:4fd6  A9 02       LDA #$02
+.C:4fd8  65 06       ADC $06
+N:
+.C:4fe2  A9 03       LDA #$03
+.C:4fe4  18          CLC
+.C:4fe5  65 08       ADC $08
+>>
+.C:4ff0  A9 03       LDA #$03
+.C:4ff2  65 08       ADC $08
+N:
+.C:5350  AD CA 46    LDA $46CA
+.C:5353  18          CLC
+.C:5354  71 13       ADC ($13),Y
+>>
+.C:5363  AD CA 46    LDA $46CA
+.C:5366  71 13       ADC ($13),Y
+N:
+.C:549f  A5 CB       LDA $CB
+.C:54a1  18          CLC
+.C:54a2  71 13       ADC ($13),Y
+>>
+.C:54b2  A5 CB       LDA $CB
+.C:54b4  71 13       ADC ($13),Y
+
+

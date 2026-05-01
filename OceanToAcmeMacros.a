@@ -1,0 +1,131 @@
+!ct raw
+!sal
+!sl "t.map"
+!svl "t.lbl"
+!pdb "t.pdb"
+
+
+!macro DFL .a,.b,.c,.d,.e,.f,.g,.h,.i,.j,.k,.l,.m,.n,.o,.p,.q,.r,.s,.t,.u,.v,.w,.x,.y,.z {
+	!by <.a,<.b,<.c,<.d,<.e,<.f,<.g,<.h,<.i,<.j,<.k,<.l,<.m,<.n,<.o,<.p,<.q,<.r,<.s,<.t,<.u,<.v,<.w,<.x,<.y,<.z
+}
+!macro DFL .a,.b,.c,.d,.e,.f,.g,.h,.i,.j,.k,.l,.m,.n,.o,.p,.q,.r,.s,.t,.u,.v,.w,.x,.y {
+	!by <.a,<.b,<.c,<.d,<.e,<.f,<.g,<.h,<.i,<.j,<.k,<.l,<.m,<.n,<.o,<.p,<.q,<.r,<.s,<.t,<.u,<.v,<.w,<.x,<.y
+}
+!macro DFL .a,.b,.c,.d,.e,.f,.g,.h,.i,.j,.k,.l,.m,.n,.o,.p,.q,.r,.s,.t,.u,.v,.w,.x {
+	!by <.a,<.b,<.c,<.d,<.e,<.f,<.g,<.h,<.i,<.j,<.k,<.l,<.m,<.n,<.o,<.p,<.q,<.r,<.s,<.t,<.u,<.v,<.w,<.x
+}
+!macro DFL .a,.b,.c,.d,.e,.f,.g,.h,.i,.j,.k,.l,.m,.n,.o,.p,.q,.r,.s,.t,.u,.v,.w {
+	!by <.a,<.b,<.c,<.d,<.e,<.f,<.g,<.h,<.i,<.j,<.k,<.l,<.m,<.n,<.o,<.p,<.q,<.r,<.s,<.t,<.u,<.v,<.w
+}
+!macro DFL .a,.b,.c,.d,.e,.f,.g,.h,.i,.j,.k,.l,.m,.n,.o,.p,.q,.r,.s,.t,.u,.v {
+	!by <.a,<.b,<.c,<.d,<.e,<.f,<.g,<.h,<.i,<.j,<.k,<.l,<.m,<.n,<.o,<.p,<.q,<.r,<.s,<.t,<.u,<.v
+}
+!macro DFL .a,.b,.c,.d,.e,.f,.g,.h,.i,.j,.k,.l,.m,.n,.o,.p,.q,.r,.s,.t,.u {
+	!by <.a,<.b,<.c,<.d,<.e,<.f,<.g,<.h,<.i,<.j,<.k,<.l,<.m,<.n,<.o,<.p,<.q,<.r,<.s,<.t,<.u
+}
+!macro DFL .a,.b,.c,.d,.e,.f,.g,.h,.i,.j,.k,.l,.m,.n,.o,.p,.q,.r,.s,.t {
+	!by <.a,<.b,<.c,<.d,<.e,<.f,<.g,<.h,<.i,<.j,<.k,<.l,<.m,<.n,<.o,<.p,<.q,<.r,<.s,<.t
+}
+!macro DFL .a,.b,.c,.d,.e,.f,.g,.h,.i,.j,.k,.l,.m,.n,.o,.p,.q,.r,.s {
+	!by <.a,<.b,<.c,<.d,<.e,<.f,<.g,<.h,<.i,<.j,<.k,<.l,<.m,<.n,<.o,<.p,<.q,<.r,<.s
+}
+!macro DFL .a,.b,.c,.d,.e,.f,.g,.h,.i,.j,.k,.l,.m,.n,.o,.p,.q,.r {
+	!by <.a,<.b,<.c,<.d,<.e,<.f,<.g,<.h,<.i,<.j,<.k,<.l,<.m,<.n,<.o,<.p,<.q,<.r
+}
+!macro DFL .a,.b,.c,.d,.e,.f,.g,.h,.i,.j,.k,.l,.m,.n,.o,.p,.q {
+	!by <.a,<.b,<.c,<.d,<.e,<.f,<.g,<.h,<.i,<.j,<.k,<.l,<.m,<.n,<.o,<.p,<.q
+}
+!macro DFL .a,.b,.c,.d,.e,.f,.g,.h,.i,.j,.k,.l,.m,.n,.o,.p {
+	!by <.a,<.b,<.c,<.d,<.e,<.f,<.g,<.h,<.i,<.j,<.k,<.l,<.m,<.n,<.o,<.p
+}
+!macro DFL .a,.b,.c,.d,.e,.f,.g,.h,.i,.j,.k,.l,.m,.n,.o {
+	!by <.a,<.b,<.c,<.d,<.e,<.f,<.g,<.h,<.i,<.j,<.k,<.l,<.m,<.n,<.o
+}
+!macro DFL .a,.b,.c,.d,.e,.f,.g,.h,.i,.j,.k,.l,.m,.n {
+	!by <.a,<.b,<.c,<.d,<.e,<.f,<.g,<.h,<.i,<.j,<.k,<.l,<.m,<.n
+}
+!macro DFL .a,.b,.c,.d,.e,.f,.g,.h,.i,.j,.k,.l,.m {
+	!by <.a,<.b,<.c,<.d,<.e,<.f,<.g,<.h,<.i,<.j,<.k,<.l,<.m
+}
+!macro DFL .a,.b,.c,.d,.e,.f,.g,.h,.i,.j,.k,.l {
+	!by <.a,<.b,<.c,<.d,<.e,<.f,<.g,<.h,<.i,<.j,<.k,<.l
+}
+!macro DFL .a,.b,.c,.d,.e,.f,.g,.h,.i,.j,.k {
+	!by <.a,<.b,<.c,<.d,<.e,<.f,<.g,<.h,<.i,<.j,<.k
+}
+!macro DFL .a,.b,.c,.d,.e,.f,.g,.h,.i,.j {
+	!by <.a,<.b,<.c,<.d,<.e,<.f,<.g,<.h,<.i,<.j
+}
+!macro DFL .a,.b,.c,.d,.e,.f,.g,.h,.i {
+	!by <.a,<.b,<.c,<.d,<.e,<.f,<.g,<.h,<.i
+}
+!macro DFL .a,.b,.c,.d,.e,.f,.g,.h {
+	!by <.a,<.b,<.c,<.d,<.e,<.f,<.g,<.h
+}
+!macro DFL .a,.b,.c,.d,.e,.f,.g {
+	!by <.a,<.b,<.c,<.d,<.e,<.f,<.g
+}
+!macro DFL .a,.b,.c,.d,.e,.f {
+	!by <.a,<.b,<.c,<.d,<.e,<.f
+}
+!macro DFL .a,.b,.c,.d,.e {
+	!by <.a,<.b,<.c,<.d,<.e
+}
+!macro DFL .a,.b,.c,.d {
+	!by <.a,<.b,<.c,<.d
+}
+!macro DFL .a,.b,.c {
+	!by <.a,<.b,<.c
+}
+!macro DFL .a,.b {
+	!by <.a,<.b
+}
+!macro DFL .a {
+	!by <.a
+}
+
+!macro DFH .a,.b,.c,.d,.e,.f,.g,.h,.i,.j {
+	!by >.a,>.b,>.c,>.d,>.e,>.f,>.g,>.h,>.i,>.j
+}
+!macro DFH .a,.b,.c,.d,.e,.f,.g,.h,.i {
+	!by >.a,>.b,>.c,>.d,>.e,>.f,>.g,>.h,>.i
+}
+!macro DFH .a,.b,.c,.d,.e,.f,.g,.h {
+	!by >.a,>.b,>.c,>.d,>.e,>.f,>.g,>.h
+}
+!macro DFH .a,.b,.c,.d,.e,.f,.g {
+	!by >.a,>.b,>.c,>.d,>.e,>.f,>.g
+}
+!macro DFH .a,.b,.c,.d,.e,.f {
+	!by >.a,>.b,>.c,>.d,>.e,>.f
+}
+!macro DFH .a,.b,.c,.d,.e {
+	!by >.a,>.b,>.c,>.d,>.e
+}
+!macro DFH .a,.b,.c,.d {
+	!by >.a,>.b,>.c,>.d
+}
+!macro DFH .a,.b,.c {
+	!by >.a,>.b,>.c
+}
+!macro DFH .a,.b {
+	!by >.a,>.b
+}
+!macro DFH .a {
+	!by >.a
+}
+
+
+
+!macro SafeWord .a,.b,.c,.d {
+	!word .a & 0xffff,.b & 0xffff,.c & 0xffff,.d & 0xffff
+}
+!macro SafeWord .a,.b,.c {
+	!word .a & 0xffff,.b & 0xffff,.c & 0xffff
+}
+!macro SafeWord .a,.b {
+	!word .a & 0xffff,.b & 0xffff
+}
+!macro SafeWord .a {
+	!word .a & 0xffff
+}
