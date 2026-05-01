@@ -29,7 +29,7 @@
  ;  C      2*7-2 *    100Hz Bonus (music selected)
  ;  D      3*7-2 *     50Hz End Of Level jingle
  ;  E      4*7-2      200Hz Title screen music
- ;  F      5*7-2      200Hz Bonus (music not selected) - single-channel bass
+ ;  F      5*7-2      50Hz? Bonus (music not selected?) - single-channel bass
  ;  G      6*7-2 *    200Hz Get ready jingle
  ;  H      7*7-2 *    200Hz Input Name screen
  ;  I      8*7-2 *     50Hz Game Over
@@ -430,9 +430,9 @@ Start          SEI
                JSR INITSOUND
                LDX #$1F
                STX $D418
-;               JSR Title
-			   JSR FilthRaid
-               JSR FastForward
+               JSR Title
+;			   JSR FilthRaid
+;               JSR FastForward
                LDA #Q
                BNE DLoop
                LDY #10
@@ -1089,7 +1089,7 @@ HiFrq          DFH N00,N01,N02,N03,N04,N05,N06,N07,N08,N09
 
  ;==============================================================================
 
-INITSOUND      JSR ResetCl ;\
+INITSOUND      JSR ResetCl ;\	; MPi: In the released game, not in the source
                LDX #$17
 ResetLoop      LDA #8
                STA $D400,X 
@@ -1237,6 +1237,7 @@ callt0         STA TR0
                DFB $2C
 call0          LDA #3
                LDX SP0
+			   clc	; MPi: In the released game, not in the source
                ADC PC0
                STA ST0L,X 
                LDA #0
@@ -1303,6 +1304,7 @@ fload0loop     LDA $DDDD,X
                JMP addc0
 for0           LDX SP0
                LDA #2
+			   clc	; MPi: In the released game, not in the source
                ADC PC0
                STA ST0L,X 
                LDA #0
@@ -1406,6 +1408,7 @@ callt1         STA TR1
                DFB $2C
 call1          LDA #3
                LDX SP1
+			   clc	; MPi: In the released game, not in the source
                ADC PC1
                STA ST1L,X 
                LDA #0
@@ -1465,6 +1468,7 @@ fload1loop     LDA $DDDD,X
                JMP addc1
 for1           LDX SP1
                LDA #2
+			   clc	; MPi: In the released game, not in the source
                ADC PC1
                STA ST1L,X 
                LDA #0
@@ -1558,6 +1562,7 @@ callt2         STA TR2
                DFB $2C
 call2          LDA #3
                LDX SP2
+			   clc	; MPi: In the released game, not in the source
                ADC PC2
                STA ST2L,X 
                LDA #0
@@ -1624,6 +1629,7 @@ fload2loop     LDA $DDDD,X
                JMP addc2
 for2           LDX SP2
                LDA #2
+			   clc	; MPi: In the released game, not in the source
                ADC PC2
                STA ST2L,X 
                LDA #0
@@ -1814,7 +1820,8 @@ mx0            RTS
 crossedover0a  INC PC0+1
                BNE read.byte0
 add3c0         LDA #3
-addc0          ADC PC0
+addc0               clc	; MPi: In the released game, not in the source
+          ADC PC0
                STA PC0
                BCS crossedover0a
 read.byte0     LDY #0
@@ -1835,6 +1842,7 @@ in.du.re.0     CMP #Rest
                BEQ js0
                ADC TR0
 got.note0      TAX 
+; MPi: Not in the released game, it references data in the "driver"
                LDA RF
                AND #1
                BEQ js0 ;\
@@ -1944,6 +1952,7 @@ st0            LDY #1
                LDA IDRT-1,X 
 di.du.re0      STA CLOCK0
                LDA #2
+               clc	; MPi: In the released game, not in the source
 addn0          ADC PC0
                STA PC0
                BCS crossedover0b
@@ -1959,7 +1968,8 @@ mx1            RTS
 crossedover1a  INC PC1+1
                BNE read.byte1
 add3c1         LDA #3
-addc1          ADC PC1
+addc1               clc	; MPi: In the released game, not in the source
+          ADC PC1
                STA PC1
                BCS crossedover1a
 read.byte1     LDY #0
@@ -1980,6 +1990,7 @@ in.du.re1      CMP #Rest
                BEQ js1
                ADC TR1
 got.note1      TAX 
+; MPi: Not in the released game, it references data in the "driver"
                LDA RF
                AND #2
                BEQ js1 ;\
@@ -2085,6 +2096,7 @@ st1            LDY #1
                LDA IDRT-1,X 
 di.du.re1      STA CLOCK1
                LDA #2
+			   clc	; MPi: In the released game, not in the source
 addn1          ADC PC1
                STA PC1
                BCS crossedover1b
@@ -2100,7 +2112,8 @@ mx2            RTS
 crossedover2a  INC PC2+1
                BNE read.byte2
 add3c2         LDA #3
-addc2          ADC PC2
+addc2               clc	; MPi: In the released game, not in the source
+          ADC PC2
                STA PC2
                BCS crossedover2a
 read.byte2     LDY #0
@@ -2121,6 +2134,7 @@ in.du.re2      CMP #Rest
                BEQ js2
                ADC TR2
 got.note2      TAX 
+; MPi: Not in the released game, it references data in the "driver"
                LDA RF
                AND #4
                BEQ js2 ;\
@@ -2232,6 +2246,7 @@ st2            LDY #1
                LDA IDRT-1,X 
 di.du.re2      STA CLOCK2
                LDA #2
+			   clc	; MPi: In the released game, not in the source
 addn2          ADC PC2
                STA PC2
                BCS crossedover2b
@@ -2344,6 +2359,7 @@ no0            LDX S0+FOLA
                LDX S0+FOLA+1
                STX IN+1
                LDA S0+FOLB
+			   clc	; MPi: In the released game, not in the source
                ADC (IN),Y 
                DEY 
                STY S0+FOLCI
@@ -2505,6 +2521,7 @@ no1            LDX S1+FOLA
                LDX S1+FOLA+1
                STX IN+1
                LDA S1+FOLB
+			   clc	; MPi: In the released game, not in the source
                ADC (IN),Y 
                DEY 
                STY S1+FOLCI
@@ -2667,6 +2684,7 @@ no2            LDX S2+FOLA
                LDX S2+FOLA+1
                STX IN+1
                LDA S2+FOLB
+			   clc	; MPi: In the released game, not in the source
                ADC (IN),Y 
                DEY 
                STY S2+FOLCI
@@ -2787,6 +2805,7 @@ TUNETABLE      DFW Texit,Texit,FILTH
                DFL 2
                DFW LABORATORY0,LABORATORY1,LABORATORY2
                DFL 8
+; MPi: Not in the released game, causes data changes
                DFW Texit,Texit,ENDOFBONUS2
 			   DFL 5
 
@@ -3098,6 +3117,7 @@ CfS0           DFL FLoad,VRC
                DFW GC20a
                DFL Ret
 
+; MPi: Not in the released game, causes data changes
 ENDOFBONUS2    DFL Call
 			   DFW CfS0
                DFL Moke,VSRV,$86
