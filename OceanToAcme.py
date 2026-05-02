@@ -42,11 +42,6 @@ while True:
             changedLines += 1
             continue
 
-        if line.find("ENT") != -1:
-            lines[index] = "; Entry"
-            changedLines += 1
-            continue
-
         pos = line.find("#&")
         if pos != -1:
             lines[index] = line[0:pos] + "#'" + line[pos + 2] + "'" + line[pos + 3:]
@@ -73,6 +68,18 @@ while True:
             comment = line[pos:]
             line = line[0:pos]
 
+        pos = line.find("#<+")
+        if pos != -1:
+            lines[index] = line[0:pos+2] + line[pos + 3:] + comment
+            changedLines += 1
+            continue
+
+        pos = line.find("ENT")
+        if pos != -1:
+            lines[index] = line[0:pos] + "; Entry " + line[pos:] + comment
+            changedLines += 1
+            continue
+
         pos = line.find("&")
         if (pos != -1) and (line.find("'") == -1):
             line = line[0:pos] + "'" + line[pos + 1] + "'" + line[pos + 2:]
@@ -82,6 +89,11 @@ while True:
 
         if line.find("LSR A") != -1:
             lines[index] = line.replace("LSR A", "lsr") + comment
+            changedLines += 1
+            continue
+
+        if line.find("LSRA") != -1:
+            lines[index] = line.replace("LSRA", "lsr") + comment
             changedLines += 1
             continue
 
@@ -124,6 +136,20 @@ while True:
         pos = line.find(" ^")
         if (pos != -1) and (line.find(">") == -1):
             line = line[0:pos] + " #>" + line[pos + 2:]
+            lines[index] = line + comment
+            changedLines += 1
+            continue
+
+        pos = line.find("ADD")
+        if pos != -1:
+            line = line[0:pos] + "clc : adc" + line[pos+3:]
+            lines[index] = line + comment
+            changedLines += 1
+            continue
+
+        pos = line.find("SUB")
+        if pos != -1:
+            line = line[0:pos] + "sec : sbc" + line[pos+3:]
             lines[index] = line + comment
             changedLines += 1
             continue

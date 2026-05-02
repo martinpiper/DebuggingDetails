@@ -6,7 +6,7 @@
 
  ;     ----- (C) OCEAN SOFTWARE LTD 16:31  Thursday 23rd    April 1987. ----
 
-; Entry
+ ;======================*===CODE ENTRY INFORMATION===*==========================
 
  ;  ROUTINE       INSIDE INTERRUPTS?
  ;  -------       ------------------
@@ -185,7 +185,7 @@ PMD1C          = 34
 
  ;=== P.A.L. FR=ENCY TABLE (NOT TO BE USED ON N.T.S.C.) : 1.019 MHz CLOCK ===
 
-; Entry
+ ;BASE "A" VALUE FOR THIS OCTAVE IS 235. (=IVALENT TO N-03)
 
 N00            = 279
 N01            = 296
@@ -284,7 +284,7 @@ N93            = 60160
 
  ;=== N.T.S.C. FR=ENCY TABLE (NOT TO BE USED ON P.A.L.) : 1 MHz CLOCK RATE ===
 
-; Entry
+ ;BASE "A" VALUE FOR THIS OCTAVE IS 231. (=IVALENT TO N-03)
 
  ;N00           = 274
  ;N01           = 291
@@ -422,7 +422,7 @@ DREFCOLOUR     = 15 ;                       Desired colour for display refreshes
  ;======================************************================================
 
 * = $1000 ; was $0800 (BOZ)
-; Entry
+               ; Entry ENT  ;\
 
 Start          SEI
                JSR InitScreen

@@ -35,7 +35,7 @@
 
 ;===========================*===SYSTEM VARIABLES===*===========================
 
-ZER0                EQU $0010;\
+ZER0                EQU $10;\
 PC0                 EQU ZER0+00
 PC1                 EQU ZER0+02
 PC2                 EQU ZER0+04
@@ -286,9 +286,13 @@ DREFCOLOUR          EQU 0;                       Desired colour for display refr
 
 Start               SEI:JSR InitScreen
                     JSR INITSOUND
+; Choose either the titles of the game over music by commenting out one of the two lines below
                     JSR Title
+;                    JSR GameOver
+
                     LDX #DRUMDATA:LDY ^DRUMDATA:LDA #2:JSR RIFF
                     JSR FastForward
+; Comment out the next line to use the keyboard interface
                     JSR INITRASTERS:CLI:JMP MAIN
                     LDA #Q:BNE DLoop:LDY #10:JSR Delay
 
@@ -865,7 +869,7 @@ cms3a               TXA:ADC CUT+FMG3:TAX:TYA:ADC CUT+FMG3+1
 stcTAY              TAY
 stc                 STX CUT+16:STY CUT+17
 pokecutofffrq       TXA:AND #7:STA $D415:TYA:STX FilterByte:LSR:RORFilterByte:LSR
-                    RORFilterByte:LSR:LDA FilterByte:ROR:STA $D416:RTS
+                    ROR FilterByte:LSR:LDA FilterByte:ROR:STA $D416:RTS
 cmrep               LDA CUT+FMC:AND #$81:BEQ stc:BPL nocfcopy:JSR transfercf:JMP cms0
 nocfcopy            JSR transfercfa:JMP cms0
 
@@ -1171,7 +1175,7 @@ Drest               EQU $87
 tube4               EQU $88
 Dcowbell            EQU $89
 
-ZERO                EQU $0050
+ZERO                EQU $50
 seqPC               EQU ZERO+0;2
 seqCLK              EQU ZERO+2;1
 seqSP               EQU ZERO+3;1
