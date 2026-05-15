@@ -1,0 +1,75 @@
+733d = energy
+
+Infinite energy
+> 71e9 2c
+
+6232 update sprite with mask?
+
+f = x pos
+10 = z pos
+11 = y pos (height)
+
+
+Stops the sprite update
+a 62a0 jmp 6333
+
+
+5ebb
+
+
+5e0d
+
+
+5e45 seems to clear the temporary sprite data
+60df draws into temp sprite data 4c00-4ca0
+
+5ee0
+
+But then 7340-7400 more temp sprite data
+
+
+7009 clear game bitmap
+
+5b75 draws one tile
+.C:5b47  20 75 5B    JSR $5B75
+
+
+787e seems to be temp map screen data 8x8
+
+639b access 1a00
+also ad00 accessed just before
+
+ad00 = row height
+ad01-ad08 = block types 0-3f
+$80 = increase height
+ad09 = next row height
+Each screen seems to be $48 bytes
+
+
+Glider sprite frames
+function getAddress(x, y){ return 0x1100 + (x/8) + (y * 4); }
+getAddress(xpos, ypos);
+
+
+Rider sprite frames
+function getAddress(x, y){ return 0xc940 + (x/8) + (y * 4); }
+getAddress(xpos, ypos);
+
+
+Map tiles:
+function getAddress(x, y){ return 0x8500 + (2 * (x/8) + (y * 8))+1; }
+getAddress(xpos, ypos);
+
+Map tile masks:
+function getAddress(x, y){ return 0x8500 + (2 * (x/8) + (y * 8)); }
+getAddress(xpos, ypos);
+
+Together:
+function getAddress(x, y){
+offset = 0x8500;
+if (x>=32) {
+return offset + (2 * (x/8) + (y * 8));
+}
+return offset + (2 * (x/8) + (y * 8))+1;
+}
+getAddress(xpos, ypos);
