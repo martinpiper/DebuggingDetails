@@ -287,8 +287,8 @@ DREFCOLOUR          = 0;                       Desired colour for display refres
 Start               SEI:JSR InitScreen
                     JSR INITSOUND
 ; Choose either the titles of the game over music by commenting out one of the two lines below
-;                    JSR Title
-                    JSR GameOver
+                    JSR Title
+;                    JSR GameOver
 
                     LDX #<DRUMDATA:LDY #>DRUMDATA:LDA #<2:JSR RIFF
                     JSR FastForward
