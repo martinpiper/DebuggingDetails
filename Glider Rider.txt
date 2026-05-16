@@ -68,8 +68,33 @@ Together:
 function getAddress(x, y){
 offset = 0x8500;
 if (x>=32) {
-return offset + (2 * (x/8) + (y * 8));
+return offset + (2 * ((x-32)/8) + (y * 8));
 }
 return offset + (2 * (x/8) + (y * 8))+1;
 }
 getAddress(xpos, ypos);
+
+
+
+
+
+	 
+When the screen is displayed, "w store 8500 85ff" will trigger when the player sprite is masked against the first map tile
+Sprite masking example code:
+
+     .C:6079  AA          TAX
+     .C:607a  B1 0B       LDA ($0B),Y
+     .C:607c  31 14       AND ($14),Y
+>>>> .C:607e  91 0B       STA ($0B),Y
+     .C:6080  E6 0B       INC $0B
+	 
+     .C:5eda  20 E6 5E    JSR $5EE6
+>>>> .C:5edd  4C AC 5E    JMP $5EAC
+     .C:5ee0  20 E4 5F    JSR $5FE4
+     .C:5ee3  4C AC 5E    JMP $5EAC
+	 
+5ee6 5fe4 mask temp sprite data at 4c00 with foreground
+The result of breakpoints on these functions can be shown by viewing the temp sprite data with:
+function getAddress(x, y){ return 0x4c00 + (x/8) + (y * 5); }
+getAddress(xpos, ypos);
+
