@@ -1,0 +1,52 @@
+>>> .C:8af4  AD BA 8A    LDA $8ABA
+.C:8af7  D0 44       BNE $8B3D
+.C:8af9  A9 06       LDA #$06
+
+
+
+>> 8abf  B9 51 8A    LDA $8A51,Y        - A:08 X:08 Y:02 SP:f6   -
+>> 8ac2  8D BA 8A    STA $8ABA          - A:00 X:08 Y:02 SP:f6   -   Z
+8ac5  C0 02       CPY #$02           - A:00 X:08 Y:02 SP:f6   -   Z
+8ac7  B0 03       BCS $8ACC          - A:00 X:08 Y:02 SP:f6   -   ZC
+8acc  BD A9 8B    LDA $8BA9,X        - A:00 X:08 Y:02 SP:f6   -   ZC
+8acf  0A          ASL A              - A:0e X:08 Y:02 SP:f6   -    C
+8ad0  A8          TAY                - A:1c X:08 Y:02 SP:f6   -
+8ad1  B9 89 75    LDA $7589,Y        - A:1c X:08 Y:1c SP:f6   -
+8ad4  18          CLC                - A:02 X:08 Y:1c SP:f6   -
+8ad5  69 C4       ADC #$C4           - A:02 X:08 Y:1c SP:f6   -
+8ad7  85 1D       STA $1D            - A:c6 X:08 Y:1c SP:f6 N -
+8ad9  B9 89 75    LDA $7589,Y        - A:c6 X:08 Y:1c SP:f6 N -
+8adc  18          CLC                - A:02 X:08 Y:1c SP:f6   -
+8add  69 D8       ADC #$D8           - A:02 X:08 Y:1c SP:f6   -
+8adf  85 1F       STA $1F            - A:da X:08 Y:1c SP:f6 N -
+8ae1  B9 88 75    LDA $7588,Y        - A:da X:08 Y:1c SP:f6 N -
+8ae4  18          CLC                - A:30 X:08 Y:1c SP:f6   -
+8ae5  7D A8 8B    ADC $8BA8,X        - A:30 X:08 Y:1c SP:f6   -
+8ae8  85 1C       STA $1C            - A:33 X:08 Y:1c SP:f6   -
+8aea  85 1E       STA $1E            - A:33 X:08 Y:1c SP:f6   -
+8aec  90 04       BCC $8AF2          - A:33 X:08 Y:1c SP:f6   -
+8af2  A0 29       LDY #$29           - A:33 X:08 Y:1c SP:f6   -
+>> 8af4  AD BA 8A    LDA $8ABA          - A:33 X:08 Y:29 SP:f6   -
+
+
+
+.C:8b85  A2 00       LDX #$00
+>> .C:8b87  BD 0F 6E    LDA $6E0F,X
+.C:8b8a  D0 03       BNE $8B8F
+.C:8b8c  A9 FF       LDA #$FF
+.C:8b8e  2C A9 00    BIT $00A9
+>> .C:8b91  9D 53 8A    STA $8A53,X
+.C:8b94  E8          INX
+.C:8b95  E0 1B       CPX #$1B
+.C:8b97  90 EE       BCC $8B87
+
+Unlocks some music
+> 6e0f ff ff ff ff ff ff ff ff
+Consistent from the title screen...
+
+
+
+wfhxun
+arvnxe
+nceumt
+ektaxx
