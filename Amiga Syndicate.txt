@@ -1,0 +1,10 @@
+https://archive.org/download/commodore-amiga-games-adf-s
+https://ia800409.us.archive.org/view_archive.php?archive=/26/items/commodore-amiga-games-adf-s/Syndicate%20%281993%29%28Electronic%20Arts%29%28M3%29%28Disk%201%20of%204%29.zip
+https://ia800409.us.archive.org/view_archive.php?archive=/26/items/commodore-amiga-games-adf-s/Syndicate%20%281993%29%28Electronic%20Arts%29%28M3%29%28Disk%202%20of%204%29.zip
+https://ia800409.us.archive.org/view_archive.php?archive=/26/items/commodore-amiga-games-adf-s/Syndicate%20%281993%29%28Electronic%20Arts%29%28M3%29%28Disk%203%20of%204%29.zip
+https://ia800409.us.archive.org/view_archive.php?archive=/26/items/commodore-amiga-games-adf-s/Syndicate%20%281993%29%28Electronic%20Arts%29%28M3%29%28Disk%204%20of%204%29.zip
+https://ia800409.us.archive.org/view_archive.php?archive=/26/items/commodore-amiga-games-adf-s/Syndicate%20%281993%29%28Electronic%20Arts%29%28M3%29%28Disk%201%20of%204%29%5Bh%20FLT%5D%5Bt%20%2B10%20ATX%5D.zip
+
+https://github.com/tobiasvl/rnc_propack
+https://github.com/lab313ru/rnc_propack_source
+"C:\Users\marti\Downloads\rnc_propack_source-master\rnc_propack_source-master\Release\rnc_propack_x86.exe" u "C:\Users\marti\Downloads\Syndicate (1993)(Electronic Arts)(M3)(Disk 1 of 4).adf" c:\temp\t.bin -i=0x95418

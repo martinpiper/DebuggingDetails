@@ -1,0 +1,21 @@
+https://github.com/tobiasvl/rnc_propack/tree/master
+
+https://qemu.weilnetz.de/w64/
+https://www.freedos.org/download/
+https://www.ibiblio.org/pub/micro/pc-stuff/freedos/files/distributions/1.4/
+https://help.freedos.org/docs/howto/qemu.html
+
+
+C:\Users\marti\Downloads\rnc_propack-master\rnc_propack-master
+
+mkdir d:\Temp\qemu\drive
+cd /d d:\Temp\qemu
+"d:\Program Files\qemu\qemu-img" create -f qcow2 freedos.qcow2 20M
+"d:\Program Files\qemu\qemu-system-i386" -m 32 -cdrom "C:\Users\marti\Downloads\FD14LGCY.iso" -hda freedos.qcow2
+"d:\Program Files\qemu\qemu-system-i386" -m 32 -hda freedos.qcow2 -hdc fat:rw:drive
+
+
+
+"C:\Users\marti\Downloads\ADFOpus1_2\data\Main\0\ADFOpus.exe"
+cd /d C:\Temp
+C:\Users\marti\Downloads\rnc_propack_source-master\rnc_propack_source-master\Debug\rnc_propack_x86.exe u "C:\temp\mod.pak"
