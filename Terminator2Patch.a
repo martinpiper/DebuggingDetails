@@ -44,19 +44,22 @@
 	; Test what was loaded
 	lda $435
 	cmp #$0b
-	bne .notLevel1
-	; Backup after decompress run address
-	+MAddr16ToAddr16_A $f284 , .afterDecompressLevel1Run + 1
-	; Intercept after decompress
-	+MWordValueToAddress_A .afterDecompressLevel1 , $f284
-	jmp .continueAfterLoad
-.notLevel1
-
+	beq .isLevel1
+	cmp #$0c
+	beq .isLevel2
+	
 .continueAfterLoad
 	; Restore the after load code jmp, just in case it is used again
 	+MAddr16ToAddr16_A .jumpTo+1 , $425
 
 .jumpTo jmp $1234
+
+.isLevel1
+	; Backup after decompress run address
+	+MAddr16ToAddr16_A $f284 , .afterDecompressLevel1Run + 1
+	; Intercept after decompress
+	+MWordValueToAddress_A .afterDecompressLevel1 , $f284
+	jmp .continueAfterLoad
 
 .afterDecompressLevel1
 	; Patch the player health decrement
@@ -64,6 +67,9 @@
 	; Restore what was there, just in case it is used again
 	+MAddr16ToAddr16_A .afterDecompressLevel1Run + 1 , $f284
 .afterDecompressLevel1Run	jmp $1234
+
+.isLevel2
+	jmp .continueAfterLoad
 
 } ;< pseudopc
 
