@@ -64,6 +64,79 @@ Level 9
 
 
 
+* Boot process
+$810c start of text display
+$8224 displat text line
+	Using $8e/$8f
+		Y position and length, then lowercase screen chars
+
+
+* Find some free memory, probably in bank 0
+$86c5 for at least $300 seems to be a common load/boot routine for the other options
+
+* Extract cartridge binary
+* Extract bank 0 and the other banks
+* Find common "load" routine, if there is one
+$835b T2 boot/load...
+$435 Routine index, like a filename, kind of like a bunch of files?
+$425/$426 Load address
+Menu boot option
+.C:80f1  A9 1C       LDA #$1C
+.C:80f3  8D 35 04    STA $0435
+.C:80f6  A9 00       LDA #$00
+.C:80f8  8D 25 04    STA $0425
+.C:80fb  A9 10       LDA #$10
+.C:80fd  8D 26 04    STA $0426
+.C:8100  4C 00 04    JMP $0400
+
+Common load...
+.C:0407  20 02 06    JSR $0602
+.C:040a  AD 35 04    LDA $0435
+.C:040d  0A          ASL A
+.C:040e  AA          TAX
+.C:040f  BD B1 06    LDA $06B1,X
+.C:0412  48          PHA
+.C:0413  BD B0 06    LDA $06B0,X
+.C:0416  48          PHA
+.C:0417  60          RTS
+
+$602 IRQ init
+$40a seems to be reading a run address (at $6b0 using $435 x 2), pha x 2 then rts
+
+.C:0536  A2 1D       LDX #$1D
+.C:0538  20 36 04    JSR $0436
+
+$0436 memory copying, looks like a common load, using X as an index
+
+Then gets here
+.C:0424  4C 00 10    JMP $1000
+
+$407 seems to be a commmonly used entry point for the load
+
+
+* Remove keyboard prompt, start game automatically
+$8062 Loop for cursor flash and key press
+$80d3 T2 Game start
+
+* Apply health patches
+At $417 is a good place
+Detour to hook code
+Backup address at $425/$426
+Insert hook back
+Based on what was loaded using $435
+Apply patches
+Then jump to the backup address
+
+$435 index values
+Level 1		$0b
+
+* Maybe add key for instant kill enemy or win screen
+
+* 	Especially the sliding block puzzles
+* Combine back into binary
+* Make cartridge file
+
+
 
 
 c:\VICE\cartconv.exe -i "C:\Users\marti\Downloads\Terminator_2_-_Judgment_Day.crt" -o c:\temp\t2cart.bin
