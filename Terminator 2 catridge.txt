@@ -114,7 +114,7 @@ Then gets here
 $407 seems to be a commmonly used entry point for the load
 
 
-* Remove keyboard prompt, start game automatically
+* Done: Remove keyboard prompt, start game automatically
 $8062 Loop for cursor flash and key press
 $80d3 T2 Game start
 
@@ -143,3 +143,5 @@ c:\VICE\cartconv.exe -i "C:\Users\marti\Downloads\Terminator_2_-_Judgment_Day.cr
 C:\Downloads\WinVICE-3.1-x86-r34062\WinVICE-3.1-x86-r34062\x64sc.exe -remotemonitor -cartocean c:\temp\t2cart.bin
 c:\work\c64\bin\LZMPi.exe -cut c:\temp\t2cart.bin c:\temp\t2cart_bank0.bin 0 $2000
 c:\work\c64\bin\LZMPi.exe -cut c:\temp\t2cart.bin c:\temp\t2cart_bank1-.bin $2000
+
+cd /d C:\work\DebuggingDetails\ && ..\c64\acme.exe --lib ..\C64\ -v9 Terminator2Patch.a && copy /y /b Terminator2Patch.bin + /b c:\temp\t2cart_bank1-.bin c:\temp\T2Trained.bin && C:\Downloads\WinVICE-3.1-x86-r34062\WinVICE-3.1-x86-r34062\x64sc.exe -remotemonitor -cartocean c:\temp\T2Trained.bin

@@ -1,0 +1,18 @@
+!source "stdlib/stdlib.a"
+!source "stdlib/LongBranches.a"
+!to "Terminator2Patch.bin", plain
+!sal
+!sl "Terminator2Patch.map"
+!svl "Terminator2Patch.lbl"
+!pdb "Terminator2Patch.pdb"
+!cpu 6510
+!ct pet
+
+!disablesegmentcheck
+
+* = $8000
+!bin "c:\temp\t2cart_bank0.bin"
+
+; Patch: Force start T2 game
+* = $8062
+	jmp $80d3
