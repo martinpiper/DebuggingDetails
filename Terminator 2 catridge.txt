@@ -62,3 +62,11 @@ Level 9
 > 1af7 24
 
 
+
+
+
+
+c:\VICE\cartconv.exe -i "C:\Users\marti\Downloads\Terminator_2_-_Judgment_Day.crt" -o c:\temp\t2cart.bin
+C:\Downloads\WinVICE-3.1-x86-r34062\WinVICE-3.1-x86-r34062\x64sc.exe -remotemonitor -cartocean c:\temp\t2cart.bin
+c:\work\c64\bin\LZMPi.exe -cut c:\temp\t2cart.bin c:\temp\t2cart_bank0.bin 0 $2000
+c:\work\c64\bin\LZMPi.exe -cut c:\temp\t2cart.bin c:\temp\t2cart_bank1-.bin $2000
