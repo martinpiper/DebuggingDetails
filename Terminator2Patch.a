@@ -15,4 +15,58 @@
 
 ; Patch: Force start T2 game
 * = $8062
+	sei
+
+	; Copy some extra code/data for our training hooks
+	ldx #0
+.l1
+	lda $86c5,x
+	sta $200,x
+	lda $87c5,x
+	sta $300,x
+	inx
+	bne .l1
+
+	; Start the game
 	jmp $80d3
+
+*=$86c5
+!pseudopc $200 {
+	; Backup where to jump to
+	+MAddr16ToAddr16_A $425 , .jumpTo+1
+	; Hook the after load code
+	+MWordValueToAddress_A .afterLoad , $425
+
+	; Start the code with the replaced rts
+	rts
+	
+.afterLoad
+	; Test what was loaded
+	lda $435
+	cmp #$0b
+	bne .notLevel1
+	; Backup after decompress run address
+	+MAddr16ToAddr16_A $f284 , .afterDecompressLevel1Run + 1
+	; Intercept after decompress
+	+MWordValueToAddress_A .afterDecompressLevel1 , $f284
+	jmp .continueAfterLoad
+.notLevel1
+
+.continueAfterLoad
+	; Restore the after load code jmp, just in case it is used again
+	+MAddr16ToAddr16_A .jumpTo+1 , $425
+
+.jumpTo jmp $1234
+
+.afterDecompressLevel1
+	; Patch the player health decrement
+	+MByteValueToAddress_A $24 , $1ae1
+	; Restore what was there, just in case it is used again
+	+MAddr16ToAddr16_A .afterDecompressLevel1Run + 1 , $f284
+.afterDecompressLevel1Run	jmp $1234
+
+} ;< pseudopc
+
+; Patch the common load code
+* = $835b + ($417 - $400)
+	jmp $200
