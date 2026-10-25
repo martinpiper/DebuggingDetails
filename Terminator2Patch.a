@@ -10,6 +10,15 @@
 
 !disablesegmentcheck
 
+loadedDataIndex = $435
+backupExecAddress = $425
+Code1Start = $200
+Code2Start = ZPExTapeIOBuffer	; After vectors
+
+SpareMem1 = $87c5
+SpareMem2 = $88c5
+
+
 * = $8000
 !bin "c:\temp\t2cart_bank0.bin"
 
@@ -20,59 +29,186 @@
 	; Copy some extra code/data for our training hooks
 	ldx #0
 .l1
-	lda $86c5,x
-	sta $200,x
-	lda $87c5,x
-	sta $300,x
+	lda SpareMem1,x
+	sta Code1Start,x
+	lda SpareMem2,x
+	sta Code2Start,x
 	inx
 	bne .l1
 
 	; Start the game
 	jmp $80d3
 
-*=$86c5
-!pseudopc $200 {
+*=SpareMem1
+!pseudopc Code1Start {
 	; Backup where to jump to
-	+MAddr16ToAddr16_A $425 , .jumpTo+1
+	+MAddr16ToAddr16_A backupExecAddress , .jumpTo+1
 	; Hook the after load code
-	+MWordValueToAddress_A .afterLoad , $425
+	+MWordValueToAddress_A .afterLoad , backupExecAddress
 
 	; Start the code with the replaced rts
 	rts
 	
 .afterLoad
 	; Test what was loaded
-	lda $435
+	lda loadedDataIndex
 	cmp #$0b
-	beq .isLevel1
+	beq .isCompressedLoad
 	cmp #$0c
-	beq .isLevel2
+	beq .isCompressedLoad
+	cmp #$0d
+	beq .isCompressedLoad
+	cmp #$0e
+	beq .isCompressedLoad
+	cmp #$17
+	beq .isCompressedLoad
+	cmp #$18
+	beq .isCompressedLoad
+	cmp #$19
+	beq .isCompressedLoad
+	cmp #$1a
+	beq .isCompressedLoad
+	cmp #$1b
+	beq .isCompressedLoad
 	
 .continueAfterLoad
 	; Restore the after load code jmp, just in case it is used again
-	+MAddr16ToAddr16_A .jumpTo+1 , $425
-
+	+MAddr16ToAddr16_A .jumpTo+1 , backupExecAddress
 .jumpTo jmp $1234
 
-.isLevel1
+
+.isCompressedLoad
 	; Backup after decompress run address
-	+MAddr16ToAddr16_A $f284 , .afterDecompressLevel1Run + 1
+	+MAddr16ToAddr16_A $f284 , .afterDecompressLoadRun + 1
 	; Intercept after decompress
-	+MWordValueToAddress_A .afterDecompressLevel1 , $f284
+	+MWordValueToAddress_A .afterDecompressLoad , $f284
 	jmp .continueAfterLoad
 
-.afterDecompressLevel1
+.afterDecompressLoad
+	lda loadedDataIndex
+	cmp #$0b
+	+lbeq .patchLevel1
+	cmp #$0c
+	+lbeq .patchLevel2
+	cmp #$0d
+	+lbeq .patchLevel3
+	cmp #$0e
+	+lbeq .patchLevel4
+	cmp #$17
+	+lbeq .patchLevel5
+	cmp #$18
+	+lbeq .patchLevel6
+	cmp #$19
+	+lbeq .patchLevel7
+	cmp #$1a
+	+lbeq .patchLevel8
+	cmp #$1b
+	+lbeq .patchLevel9
+.continueRun
+	; Restore what was there, just in case it is used again
+	+MAddr16ToAddr16_A .afterDecompressLoadRun + 1 , $f284
+.afterDecompressLoadRun	jmp $1234
+
+
+Code1End
+!if * > $300 {
+!error "Code1 too large"
+} 
+} ;< pseudopc
+
+*=SpareMem2
+!pseudopc Code2Start {
+.patchLevel1
 	; Patch the player health decrement
 	+MByteValueToAddress_A $24 , $1ae1
-	; Restore what was there, just in case it is used again
-	+MAddr16ToAddr16_A .afterDecompressLevel1Run + 1 , $f284
-.afterDecompressLevel1Run	jmp $1234
+	+MWordValueToAddress_A .instantKill , KERNALNMIServiceRoutineLo
+	jmp .continueRun
 
-.isLevel2
-	jmp .continueAfterLoad
+.patchLevel2
+	+MByteValueToAddress_A $24 , $1456
+	+MByteValueToAddress_A $24 , $145e
+	jmp .continueRun
 
+.patchLevel3
+	+MByteValueToAddress_A $2c , $2117
+	; Setup the restore key to complete the puzzle
+	+MWordValueToAddress_A .completeLevel3 , KERNALNMIServiceRoutineLo
+	jmp .continueRun
+
+.patchLevel4
+	+MByteValueToAddress_A $24 , $234a
+	+MByteValueToAddress_A $24 , $23f4
+	jmp .continueRun
+
+.patchLevel5
+	+MByteValueToAddress_A $24 , $1adc
+	+MWordValueToAddress_A .instantKill , KERNALNMIServiceRoutineLo
+	jmp .continueRun
+
+.patchLevel6
+	+MByteValueToAddress_A $2c , $1c1d
+	; Setup the restore key to complete the puzzle
+	+MWordValueToAddress_A .completeLevel6 , KERNALNMIServiceRoutineLo
+	jmp .continueRun
+
+.patchLevel7
+	+MByteValueToAddress_A $24 , $1309
+	jmp .continueRun
+	
+.patchLevel8
+	+MByteValueToAddress_A $24 , $134d
+	+MByteValueToAddress_A $24 , $1449
+	jmp .continueRun
+
+.patchLevel9
+	+MByteValueToAddress_A $24 , $1af7
+	+MWordValueToAddress_A .instantKill , KERNALNMIServiceRoutineLo
+	jmp .continueRun
+
+.instantKill
+	pha
+	+MByteValueToAddress_A 0 , $44
+	pla
+	rti
+
+.completeLevel3
+	pha
+	txa
+	pha
+	ldx #0
+.clp1
+	txa
+	sta $29f9,x
+	inx
+	cpx #$10
+	bne .clp1
+	pla
+	tax
+	pla
+	rti
+
+.completeLevel6
+	pha
+	txa
+	pha
+	ldx #0
+.clp2
+	txa
+	sta $3bda,x
+	inx
+	cpx #$10
+	bne .clp2
+	pla
+	tax
+	pla
+	rti
+
+Code2End
+!if * > $400 {
+!error "Code2 too large"
+} 
 } ;< pseudopc
 
 ; Patch the common load code
 * = $835b + ($417 - $400)
-	jmp $200
+	jmp Code1Start
