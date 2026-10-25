@@ -24,6 +24,9 @@ SpareMem2 = $88c5
 
 ; Patch: Force start T2 game
 * = $8062
+.waitForStartLoop
+	+WaitForFireALoop_A .waitForStartLoop
+
 	sei
 
 	; Copy some extra code/data for our training hooks
@@ -38,6 +41,27 @@ SpareMem2 = $88c5
 
 	; Start the game
 	jmp $80d3
+
+; New text
+* = $816c
+!by 9
+!by .text1End - .text1Start
+.text1Start
+	!tx "press restore to kill"
+.text1End
+* = $8187
+!by 11
+!by .text2End - .text2Start
+.text2Start
+	!tx "terminator or skip puzzles"
+.text2End
+* = $81a4
+!by 14
+!by .text3End - .text3Start
+.text3Start
+	!tx "press fire"
+.text3End
+
 
 *=SpareMem1
 !pseudopc Code1Start {

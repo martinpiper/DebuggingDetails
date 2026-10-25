@@ -69,7 +69,7 @@ Level 9
 
 * Boot process
 $810c start of text display
-$8224 displat text line
+$8224 display text line
 	Using $8e/$8f
 		Y position and length, then lowercase screen chars
 
@@ -148,3 +148,5 @@ c:\work\c64\bin\LZMPi.exe -cut c:\temp\t2cart.bin c:\temp\t2cart_bank0.bin 0 $20
 c:\work\c64\bin\LZMPi.exe -cut c:\temp\t2cart.bin c:\temp\t2cart_bank1-.bin $2000
 
 cd /d C:\work\DebuggingDetails\ && ..\c64\acme.exe --lib ..\C64\ -v9 Terminator2Patch.a && copy /y /b Terminator2Patch.bin + /b c:\temp\t2cart_bank1-.bin c:\temp\T2Trained.bin && C:\Downloads\WinVICE-3.1-x86-r34062\WinVICE-3.1-x86-r34062\x64sc.exe -remotemonitor -cartocean c:\temp\T2Trained.bin
+
+c:\VICE\cartconv.exe -t ocean -i c:\temp\T2Trained.bin -o T2Trained.crt
